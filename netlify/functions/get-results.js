@@ -17,7 +17,7 @@ exports.handler = async (event) => {
 
     // Execute the query
     const { rows } = await pool.query(query, values);
-
+    
     // End the database connection
     await pool.end();
 
@@ -33,6 +33,9 @@ exports.handler = async (event) => {
       };
     }
   } catch (error) {
+    // This new line will print the detailed error to the Netlify log
+    console.error(error);
+
     await pool.end();
     return {
       statusCode: 500,
