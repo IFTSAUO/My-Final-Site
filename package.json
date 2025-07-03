@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "build": "tailwindcss -i ./src/input.css -o ./style.css --minify && concat-cli -f node_modules/swiper/swiper-bundle.min.js node_modules/lucide/dist/umd/lucide.min.js node_modules/flatpickr/dist/flatpickr.min.js node_modules/flatpickr/dist/l10n/fr.js src/custom.js -o main.min.js"
-},
+    "build": "tailwindcss -i ./src/input.css -o ./style.css --minify && concat-cli -f node_modules/swiper/swiper-bundle.min.js node_modules/lucide/dist/umd/lucide.min.js node_modules/flatpickr/dist/flatpickr.min.js node_modules/flatpickr/dist/l10n/fr.js src/custom.js -o main.min.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concat-cli": "^4.0.0",
+    "concat-cli": "^4.1.0",
+    "flatpickr": "^4.6.13",
+    "lucide": "^0.400.0",
+    "swiper": "^11.1.4",
     "tailwindcss": "^3.4.4",
     "terser": "^5.31.1"
   }
