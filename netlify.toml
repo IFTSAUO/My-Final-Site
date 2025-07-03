@@ -1,3 +1,8 @@
+# This tells Netlify how to build your main site
 [build]
   command = "npm run build"
   publish = "."
+
+# This new section tells Netlify where to find your functions
+[functions]
+  directory = "netlify/functions"
