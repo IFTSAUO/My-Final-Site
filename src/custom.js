@@ -19,10 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const scolariteForm = document.getElementById('scolarite-form');
     if (scolariteForm) {
         // All the logic for the document request form
-        // ... (This part is correct and remains the same)
     }
 
-    // --- ✨ Final Logic for resultats.html ✨ ---
+    // --- Final Logic for resultats.html ---
     const searchForm = document.getElementById('search-form');
     if (searchForm) {
         const dobPicker = flatpickr("#dob-input", {
@@ -61,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const studentData = await response.json();
                 
-                // Build the HTML for the personal information
                 let personalInfoHtml = `
                     <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
                         <h3 class="text-2xl font-bold text-primary mb-4">${studentData.full_name}</h3>
@@ -73,7 +71,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 `;
 
-                // Build the HTML for the results table
                 let resultsTableHtml = `
                     <div class="bg-white p-6 rounded-lg shadow-lg">
                         <h4 class="text-xl font-bold text-primary mb-4">Relevé de notes</h4>
@@ -87,9 +84,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
 
                 const modules = JSON.parse(studentData.notes);
-                for (const moduleName in modules) {
-                    resultsTableHtml += `<tbody class="border-t border-stone-200"><tr class="bg-stone-100"><td colspan="2" class="p-3 font-bold text-stone-700">${moduleName}</td></tr>`;
-                    const subjects = modules[moduleName];
+                for (const moduleKey in modules) {
+                    const moduleDisplayName = moduleKey.split(': ')[1] || moduleKey;
+                    resultsTableHtml += `<tbody class="border-t border-stone-200"><tr class="bg-stone-100"><td colspan="2" class="p-3 font-bold text-stone-700">${moduleDisplayName}</td></tr>`;
+                    const subjects = modules[moduleKey];
                     for (const subjectName in subjects) {
                         resultsTableHtml += `<tr class="border-t border-stone-100">
                                                 <td class="p-3 pl-8 text-stone-600">${subjectName}</td>
@@ -100,7 +98,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 resultsTableHtml += '</table></div>';
 
-                // Combine and display the final HTML
                 resultsContainer.innerHTML = personalInfoHtml + resultsTableHtml;
                 
             } catch (error) {
@@ -110,11 +107,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Logic for vie-etudiante.html
-    // ... (This part is correct and remains the same)
+    const maquettesGallery = document.querySelector('#maquettes .grid');
+    if (maquettesGallery) {
+        // ... (vie-etudiante.html logic)
+    }
+    const artsGallery = document.querySelector('#arts-plastiques .grid');
+    if (artsGallery) {
+        // ... (vie-etudiante.html logic)
+    }
 
     // Logic for index.html
-    // ... (This part is correct and remains the same)
-
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        // ... (index.html logic)
+    }
 
     // This runs last on all pages to create all icons
     lucide.createIcons();
