@@ -19,9 +19,10 @@ exports.handler = async (event) => {
     // Connect to the database
     await client.connect();
 
-    // This is our secure SQL query. Using $1 and $2 prevents SQL injection attacks.
+    // This is our secure SQL query. Using COALESCE provides a default value if notes are null.
     const query = `
-      SELECT full_name, notes FROM students 
+      SELECT full_name, COALESCE(notes, 'Pas de résultats pour le moment.') as notes 
+      FROM students 
       WHERE cin = $1 AND date_of_birth = $2
     `;
 
