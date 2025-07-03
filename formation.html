@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formation - IFTSAU Oujda</title>
+    <link rel="icon" type="image/png" href="logo-iftsau.png">
+    
+    <link href="style.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-bg: #F2F0E6;
+            --color-text: #4a4238;
+            --color-primary: #986A44;
+            --color-primary-dark: #7a5536;
+            --color-accent: #E6E2AF;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--color-bg); color: var(--color-text); }
+        .section-title { position: relative; padding-bottom: 0.5rem; margin-bottom: 1rem; line-height: 1.2; }
+        .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background-color: var(--color-primary); border-radius: 2px; }
+        .text-primary { color: var(--color-primary); }
+        .nav-link:hover { color: var(--color-primary); }
+    </style>
+</head>
+<body class="text-stone-800">
+
+    <header id="header" class="bg-white/80 backdrop-blur-sm shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 py-2 flex justify-between items-center">
+            <a href="index.html" class="flex-shrink-0 flex items-center space-x-3"><img src="logo-iftsau.png" alt="Logo IFTSAU Oujda" class="h-10 sm:h-12 w-auto"><span class="text-lg sm:text-xl font-bold tracking-tight hidden sm:block" style="color:var(--color-text)">IFTSAU Oujda</span></a>
+            <nav class="hidden md:flex items-center space-x-4 lg:space-x-6">
+                <a href="index.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Accueil</a>
+                <a href="formation.html" class="nav-link font-medium text-primary whitespace-nowrap">Formation</a>
+                <a href="admission.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Admission</a>
+                <div class="relative group">
+                    <button class="nav-link font-medium text-stone-600 whitespace-nowrap flex items-center">Scolarité<i data-lucide="chevron-down" class="w-4 h-4 ml-1 transition-transform duration-300 group-hover:rotate-180"></i></button>
+                    <div class="absolute top-full -left-4 w-48 bg-white shadow-lg rounded-md mt-2 py-1 opacity-0 group-hover:opacity-100 transition-all duration-300 invisible group-hover:visible z-20">
+                        <a href="demande-document.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Demande de document</a>
+                        <a href="emplois-du-temps.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Emplois du temps</a>
+                        <a href="planning.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Planning</a>
+                        <a href="resultats.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Resultats</a>
+                    </div>
+                </div>
+                <a href="vie-etudiante.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Vie Étudiante</a>
+                <a href="index.html#contact" class="nav-link font-medium text-stone-600 whitespace-nowrap">Contact</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden"><i data-lucide="menu" class="h-6 w-6 text-stone-700"></i></button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-200">
+            <a href="index.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Accueil</a>
+            <a href="formation.html" class="block py-3 px-6 text-primary bg-stone-50">Formation</a>
+            <a href="admission.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Admission</a>
+            <span class="block py-3 px-6 text-stone-400 text-sm font-semibold">Scolarité</span>
+            <a href="demande-document.html" class="block py-2 px-10 text-stone-600 hover:bg-stone-50 hover:text-primary">Demande de document</a>
+            <a href="emplois-du-temps.html" class="block py-2 px-10 text-stone-600 hover:bg-stone-50 hover:text-primary">Emplois du temps</a>
+            <a href="planning.html" class="block py-2 px-10 text-stone-600 hover:bg-stone-50 hover:text-primary">Planning</a>
+            <a href="resultats.html" class="block py-2 px-10 text-stone-600 hover:bg-stone-50 hover:text-primary">Resultats</a>
+            <a href="vie-etudiante.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Vie Étudiante</a>
+            <a href="index.html#contact" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Contact</a>
+        </div>
+    </header>
+    <main>
+        <section id="cursus" class="py-16 sm:py-20">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12">
+                     <h1 class="section-title inline-block text-3xl sm:text-4xl font-bold mb-4">Cursus de Formation</h1>
+                     <p class="text-stone-600 max-w-2xl mx-auto">Notre programme est conçu pour fournir une formation complète et polyvalente, alliant théorie et pratique pour préparer au mieux nos futurs lauréats.</p>
+                </div>
+               
+                <div class="mb-16">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-primary mb-8 text-center">1ère Année de Formation</h2>
+                    <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Métier et Formation</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Hygiène, sécurité et protection de l’environnement</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Voirie urbaine</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Droit de l'Urbanisme & Droit Foncier</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Droit Administratif</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Bureautique et gestion de base de données</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Histoire et théorie de l’architecture</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Dessin d’architecture</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>CAO-DAO</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Arts plastiques</span></li>
+                            </ul>
+                             <ul class="space-y-3">
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Instruction de dossiers d’autorisation</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Arabe & Français Technique</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Métré des corps de travaux</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Matériaux de construction</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Résistance des matériaux (RDM)</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Cartographie et photogrammétrie</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Géométrie descriptive</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Statistique appliquée</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Théorie et pratiques d’urbanisme</span></li>
+                            </ul>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-stone-200 text-center">
+                            <div class="flex items-center justify-center">
+                                <i data-lucide="briefcase" class="w-8 h-8 text-primary mr-4"></i>
+                                <p class="text-xl font-semibold">Stage d’initiation et de découverte</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-primary mb-8 text-center">2ème Année de Formation</h2>
+                    <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Projets d’architecture</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>CAO-DAO (Approfondissement)</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Topographie</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Modélisation topographique</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Assainissement et réseaux divers</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Management de projets</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Art Plastique</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Infographie et Modélisation 3D</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Efficacité énergétique dans le bâtiment</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Systeme d'information geographique (SIG)</span></li>
+                            </ul>
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Métré approfondi des ouvrages</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Béton armé</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Procédés techniques de construction</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Marchés publics et pratiques de services</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Organisation et suivi du chantier</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Contrôle des infractions</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Projets d’urbanisme</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Techniques de recherche d'emploi</span></li>
+                                <li class="flex items-start"><i data-lucide="check-square" class="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0"></i><span>Entrepreneuriat</span></li>
+                            </ul>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-stone-200 text-center">
+                            <div class="flex items-center justify-center">
+                                <i data-lucide="graduation-cap" class="w-8 h-8 text-primary mr-4"></i>
+                                <p class="text-xl font-semibold">Projet de fin d’études (PFE)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background-color: var(--color-primary);">
+       <div class="container mx-auto px-4 sm:px-6 py-8 text-center text-stone-200">
+           <p>&copy; <span id="year"></span> IFTSAU Oujda. Tous droits réservés.</p>
+       </div>
+    </footer>
+
+    <script src="main.min.js"></script>
+</body>
+</html>
