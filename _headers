@@ -1,20 +1,21 @@
-# The /* rule applies these headers to all pages on your site.
+# Cette règle applique les en-têtes à toutes les pages de votre site.
 /*
-  # Content Security Policy: This is the most important header. It acts as a firewall,
-  # telling the browser exactly what resources (scripts, styles, images) are allowed to load.
-  # This policy prevents Cross-Site Scripting (XSS) attacks.
-  # We have added 'https://www.google.com' to frame-src to allow Google Maps.
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; object-src 'none'; frame-src 'self' https://www.google.com;
+  # Content Security Policy : C'est l'en-tête le plus important. Il agit comme un pare-feu,
+  # indiquant au navigateur quelles ressources (scripts, styles, images) sont autorisées à se charger.
+  # Cette politique empêche les attaques de type Cross-Site Scripting (XSS).
+  # Nous avons ajouté 'https://www.google.com' à frame-src pour autoriser Google Maps,
+  # et 'data:' à font-src pour autoriser les polices de caractères de la carte.
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; object-src 'none'; frame-src 'self' https://www.google.com;
   
-  # X-Frame-Options: Prevents your site from being put in an <iframe> on another site (clickjacking).
+  # X-Frame-Options : Empêche votre site d'être placé dans une <iframe> sur un autre site (clickjacking).
   X-Frame-Options: DENY
   
-  # X-Content-Type-Options: Prevents the browser from guessing file types, which can be a security risk.
+  # X-Content-Type-Options : Empêche le navigateur de deviner les types de fichiers, ce qui peut être un risque de sécurité.
   X-Content-Type-Options: nosniff
   
-  # Referrer-Policy: Controls how much information is sent when a user clicks a link to another site.
+  # Referrer-Policy : Contrôle la quantité d'informations envoyées lorsqu'un utilisateur clique sur un lien vers un autre site.
   Referrer-Policy: strict-origin-when-cross-origin
   
-  # Permissions-Policy: Lets you control which browser features can be used on your site.
-  # This example disables the camera, microphone, and geolocation features.
+  # Permissions-Policy : Vous permet de contrôler quelles fonctionnalités du navigateur peuvent être utilisées sur votre site.
+  # Cet exemple désactive la caméra, le microphone et les fonctionnalités de géolocalisation.
   Permissions-Policy: camera=(), microphone=(), geolocation=()
