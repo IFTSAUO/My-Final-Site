@@ -3,8 +3,8 @@
   # Content Security Policy: This is the most important header. It acts as a firewall,
   # telling the browser exactly what resources (scripts, styles, images) are allowed to load.
   # This policy prevents Cross-Site Scripting (XSS) attacks.
-  # We have added 'https://www.google.com' to frame-src to allow Google Maps.
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; object-src 'none'; frame-src 'self' https://www.google.com;
+  # We have added 'data:' to font-src to allow inline fonts from Google Maps.
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; object-src 'none'; frame-src 'self' https://www.google.com;
   
   # X-Frame-Options: Prevents your site from being put in an <iframe> on another site (clickjacking).
   X-Frame-Options: DENY
