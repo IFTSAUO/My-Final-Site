@@ -20,10 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (searchForm) {
         // --- ALL STUDENT DATA IS NOW STORED HERE ---
         const studentDatabase = {
-            "SX20610": { dob: "2006-04-09", fullName: "ACHOU Youssra", numInscription: "01/2023", notes: {"Métier et Formation":"16.33", "Hygiène, sécurité...":"16.58", "Voirie urbaine":"15.00"} },
-            "NBE734415": { dob: "2004-06-01", fullName: "ROUCHEDI Hassani Ali", numInscription: "02/2023", notes: {"Métier et Formation":"13.33", "Hygiène, sécurité...":"17.67", "Voirie urbaine":"11.17"} },
-            "P378933": { dob: "2005-07-11", fullName: "AIT OUDRA Saad", numInscription: "03/2023", notes: {"Métier et Formation":"13.50", "Hygiène, sécurité...":"17.00", "Voirie urbaine":"12.33"} },
-            // Add all other students here in the same format
+            "SX20610": { dob: "2006-04-09", fullName: "ACHOU Youssra", numInscription: "01/2023", notes: { "M-01: Métier et Formation": { "Métier et Formation": "16,33" }, "M-02: Hygiène, sécurité...": { "Hygiène, sécurité...": "16,58" }, "M-03: Voirie urbaine": { "Voirie urbaine": "15,00" }, "M-04: Réglementation": { "Droit d'Urbanisme": "16,00", "Droit Foncier": "10,00", "Droit Administratif": "12,00" }, "M-05: Bureautique...": { "Bureautique...": "17,17" }, "M-06: Histoire et théorie...": { "Histoire et théorie...": "17,08" }, "M-07: Dessin d'architecture": { "Dessin d'architecture": "15,67", "CAO-DAO": "17,83" }, "M-08: Arts plastiques": { "Arts plastiques": "12,50" }, "M-09: Langues et Techniques...": { "Arabe Technique": "17,83", "Français Technique": "16,50" }, "M-10: Métré des corps de travaux": { "Métré": "14,83" }, "M-11: Matériaux de construction": { "Matériaux": "15,25" }, "M-12: Résistance des matériaux...": { "RDM": "14,33" }, "M-13: Cartographie...": { "Cartographie": "17,00" }, "M-14: Géométrie...": { "Géométrie descriptive": "11,33", "Statistique appliquée": "13,17" }, "M-15: Instruction de dossiers...": { "Instruction": "10,13" }, "M-16: Théorie et pratiques...": { "Théorie et pratiques": "13,83" }, "M-17: Stage d'initiation...": { "Stage": "20,00" } } },
+            "NBE734415": { dob: "2004-06-01", fullName: "ROUCHEDI Hassani Ali", numInscription: "02/2023", notes: { "M-01: Métier et Formation": { "Métier et Formation": "13,33" }, "M-02: Hygiène, sécurité...": { "Hygiène, sécurité...": "17,67" }, "M-03: Voirie urbaine": { "Voirie urbaine": "11,17" }, "M-04: Réglementation": { "Droit d'Urbanisme": "11,00", "Droit Foncier": "16,33", "Droit Administratif": "12,00" }, "M-05: Bureautique...": { "Bureautique...": "12,00" }, "M-06: Histoire et théorie...": { "Histoire et théorie...": "13,33" }, "M-07: Dessin d'architecture": { "Dessin d'architecture": "13,39", "CAO-DAO": "13,17" }, "M-08: Arts plastiques": { "Arts plastiques": "12,33" }, "M-09: Langues et Techniques...": { "Français Technique": "15,50" }, "M-10: Métré des corps de travaux": { "Métré": "15,00" }, "M-11: Matériaux de construction": { "Matériaux": "13,33" }, "M-12: Résistance des matériaux...": { "RDM": "13,83" }, "M-13: Cartographie...": { "Cartographie": "14,00" }, "M-14: Géométrie...": { "Géométrie descriptive": "11,17", "Statistique appliquée": "14,33" }, "M-15: Instruction de dossiers...": { "Instruction": "12,67" }, "M-16: Théorie et pratiques...": { "Théorie et pratiques": "12,70" }, "M-17: Stage d'initiation...": { "Stage": "16,00" } } },
+            // You can continue adding all other students here following the same format
         };
 
         const dobPicker = flatpickr("#dob-input", {
@@ -38,18 +37,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
         searchForm.addEventListener('submit', (event) => {
             event.preventDefault();
-            const cin = cinInput.value.toUpperCase(); // Convert to uppercase for matching
+            const cin = cinInput.value.toUpperCase().trim();
             const dob = dobPicker.selectedDates[0] ? dobPicker.selectedDates[0].toISOString().split('T')[0] : '';
 
             if (!cin || !dob) {
-                resultsContainer.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg"><p>Veuillez remplir tous les champs.</p></div>`;
+                resultsContainer.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg" role="alert"><p>Veuillez remplir tous les champs.</p></div>`;
                 return;
             }
 
             const studentData = studentDatabase[cin];
 
             if (studentData && studentData.dob === dob) {
-                // --- Table Building Logic ---
                 let personalInfoHtml = `
                     <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
                         <h3 class="text-2xl font-bold text-primary mb-4">${studentData.fullName}</h3>
@@ -64,19 +62,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 let resultsTableHtml = `
                     <div class="bg-white p-6 rounded-lg shadow-lg">
                         <h4 class="text-xl font-bold text-primary mb-4">Relevé de notes</h4>
-                        <table class="w-full text-left">
-                            <thead class="bg-stone-50"><tr><th class="p-3 font-semibold text-stone-600">Matière</th><th class="p-3 font-semibold text-stone-600 text-right">Note</th></tr></thead>
-                            <tbody>`;
-                
+                        <div class="overflow-x-auto">
+                            <table class="w-full min-w-full text-left">
+                                <thead class="bg-stone-50">
+                                    <tr>
+                                        <th class="p-3 font-semibold text-stone-600">Module / Matière</th>
+                                        <th class="p-3 font-semibold text-stone-600 text-right">Note</th>
+                                    </tr>
+                                </thead>
+                `;
+
                 if (studentData.notes && Object.keys(studentData.notes).length > 0) {
-                    for (const subjectName in studentData.notes) {
-                        resultsTableHtml += `<tr class="border-t border-stone-100"><td class="p-3 text-stone-600">${subjectName}</td><td class="p-3 text-stone-800 font-medium text-right">${studentData.notes[subjectName]}</td></tr>`;
+                    for (const moduleKey in studentData.notes) {
+                        const moduleDisplayName = moduleKey.split(': ')[1] || moduleKey;
+                        resultsTableHtml += `<tbody class="border-t border-stone-200"><tr class="bg-stone-100"><td colspan="2" class="p-3 font-bold text-stone-700">${moduleDisplayName}</td></tr>`;
+                        const subjects = studentData.notes[moduleKey];
+                        for (const subjectName in subjects) {
+                            resultsTableHtml += `<tr class="border-t border-stone-100">
+                                                    <td class="p-3 pl-8 text-stone-600">${subjectName}</td>
+                                                    <td class="p-3 text-stone-800 font-medium text-right">${subjects[subjectName]}</td>
+                                                 </tr>`;
+                        }
+                        resultsTableHtml += `</tbody>`;
                     }
                 } else {
-                    resultsTableHtml += `<tr><td colspan="2" class="p-3 text-center text-stone-500">Pas de résultats pour le moment.</td></tr>`;
+                     resultsTableHtml += `<tbody><tr><td colspan="2" class="p-3 text-center text-stone-500">Pas de résultats pour le moment.</td></tr></tbody>`;
                 }
 
-                resultsTableHtml += `</tbody></table></div>`;
+                resultsTableHtml += '</table></div></div>';
                 resultsContainer.innerHTML = personalInfoHtml + resultsTableHtml;
 
             } else {
