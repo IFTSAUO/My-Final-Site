@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     
+    // --- 1. Logique générale (toutes les pages) ---
     const mobileMenuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
     const yearSpan = document.getElementById("year");
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         yearSpan.textContent = new Date().getFullYear();
     }
     
+    // --- 2. Logique pour les statistiques animées ---
     const statsObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -37,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const progress = Math.min(elapsedTime / duration, 1);
                     statValueEl.textContent = prefix + Math.floor(progress * finalValue) + unit;
                     if (progress < 1) requestAnimationFrame(animate);
+                    else statValueEl.textContent = prefix + finalValue + unit;
                 }
                 requestAnimationFrame(animate);
                 statsObserver.unobserve(statValueEl);
@@ -46,13 +49,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.querySelectorAll('.stat-value').forEach(el => statsObserver.observe(el));
 
+    // --- 3. Logique pour le slider des actualités ---
     const newsSliderWrapper = document.getElementById('news-slider-wrapper');
     if (newsSliderWrapper) {
         const newsData = [
-            { img: 'photologo.png', title: "Concours d'accès 2025-2026", text: "Les inscriptions pour le concours d'accès à l'IFTSAU pour la prochaine année académique sont désormais ouvertes.", link: "admission.html" },
-            { img: 'photologo.png', title: 'Journée Portes Ouvertes', text: "L'institut organise une journée portes ouvertes. Venez découvrir nos locaux, nos formations et rencontrer notre équipe.", link: "#" },
-            { img: 'photologo.png', title: 'Rentrée Académique', text: "La rentrée est fixée au Lundi 22 Septembre. Nous souhaitons une excellente rentrée à tous nos étudiants.", link: "#" },
-            { img: 'photologo.png', title: 'Atelier de Dessin Urbain', text: "Participez à notre prochain atelier sur le dessin urbain pour développer vos compétences pratiques sur le terrain.", link: "#" }
+            { img: 'images/forum1.jpg', title: "Concours d'accès 2025-2026", text: "Les inscriptions pour le concours d'accès à l'IFTSAU pour la prochaine année académique sont désormais ouvertes.", link: "admission.html" },
+            { img: 'images/visite2.jpg', title: 'Journée Portes Ouvertes', text: "L'institut organise une journée portes ouvertes. Venez découvrir nos locaux, nos formations et rencontrer notre équipe.", link: "#" },
+            { img: 'images/sang1.jpg', title: 'Rentrée Académique', text: "La rentrée est fixée au Lundi 22 Septembre. Nous souhaitons une excellente rentrée à tous nos étudiants.", link: "#" },
+            { img: 'images/visite3.jpg', title: 'Atelier de Dessin Urbain', text: "Participez à notre prochain atelier sur le dessin urbain pour développer vos compétences pratiques sur le terrain.", link: "#" }
         ];
 
         newsData.forEach(news => {
@@ -69,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // --- 4. Logique pour la page resultats.html ---
     const searchForm = document.getElementById('search-form');
     if (searchForm) {
         const studentDatabase = { /* Données retirées pour la sécurité */ };
@@ -92,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
+    
+    // --- 5. Initialisation finale des icônes ---
     lucide.createIcons();
 });
