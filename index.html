@@ -55,7 +55,15 @@
             </nav>
             <button id="mobile-menu-button" class="md:hidden"><i data-lucide="menu" class="h-6 w-6 text-stone-700"></i></button>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-200"></div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-200">
+             <a href="index.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Accueil</a>
+            <a href="formation.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Formation</a>
+            <a href="admission.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Admission</a>
+            <span class="block py-3 px-6 text-stone-400 text-sm font-semibold">Scolarité</span>
+            <a href="resultats.html" class="block py-2 px-10 text-primary bg-stone-50 hover:text-primary">Resultats</a>
+            <a href="vie-etudiante.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Vie Étudiante</a>
+            <a href="#contact" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Contact</a>
+        </div>
     </header>
     
     <main>
@@ -111,9 +119,23 @@
                 <h2 class="section-title inline-block text-4xl font-bold mb-12">Contactez-nous</h2>
                 <div class="flex flex-col lg:flex-row gap-12 text-left">
                     <div class="lg:w-1/2">
+                        <div class="space-y-6">
+                            <div class="flex items-start space-x-4">
+                                <div class="p-3 rounded-full" style="background-color:var(--color-accent)"><i data-lucide="map-pin" class="h-6 w-6 text-primary"></i></div>
+                                <div><h4 class="font-semibold text-lg">Adresse</h4><p class="text-stone-600">Bd. Sidi Maafa, Cité El Qods, Oujda, Maroc</p></div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="p-3 rounded-full" style="background-color:var(--color-accent)"><i data-lucide="phone" class="h-6 w-6 text-primary"></i></div>
+                                <div><h4 class="font-semibold text-lg">Téléphone</h4><a href="tel:+212536508390" class="text-stone-600 hover:text-primary">05 36 50 83 90</a></div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="p-3 rounded-full" style="background-color:var(--color-accent)"><i data-lucide="mail" class="h-6 w-6 text-primary"></i></div>
+                                <div><h4 class="font-semibold text-lg">Email</h4><a href="mailto:iftsauoujda@gmail.com" class="text-stone-600 hover:text-primary">iftsauoujda@gmail.com</a></div>
+                            </div>
                         </div>
-                    <div class="lg:w-1/2 h-80 lg:h-auto rounded-lg overflow-hidden shadow-lg">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3281.6873773512875!2d-1.8958867!3d34.6625973!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd787d421591a86f%3A0xc567299d8be3a20b!2sIFTSAU%20%3A%20Institut%20de%20Formation%20des%20Techniciens%20Sp%C3%A9cialis%C3%A9s%20en%20Architecture%20et%20en%20Urbanisme_Oujda!5e0!3m2!1sfr!2sma!4v1751918706336!5m2!1sfr!2sma" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                    <div class="lg:w-1/2 h-80 lg:h-[450px] rounded-lg overflow-hidden shadow-lg">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3281.7068350018326!2d-1.8961400000000002!3d34.662106!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd787d421591a86f%3A0xc567299d8be3a20b!2sIFTSAU%20%3A%20Institut%20de%20Formation%20des%20Techniciens%20Sp%C3%A9cialis%C3%A9s%20en%20Architecture%20et%20en%20Urbanisme_Oujda!5e0!3m2!1sfr!2sma!4v1751919037831!5m2!1sfr!2sma" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
             </div>
@@ -121,7 +143,10 @@
     </main>
 
     <footer style="background-color:var(--color-primary)">
-        </footer>
+       <div class="container mx-auto px-6 py-8 text-center text-stone-200">
+           <p>© <span id="year"></span> IFTSAU Oujda. Tous droits réservés.</p>
+       </div>
+    </footer>
     
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="src/flatpickr.min.js"></script>
