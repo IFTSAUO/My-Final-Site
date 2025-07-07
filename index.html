@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>IFTSAU Oujda - Formation en Architecture et Urbanisme</title>
+    <title>IFTSAU Oujda - Institut de Formation des Techniciens Spécialisés en Architecture et Urbanisme Oujda</title>
 
     <meta name="description" content="Découvrez l'IFTSAU d'Oujda, un institut public de formation des techniciens spécialisés en architecture, urbanisme et BTP. Informations sur l'admission, les formations et la vie étudiante.">
     <meta name="keywords" content="IFTSAU, IFTSAU Oujda, formation, techniciens spécialisés, architecture, urbanisme, Oujda, Maroc, BTP, inscription, concours, actualités">
@@ -14,8 +14,6 @@
 
     <style>
         :root{--color-bg:#F2F0E6;--color-text:#4a4238;--color-primary:#986A44;--color-primary-dark:#7a5536;--color-accent:#E6E2AF;}
-        
-        /* Base styles */
         body{font-family:'Inter',sans-serif;scroll-behavior:smooth;background-color:var(--color-bg);color:var(--color-text);}
         .hero-section-desktop{position:relative;overflow:hidden;color:white;}
         #bg-video{position:absolute;top:50%;left:50%;min-width:100%;min-height:100%;width:auto;height:auto;z-index:-100;transform:translateX(-50%) translateY(-50%);background-size:cover; transition: transform 0.2s ease-out;}
@@ -29,33 +27,20 @@
         .nav-link::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background-color:var(--color-primary);transform:scaleX(0);transform-origin:bottom right;transition:transform .3s ease-out;}
         .nav-link:hover::after{transform:scaleX(1);transform-origin:bottom left;}
         .nav-link:hover{color:var(--color-primary);}
-        
-        /* Swiper styles */
         .swiper-button-next, .swiper-button-prev { color: var(--color-primary); --swiper-navigation-size: 32px; }
         .swiper-pagination-bullet-active { background-color: var(--color-primary); }
         .news-slider { padding-bottom: 50px; }
-
-        /* Modal styles */
         .modal-overlay { visibility: hidden; opacity: 0; transition: visibility 0s linear 0.3s, opacity 0.3s; }
         .modal-overlay.active { visibility: visible; opacity: 1; transition-delay: 0s; }
         .modal-content { transform: scale(0.9); transition: transform 0.3s; }
         .modal-overlay.active .modal-content { transform: scale(1); }
-        .modal-gallery .swiper-button-next, .modal-gallery .swiper-button-prev { color: white; --swiper-navigation-size: 28px; background-color: rgba(0,0,0,0.3); border-radius: 9999px; width: 44px; height: 44px; }
-        .modal-gallery .swiper-button-next:after, .modal-gallery .swiper-button-prev:after { font-size: 20px; }
-
-        /* Preloader styles */
         #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; background-color: #F2F0E6; display: flex; align-items: center; justify-content: center; transition: opacity 0.75s ease, visibility 0.75s ease; }
         #preloader.hide { opacity: 0; visibility: hidden; }
         #preloader .logo { width: 100px; height: auto; animation: pulse 1.5s infinite ease-in-out; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-        
-        @media (max-width: 767px) { #actualites .swiper-button-next, #actualites .swiper-button-prev { display: none; } }
+        @media (max-width: 767px) { .news-slider-container .swiper-button-next, .news-slider-container .swiper-button-prev { display: none; } }
         #accueil video { pointer-events: none; }
         #accueil video::-webkit-media-controls { display:none !important; }
-
-        /* --- ✨ NEW ANIMATIONS ✨ --- */
-        
-        /* Scroll Animations */
         .reveal { opacity: 0; transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .reveal.visible { opacity: 1; transform: translate(0, 0) !important; }
         [data-reveal="up"] { transform: translateY(60px); }
@@ -104,6 +89,7 @@
             <a href="#contact" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Contact</a>
         </div>
     </header>
+    
     <main>
         <section id="accueil">
             <div class="hidden md:flex hero-section-desktop min-h-[80vh] items-center justify-center">
@@ -148,18 +134,23 @@
                     <h2 class="section-title inline-block text-3xl sm:text-4xl font-bold mb-4">Actualités et Événements</h2>
                     <p class="text-stone-600 max-w-2xl mx-auto">Restez informés des dernières annonces importantes de l'institut.</p>
                 </div>
-                <div class="swiper news-slider reveal" data-reveal="zoom">
-                    <div class="swiper-wrapper" id="news-slider-wrapper">
+                
+                <div class="relative news-slider-container reveal" data-reveal="zoom">
+                    <div class="swiper news-slider">
+                        <div class="swiper-wrapper" id="news-slider-wrapper">
+                            </div>
+                        <div class="swiper-pagination"></div>
                     </div>
-                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
                 </div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
+        
             </div>
         </section>
         
-        <section id="contact" class="py-16 sm:py-20 bg-white overflow-hidden"><div class="container mx-auto px-4 sm:px-6 text-center"><h2 class="section-title inline-block text-3xl sm:text-4xl font-bold mb-12 reveal" data-reveal="up">Contactez-nous</h2><div class="flex flex-col lg:flex-row gap-12 text-left"><div class="lg:w-1/2 reveal" data-reveal="left"><div class="space-y-6"><div class="flex items-start space-x-4"><div class="p-3 rounded-full" style="background-color:var(--color-accent)"><i data-lucide="map-pin" class="h-6 w-6 text-primary"></i></div><div><h4 class="font-semibold text-base sm:text-lg">Adresse</h4><a href="https://maps.app.goo.gl/Zc57E7Ja4EewNAZs5" target="_blank" rel="noopener noreferrer" class="text-stone-600 hover:text-primary">Bd. Sidi Maafa, Cité El Qods, Oujda, Maroc</a></div></div><div class="flex items-start space-x-4"><div class="p-3 rounded-full" style="background-color:var(--color-accent)"><i data-lucide="phone" class="h-6 w-6 text-primary"></i></div><div><h4 class="font-semibold text-base sm:text-lg">Téléphone</h4><a href="tel:+212536508390" class="text-stone-600 hover:text-primary">05 36 50 83 90</a></div></div><div class="flex items-start space-x-4"><div class="p-3 rounded-full" style="background-color:var(--color-accent)"><i data-lucide="mail" class="h-6 w-6 text-primary"></i></div><div><h4 class="font-semibold text-base sm:text-lg">Email</h4><a href="mailto:iftsauoujda@gmail.com" class="text-stone-600 hover:text-primary">iftsauoujda@gmail.com</a></div></div></div></div><div class="lg:w-1/2 h-80 lg:h-auto rounded-lg overflow-hidden shadow-lg reveal" data-reveal="right"><a href="https://maps.app.goo.gl/Zc57E7Ja4EewNAZs5" target="_blank" rel="noopener noreferrer" class="block w-full h-full"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3281.082710304663!2d-1.9015036847688536!3d34.67794348044034!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd78648195a63973%3A0x82b4513682972413!2sInstitut%20de%20formation%20des%20techniciens%20en%20architecture%20et%20urbanisme%20(IFTAU)!5e0!3m2!1sfr!2sma!4v1684321098765" width="100%" height="100%" style="border:0;pointer-events:none" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></a></div></div></div></section>
+        <section id="contact" class="py-16 sm:py-20 bg-white overflow-hidden"><div class="container mx-auto px-4 sm:px-6 text-center"><h2 class="section-title inline-block text-3xl sm:text-4xl font-bold mb-12 reveal" data-reveal="up">Contactez-nous</h2><div class="flex flex-col lg:flex-row gap-12 text-left"><div class="lg:w-1/2 reveal" data-reveal="left"><div class="space-y-6"><div class="flex items-start space-x-4"><div class="p-3 rounded-full" style="background-color:var(--color-accent)"><i data-lucide="map-pin" class="h-6 w-6 text-primary"></i></div><div><h4 class="font-semibold text-base sm:text-lg">Adresse</h4><a href="https://maps.app.goo.gl/Zc57E7Ja4EewNAZs5" target="_blank" rel="noopener noreferrer" class="text-stone-600 hover:text-primary">Bd. Sidi Maafa, Cité El Qods, Oujda, Maroc</a></div></div><div class="flex items-start space-x-4"><div class="p-3 rounded-full" style="background-color:var(--color-accent)"><i data-lucide="phone" class="h-6 w-6 text-primary"></i></div><div><h4 class="font-semibold text-base sm:text-lg">Téléphone</h4><a href="tel:+212536508390" class="text-stone-600 hover:text-primary">05 36 50 83 90</a></div></div><div class="flex items-start space-x-4"><div class="p-3 rounded-full" style="background-color:var(--color-accent)"><i data-lucide="mail" class="h-6 w-6 text-primary"></i></div><div><h4 class="font-semibold text-base sm:text-lg">Email</h4><a href="mailto:iftsauoujda@gmail.com" class="text-stone-600 hover:text-primary">iftsauoujda@gmail.com</a></div></div></div></div><div class="lg:w-1/2 h-80 lg:h-auto rounded-lg overflow-hidden shadow-lg reveal" data-reveal="right"><iframe src="http://googleusercontent.com/maps.google.com/4" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div></div></div></section>
     </main>
+
     <footer style="background-color:var(--color-primary)"><div class="container mx-auto px-4 sm:px-6 py-12"><div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left"><div class="md:col-span-2 lg:col-span-1"><h3 class="text-lg font-semibold text-white mb-2">IFTSAU Oujda</h3><p class="text-stone-200 text-sm">Établissement public de formation aux métiers de l'architecture et l'urbanisme.</p></div><div><h3 class="text-lg font-semibold text-white mb-2">Liens Rapides</h3><ul class="space-y-1"><li class="text-sm"><a href="admission.html" class="text-stone-200 hover:text-white">Admission</a></li><li class="text-sm"><a href="vie-etudiante.html" class="text-stone-200 hover:text-white">Vie Étudiante</a></li></ul></div><div><h3 class="text-lg font-semibold text-white mb-2">Tutelle</h3><a href="http://www.muat.gov.ma/" target="_blank" rel="noopener noreferrer" class="text-stone-200 text-sm hover:text-white">Ministère de l'Aménagement du Territoire...</a></div><div><h3 class="text-lg font-semibold text-white mb-2">Suivez-nous</h3><div class="flex justify-center md:justify-start space-x-4"><a href="https://facebook.com/IFTSAUO" target="_blank" rel="noopener noreferrer" class="text-stone-200 hover:text-white"><i data-lucide="facebook" class="h-6 w-6"></i></a></div></div></div><div class="mt-8 border-t border-white/20 pt-8 text-center text-stone-300 text-sm"><p>© <span id="year"></span> IFTSAU Oujda. Tous droits réservés.</p></div></div></footer>
 
     <div id="news-modal" class="modal-overlay fixed inset-0 z-50 bg-black bg-opacity-60 flex items-center justify-center p-4">
@@ -173,6 +164,10 @@
         </div>
     </div>
     
-    <script src="main.min.js"></script>
-</body>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="flatpickr.min.js"></script>
+    <script src="flatpickr-fr.js"></script>
+    <script src="lucide.min.js"></script>
+    
+    <script src="custom.js"></script> </body>
 </html>
