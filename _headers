@@ -1,21 +1,16 @@
 # Cette règle applique les en-têtes à toutes les pages de votre site.
 /*
-  # Content Security Policy : C'est l'en-tête le plus important. Il agit comme un pare-feu,
-  # indiquant au navigateur quelles ressources (scripts, styles, images) sont autorisées à se charger.
-  # Cette politique empêche les attaques de type Cross-Site Scripting (XSS).
-  # Nous avons ajouté 'https://www.google.com' à frame-src pour autoriser Google Maps,
-  # et 'data:' à font-src pour autoriser les polices de caractères de la carte.
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; object-src 'none'; frame-src 'self' https://www.google.com;
-  
-  # X-Frame-Options : Empêche votre site d'être placé dans une <iframe> sur un autre site (clickjacking).
+  # Content Security Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://maps.googleapis.com https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://maps.gstatic.com https://*.ggpht.com https://maps.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; object-src 'none'; frame-src 'self' https://www.google.com; connect-src 'self' https://maps.googleapis.com;
+
+  # X-Frame-Options
   X-Frame-Options: DENY
-  
-  # X-Content-Type-Options : Empêche le navigateur de deviner les types de fichiers, ce qui peut être un risque de sécurité.
+
+  # X-Content-Type-Options
   X-Content-Type-Options: nosniff
-  
-  # Referrer-Policy : Contrôle la quantité d'informations envoyées lorsqu'un utilisateur clique sur un lien vers un autre site.
+
+  # Referrer-Policy
   Referrer-Policy: strict-origin-when-cross-origin
-  
-  # Permissions-Policy : Vous permet de contrôler quelles fonctionnalités du navigateur peuvent être utilisées sur votre site.
-  # Cet exemple désactive la caméra, le microphone et les fonctionnalités de géolocalisation.
-  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+  # Permissions-Policy
+  Permissions-Policy: camera=(), microphone=(), geolocation=(self "https://www.google.com")
