@@ -18,3 +18,4 @@
   # Permissions-Policy: Lets you control which browser features can be used on your site.
   # This example disables the camera, microphone, and geolocation features.
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+
