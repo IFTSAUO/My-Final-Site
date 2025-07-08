@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
     }
 
-    // --- Logique pour la page resultats.html (AVEC FORMATAGE AMÉLIORÉ) ---
+    // --- Logique pour la page resultats.html (AVEC FORMATAGE FINAL) ---
     const searchForm = document.getElementById('search-form');
     if (searchForm) {
         const studentDatabase = { /* Les données des étudiants sont gérées côté serveur */ };
@@ -108,36 +108,29 @@ document.addEventListener('DOMContentLoaded', function() {
         const cinInput = document.getElementById('cin-input');
         const dobInput = document.getElementById('dob-input');
 
+        // Ajoute automatiquement les "/" pendant la frappe
         dobInput.addEventListener('input', function(e) {
-            let input = e.target;
-            let value = input.value;
-            let oldValue = input.oldValue || "";
+            if (e.inputType === 'deleteContentBackward') return;
             
-            // Permet la suppression sans reformater
-            if (value.length < oldValue.length) {
-                input.oldValue = value;
-                return;
-            }
-
-            // Nettoyage pour ne garder que les chiffres
-            let digits = value.replace(/\D/g, '');
+            let value = e.target.value.replace(/\D/g, '');
             let formatted = '';
 
-            // Formatage jj/mm/aaaa
-            if (digits.length > 0) formatted += digits.substring(0, 2);
-            if (digits.length > 2) formatted += '/' + digits.substring(2, 4);
-            if (digits.length > 4) formatted += '/' + digits.substring(4, 8);
-
-            // Correction intelligente (0 padding) si l'utilisateur tape "/"
-            let parts = value.split('/');
-            if (parts.length > 1) {
-                if(parts[0].length === 1) parts[0] = '0' + parts[0];
-                if(parts[1] && parts[1].length === 1) parts[1] = '0' + parts[1];
-                formatted = parts.join('/');
+            if (value.length > 4) {
+                formatted = value.substring(0, 2) + '/' + value.substring(2, 4) + '/' + value.substring(4, 8);
+            } else if (value.length > 2) {
+                formatted = value.substring(0, 2) + '/' + value.substring(2, 4);
+            } else {
+                formatted = value;
             }
+            e.target.value = formatted;
+        });
 
-            input.value = formatted;
-            input.oldValue = formatted;
+        // Ajoute le "0" manquant quand l'utilisateur quitte le champ
+        dobInput.addEventListener('blur', function(e) {
+            let parts = e.target.value.split('/');
+            if (parts[0] && parts[0].length === 1) parts[0] = '0' + parts[0];
+            if (parts[1] && parts[1].length === 1) parts[1] = '0' + parts[1];
+            e.target.value = parts.join('/');
         });
 
         searchForm.addEventListener('submit', (event) => {
@@ -146,7 +139,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const dobValue = dobInput.value;
             const dateParts = dobValue.split('/');
             
-            // Conversion jj/mm/aaaa -> aaaa-mm-jj pour la logique interne
             const dobForSearch = (dateParts.length === 3 && dateParts[2].length === 4) 
                 ? `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}` 
                 : '';
@@ -160,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (studentData && studentData.dob === dobForSearch) {
                 // Logique d'affichage des résultats...
             } else {
-                resultsContainer.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg" role="alert"><p>Aucun étudiant trouvé avec ces informations.</p></div>`;
+                resultsContainer.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg"><p>Aucun étudiant trouvé avec ces informations.</p></div>`;
             }
         });
     }
