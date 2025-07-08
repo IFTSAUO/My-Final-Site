@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
     }
 
-    // --- Logique pour la page resultats.html (AVEC FORMATAGE FINAL) ---
+    // --- Logique pour la page resultats.html ---
     const searchForm = document.getElementById('search-form');
     if (searchForm) {
         const studentDatabase = { /* Les données des étudiants sont gérées côté serveur */ };
@@ -110,9 +110,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Ajoute automatiquement les "/" pendant la frappe
         dobInput.addEventListener('input', function(e) {
-            if (e.inputType === 'deleteContentBackward') return;
+            // Permet à l'utilisateur de supprimer du texte sans que le script ne le reformate
+            if (e.inputType === 'deleteContentBackward') {
+                return;
+            }
             
-            let value = e.target.value.replace(/\D/g, '');
+            let value = e.target.value.replace(/\D/g, ''); // Garde seulement les chiffres
             let formatted = '';
 
             if (value.length > 4) {
@@ -122,16 +125,24 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 formatted = value;
             }
+            
             e.target.value = formatted;
         });
 
-        // Ajoute le "0" manquant quand l'utilisateur quitte le champ
+        // Ajoute le "0" manquant pour le jour ou le mois quand l'utilisateur quitte le champ
         dobInput.addEventListener('blur', function(e) {
             let parts = e.target.value.split('/');
-            if (parts[0] && parts[0].length === 1) parts[0] = '0' + parts[0];
-            if (parts[1] && parts[1].length === 1) parts[1] = '0' + parts[1];
+            
+            if (parts[0] && parts[0].length === 1) {
+                parts[0] = '0' + parts[0];
+            }
+            if (parts[1] && parts[1].length === 1) {
+                parts[1] = '0' + parts[1];
+            }
+            
             e.target.value = parts.join('/');
         });
+
 
         searchForm.addEventListener('submit', (event) => {
             event.preventDefault();
