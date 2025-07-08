@@ -12,26 +12,8 @@
     <style>
         :root{--color-bg:#F2F0E6;--color-text:#4a4238;--color-primary:#986A44;--color-primary-dark:#7a5536;--color-accent:#E6E2AF;}
         body{font-family:'Inter',sans-serif;scroll-behavior:smooth;background-color:var(--color-bg);color:var(--color-text);}
-        
-        /* --- Vidéo pour Ordinateur (INCHANGÉ) --- */
         #bg-video{position:absolute;top:50%;left:50%;min-width:100%;min-height:100%;width:auto;height:auto;z-index:-100;transform:translateX(-50%) translateY(-50%);background-size:cover;}
         .video-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(30,25,20,0.6);z-index:-50;}
-
-        /* --- NOUVEAU : CSS pour la vidéo sur mobile --- */
-        .hero-video-mobile {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: auto;
-            height: auto;
-            min-width: 100%;
-            min-height: 100%;
-            -webkit-transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-            object-fit: cover; /* Important: couvre tout l'espace sans déformer l'image */
-        }
-        
         .section-title{position:relative;padding-bottom:.5rem;margin-bottom:1rem;line-height:1.2;}
         .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:4px;background-color:var(--color-primary);border-radius:2px;}
         .btn-primary{background-color:var(--color-primary);color:white;transition: all 0.3s ease;}
@@ -98,24 +80,13 @@
     
     <main>
         <section id="accueil" class="relative">
-            <div class="hidden md:flex hero-section-desktop min-h-[85vh] items-center justify-center">
+            <div class="hero-section-desktop min-h-[85vh] flex items-center justify-center">
                 <video autoplay loop muted playsinline poster="poster-video.jpg" id="bg-video"><source src="video-institut.mp4" type="video/mp4"></video>
                 <div class="video-overlay"></div>
                 <div class="container mx-auto px-6 text-center z-10">
                     <h1 class="text-white text-5xl md:text-6xl font-extrabold mb-4 leading-tight">Bâtissez votre avenir</h1>
                     <p class="text-white/90 text-lg md:text-xl font-light mb-8 max-w-3xl mx-auto">Formez-vous aux métiers de l'Architecture et de l'Urbanisme à l'IFTSAU d'Oujda.</p>
                     <a href="formation.html" class="btn-primary font-bold py-3 px-8 rounded-full text-lg shadow-lg">Découvrir notre formation</a>
-                </div>
-            </div>
-
-            <div class="md:hidden relative w-full h-[80vh] overflow-hidden bg-stone-800">
-                <video autoplay loop muted playsinline poster="poster-video.jpg" class="hero-video-mobile">
-                    <source src="video-institut.mp4" type="video/mp4">
-                </video>
-                <div class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-center text-white p-4">
-                    <h1 class="text-4xl font-extrabold mb-3 leading-tight">Bâtissez votre avenir</h1>
-                    <p class="text-md font-light mb-6">Formez-vous aux métiers de l'Architecture et de l'Urbanisme.</p>
-                    <a href="formation.html" class="btn-primary font-bold py-2 px-6 rounded-full text-base">Découvrir</a>
                 </div>
             </div>
         </section>
@@ -176,7 +147,7 @@
                         </div>
                     </div>
                     <div class="lg:w-1/2 h-80 lg:h-[450px] rounded-lg overflow-hidden shadow-lg">
-                        <iframe src="https://www.google.com/maps/embed?pb=...6" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3281.7068350018326!2d-1.8961400000000002!3d34.662106!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd787d421591a86f%3A0xc567299d8be3a20b!2sIFTSAU%20%3A%20Institut%20de%20Formation%20des%20Techniciens%20Sp%C3%A9cialis%C3%A9s%20en%20Architecture%20et%20en%20Urbanisme_Oujda!5e0!3m2!1sfr!2sma!4v1751919037831!5m2!1sfr!2sma" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
             </div>
