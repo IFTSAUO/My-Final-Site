@@ -9,13 +9,42 @@
     <link rel="stylesheet" href="src/airbnb.css">
 
     <style>
-        :root { --color-bg: #F2F0E6; --color-text: #4a4238; --color-primary: #986A44; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--color-bg); color: var(--color-text); }
-        .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background-color: var(--color-primary); border-radius: 2px; }
-        .btn-primary { background-color: var(--color-primary); color: white; transition: background-color 0.3s; }
-        .btn-primary:hover { background-color: #7a5536; }
-        input:focus { --tw-ring-color: var(--color-primary); border-color: var(--color-primary); }
-        .nav-link:hover { color: var(--color-primary); }
+        :root {
+            --color-bg: #F2F0E6;
+            --color-text: #4a4238;
+            --color-primary: #986A44;
+            --color-primary-dark: #7a5536;
+            --color-accent:#E6E2AF;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--color-primary);
+            border-radius: 2px;
+        }
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: var(--color-primary-dark);
+        }
+        input:focus {
+            --tw-ring-color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+        .nav-link:hover{color:var(--color-primary);}
     </style>
 </head>
 <body class="text-stone-800">
@@ -28,9 +57,9 @@
                 <a href="formation.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Formation</a>
                 <a href="admission.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Admission</a>
                 <div class="relative group">
-                    <button class="nav-link font-medium text-primary whitespace-nowrap flex items-center">Scolarité<i data-lucide="chevron-down" class="w-4 h-4 ml-1"></i></button>
+                    <button class="nav-link font-medium text-primary whitespace-nowrap flex items-center">Scolarité<i data-lucide="chevron-down" class="w-4 h-4 ml-1 transition-transform duration-300 group-hover:rotate-180"></i></button>
                     <div class="absolute top-full -left-4 w-48 bg-white shadow-lg rounded-md mt-2 py-1 opacity-0 group-hover:opacity-100 transition-all duration-300 invisible group-hover:visible z-20">
-                         <a href="demande-document.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Demande de document</a>
+                        <a href="demande-document.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Demande de document</a>
                         <a href="emplois-du-temps.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Emplois du temps</a>
                         <a href="planning.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Planning</a>
                         <a href="resultats.html" class="block px-4 py-2 text-sm text-primary bg-stone-50 hover:text-primary">Resultats</a>
@@ -41,14 +70,28 @@
             </nav>
             <button id="mobile-menu-button" class="md:hidden"><i data-lucide="menu" class="h-6 w-6 text-stone-700"></i></button>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-200"></div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-200">
+            <a href="index.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Accueil</a>
+            <a href="formation.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Formation</a>
+            <a href="admission.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Admission</a>
+            <span class="block py-3 px-6 text-stone-400 text-sm font-semibold">Scolarité</span>
+            <a href="demande-document.html" class="block py-2 px-10 text-stone-600 hover:bg-stone-50 hover:text-primary">Demande de document</a>
+            <a href="emplois-du-temps.html" class="block py-2 px-10 text-stone-600 hover:bg-stone-50 hover:text-primary">Emplois du temps</a>
+            <a href="planning.html" class="block py-2 px-10 text-stone-600 hover:bg-stone-50 hover:text-primary">Planning</a>
+            <a href="resultats.html" class="block py-2 px-10 text-primary bg-stone-50 hover:text-primary">Resultats</a>
+            <a href="vie-etudiante.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Vie Étudiante</a>
+            <a href="contact.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Contact</a>
+        </div>
     </header>
 
     <main class="py-12 sm:py-20">
         <div class="container mx-auto px-4 sm:px-6">
             <div class="max-w-xl mx-auto">
                 <h2 class="section-title relative text-2xl sm:text-3xl font-bold text-center mb-4 pb-2">Consultez vos résultats</h2>
-                <p class="text-center text-stone-600 mb-8 sm:mb-12 text-base sm:text-lg">Veuillez saisir votre numéro CIN et votre date de naissance.</p>
+                <p class="text-center text-stone-600 mb-8 sm:mb-12 text-base sm:text-lg">
+                    Veuillez saisir votre numéro CIN et votre date de naissance.
+                </p>
+
                 <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
                     <form id="search-form" class="space-y-6">
                         <div>
@@ -70,7 +113,9 @@
                         </button>
                     </form>
                 </div>
-                <div id="results-container" class="mt-8"></div>
+
+                <div id="results-container" class="mt-8">
+                </div>
             </div>
         </div>
     </main>
