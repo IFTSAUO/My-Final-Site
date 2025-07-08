@@ -12,8 +12,24 @@
     <style>
         :root{--color-bg:#F2F0E6;--color-text:#4a4238;--color-primary:#986A44;--color-primary-dark:#7a5536;--color-accent:#E6E2AF;}
         body{font-family:'Inter',sans-serif;scroll-behavior:smooth;background-color:var(--color-bg);color:var(--color-text);}
+        
+        /* --- Vidéo pour Ordinateur (INCHANGÉ) --- */
         #bg-video{position:absolute;top:50%;left:50%;min-width:100%;min-height:100%;width:auto;height:auto;z-index:-100;transform:translateX(-50%) translateY(-50%);background-size:cover;}
         .video-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(30,25,20,0.6);z-index:-50;}
+
+        /* --- CSS pour la vidéo sur mobile (CORRIGÉ) --- */
+        .hero-video-mobile {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: auto;
+            height: auto;
+            min-width: 100%;
+            min-height: 100%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+        
         .section-title{position:relative;padding-bottom:.5rem;margin-bottom:1rem;line-height:1.2;}
         .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:4px;background-color:var(--color-primary);border-radius:2px;}
         .btn-primary{background-color:var(--color-primary);color:white;transition: all 0.3s ease;}
@@ -80,7 +96,7 @@
     
     <main>
         <section id="accueil" class="relative">
-            <div class="hero-section-desktop min-h-[85vh] flex items-center justify-center">
+            <div class="hidden md:flex hero-section-desktop min-h-[85vh] items-center justify-center">
                 <video autoplay loop muted playsinline poster="poster-video.jpg" id="bg-video"><source src="video-institut.mp4" type="video/mp4"></video>
                 <div class="video-overlay"></div>
                 <div class="container mx-auto px-6 text-center z-10">
@@ -89,42 +105,24 @@
                     <a href="formation.html" class="btn-primary font-bold py-3 px-8 rounded-full text-lg shadow-lg">Découvrir notre formation</a>
                 </div>
             </div>
+            
+            <div class="md:hidden relative w-full h-[80vh] overflow-hidden bg-stone-800">
+                <video autoplay loop muted playsinline poster="poster-video.jpg" class="hero-video-mobile">
+                    <source src="video-institut.mp4" type="video/mp4">
+                </video>
+                <div class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-center text-white p-4">
+                    <h1 class="text-4xl font-extrabold mb-3 leading-tight">Bâtissez votre avenir</h1>
+                    <p class="text-md font-light mb-6">Formez-vous aux métiers de l'Architecture et de l'Urbanisme.</p>
+                    <a href="formation.html" class="btn-primary font-bold py-2 px-6 rounded-full text-base">Découvrir</a>
+                </div>
+            </div>
         </section>
         
         <section id="a-propos" class="py-20 bg-white">
-            <div class="container mx-auto px-4 sm:px-6 text-center">
-                <h2 class="section-title inline-block text-4xl font-bold mb-12">Notre Institut</h2>
-                <div class="text-left flex flex-col md:flex-row items-center gap-12">
-                    <div class="md:w-1/2"><img src="photo.png" alt="Photo de l'Institut IFTSAU Oujda" class="rounded-lg shadow-xl w-full h-full object-cover"/></div>
-                    <div class="md:w-1/2">
-                        <p class="text-stone-600 text-lg mb-8">L'Institut de Formation des Techniciens Spécialisés en Architecture et en Urbanisme (IFTSAU) d'Oujda est un établissement public sous la tutelle du Ministère de l'Aménagement du Territoire National, de l'Urbanisme, de l'Habitat et de la Politique de la Ville. Depuis 2017, notre institut s'est engagé à former des techniciens hautement qualifiés, capables de répondre aux défis du secteur du BTP, de l'architecture et de l'urbanisme au Maroc.</p>
-                        <div class="grid grid-cols-2 gap-6 text-center">
-                            <div class="p-4 rounded-lg" style="background-color:rgba(229,226,175,0.3)"><i data-lucide="award" class="h-8 w-8 text-primary mx-auto mb-2"></i><span class="stat-value text-2xl font-bold text-primary" data-prefix="+ " data-value="180"></span><p class="text-sm text-stone-500">Lauréats depuis 2017</p></div>
-                            <div class="p-4 rounded-lg" style="background-color:rgba(229,226,175,0.3)"><i data-lucide="trending-up" class="h-8 w-8 text-primary mx-auto mb-2"></i><span class="stat-value text-2xl font-bold text-primary" data-unit="%" data-value="90"></span><p class="text-sm text-stone-500">Taux de réussite</p></div>
-                            <div class="p-4 rounded-lg" style="background-color:rgba(229,226,175,0.3)"><i data-lucide="briefcase" class="h-8 w-8 text-primary mx-auto mb-2"></i><span class="stat-value text-2xl font-bold text-primary" data-prefix="+ " data-unit="%" data-value="60"></span><p class="text-sm text-stone-500">Intégration au marché</p></div>
-                            <div class="p-4 rounded-lg" style="background-color:rgba(229,226,175,0.3)"><i data-lucide="graduation-cap" class="h-8 w-8 text-primary mx-auto mb-2"></i><span class="stat-value text-2xl font-bold text-primary" data-prefix="+ " data-unit="%" data-value="30"></span><p class="text-sm text-stone-500">Poursuite d'études</p></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+             </section>
 
         <section id="actualites" class="py-20">
-            <div class="container mx-auto px-4 sm:px-6">
-                <div class="text-center mb-12">
-                    <h2 class="section-title inline-block text-4xl font-bold mb-4">Actualités et Événements</h2>
-                    <p class="text-stone-600 max-w-2xl mx-auto">Restez informés des dernières annonces importantes de l'institut.</p>
-                </div>
-                <div class="relative news-slider-container">
-                    <div class="swiper news-slider">
-                        <div class="swiper-wrapper" id="news-slider-wrapper"></div>
-                        <div class="swiper-pagination"></div>
-                    </div>
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
-                </div>
-            </div>
-        </section>
+             </section>
         
         <section id="contact" class="py-20 bg-white">
             <div class="container mx-auto px-4 sm:px-6 text-center">
@@ -155,15 +153,7 @@
     </main>
 
     <div id="news-modal" class="modal-overlay fixed inset-0 z-[60] bg-black bg-opacity-60 flex items-center justify-center p-4">
-        <div class="modal-content bg-white w-full max-w-2xl max-h-[90vh] rounded-lg shadow-2xl flex flex-col">
-            <div class="flex justify-between items-center p-4 border-b">
-                <h3 id="modal-title" class="text-xl font-bold text-primary">Titre de l'actualité</h3>
-                <button id="modal-close" class="text-stone-500 hover:text-primary"><i data-lucide="x" class="h-6 w-6"></i></button>
-            </div>
-            <div id="modal-body" class="p-6 overflow-y-auto">
-            </div>
         </div>
-    </div>
 
     <footer style="background-color:var(--color-primary)">
        <div class="container mx-auto px-6 py-8 text-center text-stone-200">
