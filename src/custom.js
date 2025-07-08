@@ -58,8 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const dobInput = document.getElementById('dob-input');
         const calendarToggle = document.getElementById('calendar-toggle');
 
-        // NOUVEAU : Ajout d'un écouteur d'événement pour valider la saisie du CIN en temps réel.
-        // On ne garde que les lettres et les chiffres.
+        // Valide la saisie du CIN en temps réel pour n'autoriser que les lettres et les chiffres.
         cinInput.addEventListener('input', function(e) {
             e.target.value = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
         });
@@ -80,14 +79,13 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // MODIFIÉ : L'écouteur d'événement 'input' pour la date de naissance.
-        // On ne garde que les chiffres et le caractère '/'.
+        // Valide la saisie de la date de naissance pour n'autoriser que les chiffres et le '/'.
+        // C'est cette partie qui devrait empêcher la saisie de lettres.
         dobInput.addEventListener('input', function(e) {
             e.target.value = e.target.value.replace(/[^0-9\/]/g, '');
         });
 
-        // CONSERVÉ : L'écouteur d'événement 'blur' est utile pour reformater la date
-        // si l'utilisateur la saisit sans les '0' (ex: 1/2/2000 -> 01/02/2000).
+        // Reformate la date quand l'utilisateur quitte le champ (ex: 1/2/2000 -> 01/02/2000).
         dobInput.addEventListener('blur', function(e) {
             let parts = e.target.value.split('/');
             if (parts[0] && parts[0].length === 1) parts[0] = '0' + parts[0];
@@ -116,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Appelle la fonction pour créer les icônes après le chargement de la librairie.
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
