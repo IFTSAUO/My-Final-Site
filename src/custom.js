@@ -52,6 +52,22 @@ document.addEventListener('DOMContentLoaded', function() {
     if (newsSliderWrapper) {
 
         const newsData = {
+            'visite-labo': { 
+                title: "Visite au laboratoire 'LABOTEST'", 
+                date: "24 Mai 2025", // CORRECTED DATE
+                category: "Visite Pédagogique", 
+                cardImage: "images/LABO1.jpg", 
+                description: `Suite à la visite au laboratoire de génie civil 'LABOTEST' effectuée le samedi 24 mai 2024 au profit des étudiants de la première année dans le but de découvrir les équipements et les techniques utilisés pour mieux comprendre les techniques des essais et leurs interprétations. Les essais ont été effectués sur place par l'ingénieur du laboratoire et encadré par Mr Alla Mostafa, à savoir ;
+                <ul class="list-disc list-inside mt-4 space-y-2 text-left">
+                    <li>Le cône d'Abrams</li>
+                    <li>L'équivalent de sable</li>
+                    <li>Écrasement de cylindre en Béton (résistance)</li>
+                    <li>Essais des différents matériaux</li>
+                    <li>Conservation des cylindre en béton.</li>
+                    <li>Consultation des différents équipements de la boratoire.</li>
+                </ul>`, 
+                images: ["images/LABO1.jpg", "images/LABO2.jpg", "images/LABO3.jpg", "images/LABO4.jpg", "images/LABO5.jpg"] 
+            },
             'don-sang': { 
                 title: "Journée de don de sang", 
                 date: "20 Mai 2025", 
@@ -75,22 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 cardImage: "images/forum1.jpg", 
                 description: "L’IFTSAU a participé activement aux journées d’orientation pour informer les futurs bacheliers sur les opportunités scolaires et professionnelles.", 
                 images: ["images/forum1.jpg", "images/forum2.jpg", "images/forum3.jpg"] 
-            },
-            'visite-labo': { 
-                title: "Visite au laboratoire 'LABOTEST'", 
-                date: "24 Mai 2024", 
-                category: "Visite Pédagogique", 
-                cardImage: "images/LABO1.jpg", 
-                description: `Suite à la visite au laboratoire de génie civil 'LABOTEST' effectuée le samedi 24 mai 2024 au profit des étudiants de la première année dans le but de découvrir les équipements et les techniques utilisés pour mieux comprendre les techniques des essais et leurs interprétations. Les essais ont été effectués sur place par l'ingénieur du laboratoire et encadré par Mr Alla Mostafa, à savoir ;
-                <ul class="list-disc list-inside mt-4 space-y-2 text-left">
-                    <li>Le cône d'Abrams</li>
-                    <li>L'équivalent de sable</li>
-                    <li>Écrasement de cylindre en Béton (résistance)</li>
-                    <li>Essais des différents matériaux</li>
-                    <li>Conservation des cylindre en béton.</li>
-                    <li>Consultation des différents équipements de la boratoire.</li>
-                </ul>`, 
-                images: ["images/LABO1.jpg", "images/LABO2.jpg", "images/LABO3.jpg", "images/LABO4.jpg", "images/LABO5.jpg"] 
             }
         };
 
