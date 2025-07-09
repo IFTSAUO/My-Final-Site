@@ -35,9 +35,9 @@
         .btn-primary {
             background-color: var(--color-primary);
             color: white;
-            transition: background-color 0.3s, opacity 0.3s;
+            transition: background-color 0.3s;
         }
-        .btn-primary:hover:not(:disabled) {
+        .btn-primary:hover {
             background-color: var(--color-primary-dark);
         }
         input:focus {
@@ -46,7 +46,6 @@
         }
         .nav-link:hover{color:var(--color-primary);}
     </style>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body class="text-stone-800">
 
@@ -108,16 +107,7 @@
                                 </button>
                             </div>
                         </div>
-                        
-                        <div class="flex justify-center pt-2">
-                           <div class="g-recaptcha" 
-                                data-sitekey="6Le5nn0rAAAAANsTvr9iLsOdi7PzpRcDrNnEfc1m"
-                                data-callback="onCaptchaSuccess"
-                                data-expired-callback="onCaptchaExpired">
-                           </div>
-                        </div>
-
-                        <button type="submit" id="search-button" class="w-full btn-primary flex items-center justify-center px-6 py-3 sm:px-8 sm:py-3 rounded-md text-base sm:text-lg font-semibold whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        <button type="submit" id="search-button" class="w-full btn-primary flex items-center justify-center px-6 py-3 sm:px-8 sm:py-3 rounded-md text-base sm:text-lg font-semibold whitespace-nowrap">
                             <i data-lucide="search" class="mr-2 h-5 w-5"></i>
                             Rechercher
                         </button>
@@ -139,6 +129,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="src/flatpickr-fr.js"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <!-- MODIFIÉ : Ajout de "?v=2" pour forcer le navigateur à recharger le fichier -->
     <script src="src/custom.js?v=2"></script>
 </body>
 </html>
