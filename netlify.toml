@@ -1,8 +1,13 @@
-# This tells Netlify how to build your main site
+# netlify.toml
+
 [build]
+  # Gardez cette commande si vous en avez besoin (ex: pour TailwindCSS)
+  # Sinon, vous pouvez la supprimer.
   command = "npm run build"
+  
+  # Indique que le contenu du site se trouve à la racine.
   publish = "."
 
-# This new section tells Netlify where to find your functions
 [functions]
+  # Indique où se trouvent vos fonctions serverless.
   directory = "netlify/functions"
