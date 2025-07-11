@@ -14,7 +14,8 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: JSON.stringify({ message: 'Le CIN et la date de naissance sont requis.' }) };
     }
 
-    const etudiantTrouve = etudiants.find(e => e.cin === cin && e.dateNaissance === dob);
+    // CORRECTION : On convertit le CIN du fichier et le CIN saisi en majuscules avant de les comparer.
+    const etudiantTrouve = etudiants.find(e => e.cin.toUpperCase() === cin.toUpperCase() && e.dateNaissance === dob);
 
     if (etudiantTrouve) {
       return {
