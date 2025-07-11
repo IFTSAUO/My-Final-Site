@@ -5,65 +5,125 @@
     "nomComplet": "AASRI Mahdi",
     "cin": "F777351",
     "dateNaissance": "25/11/2006",
-    "matieres": [],
-    "resultatFinal": "En attente"
-  },
-  {
-    "annee": 1,
-    "inscription": "2/2024",
-    "nomComplet": "ADDARKAOUI Mariam",
-    "cin": "F686271",
-    "dateNaissance": "17/10/2006",
-    "matieres": [
-        {"matiere": "Atelier d'architecture", "note": "16/20"},
-        {"matiere": "Dessin d'art", "note": "18/20"},[
-  {
-    "annee": 1,
-    "inscription": "1/2024",
-    "nomComplet": "AASRI Mahdi",
-    "cin": "F777351",
-    "dateNaissance": "25/11/2006",
-    "resultatFinal": "En attente",
+    "resultatFinal": "14.55/20",
     "modules": [
-      { "nomModule": "Métier et Formation", "matieres": [{ "nomMatiere": "Métier et Formation", "note": "En attente" }] },
-      { "nomModule": "Hygiène, sécurité et protection de l'environnement", "matieres": [{ "nomMatiere": "Hygiène, sécurité et protection de l'environnement", "note": "En attente" }] },
-      { "nomModule": "Voirie urbaine", "matieres": [{ "nomMatiere": "Voirie urbaine", "note": "En attente" }] },
-      { "nomModule": "Réglementation", "matieres": [{ "nomMatiere": "Droit d'Urbanisme", "note": "En attente" }, { "nomMatiere": "Droit Foncier", "note": "En attente" }, { "nomMatiere": "Droit Administratif", "note": "En attente" }] },
-      { "nomModule": "Bureautique et gestion de base de données", "matieres": [{ "nomMatiere": "Bureautique et gestion de base de données", "note": "En attente" }] },
-      { "nomModule": "Histoire et théorie de l'architecture", "matieres": [{ "nomMatiere": "Histoire et théorie de l'architecture", "note": "En attente" }] },
-      { "nomModule": "Dessin d'architecture", "matieres": [{ "nomMatiere": "Dessin d'architecture", "note": "En attente" }, { "nomMatiere": "CAO-DAO", "note": "En attente" }] },
-      { "nomModule": "Arts plastiques", "matieres": [{ "nomMatiere": "Arts plastiques", "note": "En attente" }] },
-      { "nomModule": "Langues et Techniques de Communication", "matieres": [{ "nomMatiere": "Arabe Technique", "note": "En attente" }, { "nomMatiere": "Français Technique", "note": "En attente" }] },
-      { "nomModule": "Métré des corps de travaux", "matieres": [{ "nomMatiere": "Métré des corps de travaux", "note": "En attente" }] },
-      { "nomModule": "Matériaux de construction", "matieres": [{ "nomMatiere": "Matériaux de construction", "note": "En attente" }] },
-      { "nomModule": "Résistance des matériaux (RDM)", "matieres": [{ "nomMatiere": "Résistance des matériaux (RDM)", "note": "En attente" }] },
-      { "nomModule": "Cartographie et photogrammétrie", "matieres": [{ "nomMatiere": "Cartographie et photogrammétrie", "note": "En attente" }] },
-      { "nomModule": "Géométrie descriptive et statistique appliquée", "matieres": [{ "nomMatiere": "Géométrie descriptive", "note": "En attente" }, { "nomMatiere": "Statistique appliquée", "note": "En attente" }] },
-      { "nomModule": "Instruction de dossiers d'autorisation de construire ou de lotir", "matieres": [{ "nomMatiere": "Instruction de dossiers...", "note": "En attente" }] },
-      { "nomModule": "Théorie et pratiques d'urbanisme", "matieres": [{ "nomMatiere": "Théorie et pratiques d'urbanisme", "note": "En attente" }] }
+      {
+        "nomModule": "Métier et Formation",
+        "moyenneModule": "15.00",
+        "matieres": [
+          { "nomMatiere": "Métier et Formation", "note": "15/20" }
+        ]
+      },
+      {
+        "nomModule": "Hygiène, sécurité et protection de l'environnement",
+        "moyenneModule": "17.00",
+        "matieres": [
+          { "nomMatiere": "Hygiène, sécurité et protection de l'environnement", "note": "17/20" }
+        ]
+      },
+      {
+        "nomModule": "Voirie urbaine",
+        "moyenneModule": "12.00",
+        "matieres": [
+          { "nomMatiere": "Voirie urbaine", "note": "12/20" }
+        ]
+      },
+      {
+        "nomModule": "Réglementation",
+        "moyenneModule": "14.67",
+        "matieres": [
+          { "nomMatiere": "Droit d'Urbanisme", "note": "16/20" },
+          { "nomMatiere": "Droit Foncier", "note": "13/20" },
+          { "nomMatiere": "Droit Administratif", "note": "15/20" }
+        ]
+      },
+      {
+        "nomModule": "Bureautique et gestion de base de données",
+        "moyenneModule": "18.00",
+        "matieres": [
+          { "nomMatiere": "Bureautique et gestion de base de données", "note": "18/20" }
+        ]
+      },
+      {
+        "nomModule": "Histoire et théorie de l'architecture",
+        "moyenneModule": "16.00",
+        "matieres": [
+          { "nomMatiere": "Histoire et théorie de l'architecture", "note": "16/20" }
+        ]
+      },
+      {
+        "nomModule": "Dessin d'architecture",
+        "moyenneModule": "15.50",
+        "matieres": [
+          { "nomMatiere": "Dessin d'architecture", "note": "17/20" },
+          { "nomMatiere": "CAO-DAO", "note": "14/20" }
+        ]
+      },
+      {
+        "nomModule": "Arts plastiques",
+        "moyenneModule": "19.00",
+        "matieres": [
+          { "nomMatiere": "Arts plastiques", "note": "19/20" }
+        ]
+      },
+      {
+        "nomModule": "Langues et Techniques de Communication",
+        "moyenneModule": "13.00",
+        "matieres": [
+          { "nomMatiere": "Arabe Technique", "note": "12/20" },
+          { "nomMatiere": "Français Technique", "note": "14/20" }
+        ]
+      },
+      {
+        "nomModule": "Métré des corps de travaux",
+        "moyenneModule": "11.00",
+        "matieres": [
+          { "nomMatiere": "Métré des corps de travaux", "note": "11/20" }
+        ]
+      },
+      {
+        "nomModule": "Matériaux de construction",
+        "moyenneModule": "14.00",
+        "matieres": [
+          { "nomMatiere": "Matériaux de construction", "note": "14/20" }
+        ]
+      },
+      {
+        "nomModule": "Résistance des matériaux (RDM)",
+        "moyenneModule": "10.00",
+        "matieres": [
+          { "nomMatiere": "Résistance des matériaux (RDM)", "note": "10/20" }
+        ]
+      },
+      {
+        "nomModule": "Cartographie et photogrammétrie",
+        "moyenneModule": "13.00",
+        "matieres": [
+          { "nomMatiere": "Cartographie et photogrammétrie", "note": "13/20" }
+        ]
+      },
+      {
+        "nomModule": "Géométrie descriptive et statistique appliquée",
+        "moyenneModule": "14.50",
+        "matieres": [
+          { "nomMatiere": "Géométrie descriptive", "note": "14/20" },
+          { "nomMatiere": "Statistique appliquée", "note": "15/20" }
+        ]
+      },
+      {
+        "nomModule": "Instruction de dossiers d'autorisation de construire ou de lotir",
+        "moyenneModule": "16.00",
+        "matieres": [
+          { "nomMatiere": "Instruction de dossiers d'autorisation de construire ou de lotir", "note": "16/20" }
+        ]
+      },
+      {
+        "nomModule": "Théorie et pratiques d'urbanisme",
+        "moyenneModule": "15.00",
+        "matieres": [
+          { "nomMatiere": "Théorie et pratiques d'urbanisme", "note": "15/20" }
+        ]
+      }
     ]
-  }
-]
-        {"matiere": "Mathématiques", "note": "14/20"}
-    ],
-    "resultatFinal": "Admis"
-  },
-  {
-    "annee": 1,
-    "inscription": "3/2024",
-    "nomComplet": "Ait Houssa Chaimae",
-    "cin": "JH114023",
-    "dateNaissance": "31/05/2006",
-    "matieres": [],
-    "resultatFinal": "En attente"
-  },
-  {
-    "annee": 1,
-    "inscription": "4/2024",
-    "nomComplet": "Ait ourhou Rihab",
-    "cin": "F771992",
-    "dateNaissance": "23/05/2005",
-    "matieres": [],
-    "resultatFinal": "En attente"
   }
 ]

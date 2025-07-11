@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p>${message}</p>
                 </div>`;
         }
-        
+
         function displayResults(data) {
             let modulesHtml = '<p class="text-stone-600">Aucun relevé de notes disponible pour le moment.</p>';
             
@@ -306,7 +306,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     return `
                         <div class="mt-4">
-                            <h5 class="font-bold text-base text-stone-800 bg-stone-100 p-2 rounded-t-md">${module.nomModule}</h5>
+                            <div class="flex justify-between items-center bg-stone-100 p-2 rounded-t-md">
+                                <h5 class="font-bold text-base text-stone-800">${module.nomModule}</h5>
+                                ${module.moyenneModule ? `<span class="font-bold text-lg" style="color:var(--color-primary);">${module.moyenneModule}<span class="text-sm">/20</span></span>` : ''}
+                            </div>
                             <ul class="space-y-1 border border-t-0 border-stone-200 rounded-b-md px-2">${matieresHtml}</ul>
                         </div>
                     `;
@@ -315,18 +318,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             resultsContainer.innerHTML = `
                 <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg animate-fade-in">
-                    <h3 class="text-xl font-bold mb-4" style="color:var(--color-primary);">${data.nomComplet}</h3>
-                    <div class="grid grid-cols-2 gap-x-4 gap-y-2 mb-6 text-sm">
+                    <div class="flex justify-between items-start mb-4">
                         <div>
-                            <p class="text-stone-500">N° Inscription</p>
-                            <p class="font-medium">${data.inscription || 'N/A'}</p>
+                            <h3 class="text-xl font-bold" style="color:var(--color-primary);">${data.nomComplet}</h3>
+                            <p class="text-sm text-stone-500">C.I.N: ${data.cin} | N° Inscription: ${data.inscription || 'N/A'}</p>
                         </div>
-                        <div>
-                            <p class="text-sm text-stone-500">C.I.N</p>
-                            <p class="font-medium">${data.cin}</p>
+                        <div class="text-right">
+                            <p class="text-sm text-stone-500">Moyenne Générale</p>
+                            <p class="text-2xl font-bold" style="color:var(--color-primary);">${data.resultatFinal || 'N/A'}</p>
                         </div>
                     </div>
-                    <h4 class="font-semibold mb-3 text-stone-800">Relevé de notes</h4>
+                    <h4 class="font-semibold mb-1 mt-6 text-stone-800 border-t pt-4">Relevé de notes</h4>
                     ${modulesHtml}
                 </div>`;
         }
