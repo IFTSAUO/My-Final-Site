@@ -1,9 +1,13 @@
 // netlify/functions/get-results.js
 
-const { Pool } = require('@neondatabase/serverless');
+// On importe directement le fichier JSON qui est dans le même dossier.
+const etudiants = require('./donnees.json');
 
 exports.handler = async (event) => {
-  const pool = new Pool({ connectionString: process.env.NETLIFY_DATABASE_URL });
+  // On vérifie que la méthode est bien POST
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method Not Allowed' };
+  }
 
   try {
     const { cin, dob } = JSON.parse(event.body);
@@ -12,24 +16,28 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: JSON.stringify({ message: 'Le CIN et la date de naissance sont requis.' }) };
     }
 
-    const query = `
-      SELECT full_name, cin, to_char(date_of_birth, 'DD/MM/YYYY') as dob, num_inscription, notes 
-      FROM students 
-      WHERE cin = $1 AND date_of_birth = TO_DATE($2, 'DD/MM/YYYY')
-    `;
-    const values = [cin, dob];
+    // On cherche l'étudiant dans le tableau. La date est comparée comme du texte, ce qui est parfait
+    // car le format "jj/mm/aaaa" est utilisé partout.
+    const etudiantTrouve = etudiants.find(e => e.cin === cin && e.dateNaissance === dob);
 
-    const { rows } = await pool.query(query, values);
-    await pool.end();
-
-    if (rows.length > 0) {
-      return { statusCode: 200, body: JSON.stringify(rows[0]) };
+    if (etudiantTrouve) {
+      // On a trouvé l'étudiant, on renvoie ses données
+      return {
+        statusCode: 200,
+        body: JSON.stringify(etudiantTrouve)
+      };
     } else {
-      return { statusCode: 404, body: JSON.stringify({ message: 'Aucun étudiant trouvé. Vérifiez les informations saisies.' }) };
+      // Aucun étudiant trouvé
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ message: 'Aucun étudiant trouvé. Vérifiez les informations saisies.' })
+      };
     }
   } catch (error) {
-    console.error(error);
-    await pool.end();
-    return { statusCode: 500, body: JSON.stringify({ message: 'Une erreur est survenue sur le serveur.' }) };
+    console.error('Erreur de la fonction:', error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: 'Une erreur interne du serveur est survenue.' })
+    };
   }
 };

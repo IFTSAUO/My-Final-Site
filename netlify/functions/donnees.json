@@ -1,0 +1,24 @@
+[
+  {
+    "annee": 1,
+    "inscription": "1/2024",
+    "nomComplet": "AASRI Mahdi",
+    "cin": "F777351",
+    "dateNaissance": "25/11/2006",
+    "matieres": [],
+    "resultatFinal": "En attente"
+  },
+  {
+    "annee": 1,
+    "inscription": "2/2024",
+    "nomComplet": "ADDARKAOUI Mariam",
+    "cin": "F686271",
+    "dateNaissance": "17/10/2006",
+    "matieres": [
+        {"matiere": "Atelier d'architecture", "note": "16/20"},
+        {"matiere": "Dessin d'art", "note": "18/20"},
+        {"matiere": "Mathématiques", "note": "14/20"}
+    ],
+    "resultatFinal": "Admis"
+  },
+ 
