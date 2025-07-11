@@ -1,3 +1,5 @@
+// src/custom.js
+
 document.addEventListener('DOMContentLoaded', function() {
     
     // --- Logique générale (menu, preloader, etc.) ---
@@ -292,15 +294,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>`;
         }
 
+        // ***** MODIFIED FUNCTION *****
         function displayResults(data) {
             let notesHtml = '<p class="text-stone-600">Aucune note disponible pour le moment.</p>';
+            
             if (data.matieres && data.matieres.length > 0) {
                 notesHtml = data.matieres.map(note => `
-                    <li class="flex justify-between items-center py-2 border-b border-stone-200">
-                        <span class="text-stone-700">${note.matiere}</span>
-                        <span class="font-bold" style="color:var(--color-primary);">${note.note}</span>
-                    </li>`).join('');
-                notesHtml = `<ul class="space-y-2">${notesHtml}</ul>`;
+                    <li class="py-3 border-b border-stone-200">
+                        <div class="block sm:hidden">
+                            <p class="text-stone-700">${note.matiere}</p>
+                            <p class="font-bold text-lg" style="color:var(--color-primary);">${note.note}</p>
+                        </div>
+
+                        <div class="hidden sm:flex justify-between items-center">
+                            <span class="text-stone-700">${note.matiere}</span>
+                            <span class="font-bold text-primary">${note.note}</span>
+                        </div>
+                    </li>
+                `).join('');
+                notesHtml = `<ul class="space-y-1">${notesHtml}</ul>`;
             }
 
             resultsContainer.innerHTML = `
@@ -320,6 +332,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     ${notesHtml}
                 </div>`;
         }
+        
         const style = document.createElement('style');
         style.innerHTML = `@keyframes fade-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } } .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }`;
         document.head.appendChild(style);
