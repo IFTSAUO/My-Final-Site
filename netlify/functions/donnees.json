@@ -21,4 +21,22 @@
     ],
     "resultatFinal": "Admis"
   },
- 
+  {
+    "annee": 1,
+    "inscription": "3/2024",
+    "nomComplet": "Ait Houssa Chaimae",
+    "cin": "JH114023",
+    "dateNaissance": "31/05/2006",
+    "matieres": [],
+    "resultatFinal": "En attente"
+  },
+  {
+    "annee": 1,
+    "inscription": "4/2024",
+    "nomComplet": "Ait ourhou Rihab",
+    "cin": "F771992",
+    "dateNaissance": "23/05/2005",
+    "matieres": [],
+    "resultatFinal": "En attente"
+  }
+]
