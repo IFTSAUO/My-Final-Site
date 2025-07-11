@@ -223,9 +223,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Logique pour la page resultats.html ---
     const searchForm = document.getElementById('search-form');
     if (searchForm) {
-
-        // ***** SECTION MODIFIÉE SELON VOS DEMANDES *****
-        
         const dobInput = document.getElementById('dob-input');
         const calendarToggle = document.getElementById('calendar-toggle');
         
@@ -296,18 +293,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         function displayResults(data) {
-            let notesHtml = '<p class="text-stone-600">Aucune note disponible pour le moment.</p>';
+            let modulesHtml = '<p class="text-stone-600">Aucun relevé de notes disponible pour le moment.</p>';
             
-            if (data.matieres && data.matieres.length > 0) {
-                notesHtml = data.matieres.map(note => `
-                    <li class="py-2 border-b border-stone-200">
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-stone-700 pr-4">${note.matiere}</span>
-                            <span class="font-bold text-primary whitespace-nowrap">${note.note}</span>
+            if (data.modules && data.modules.length > 0) {
+                modulesHtml = data.modules.map(module => {
+                    const matieresHtml = module.matieres.map(matiere => `
+                        <li class="flex justify-between items-center py-2 border-b border-stone-200 text-sm">
+                            <span class="text-stone-700 pr-4">${matiere.nomMatiere}</span>
+                            <span class="font-bold text-primary whitespace-nowrap">${matiere.note}</span>
+                        </li>
+                    `).join('');
+
+                    return `
+                        <div class="mt-4">
+                            <h5 class="font-bold text-base text-stone-800 bg-stone-100 p-2 rounded-t-md">${module.nomModule}</h5>
+                            <ul class="space-y-1 border border-t-0 border-stone-200 rounded-b-md px-2">${matieresHtml}</ul>
                         </div>
-                    </li>
-                `).join('');
-                notesHtml = `<ul class="space-y-1">${notesHtml}</ul>`;
+                    `;
+                }).join('');
             }
 
             resultsContainer.innerHTML = `
@@ -324,15 +327,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                     </div>
                     <h4 class="font-semibold mb-3 text-stone-800">Relevé de notes</h4>
-                    ${notesHtml}
+                    ${modulesHtml}
                 </div>`;
         }
         
         const style = document.createElement('style');
         style.innerHTML = `@keyframes fade-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } } .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }`;
         document.head.appendChild(style);
-        
-        // ***** FIN DE LA SECTION MODIFIÉE *****
     }
     
     if (typeof lucide !== 'undefined') {
