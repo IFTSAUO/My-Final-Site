@@ -1,5 +1,3 @@
-// src/custom.js
-
 document.addEventListener('DOMContentLoaded', function() {
     
     // --- Logique générale (menu, preloader, etc.) ---
@@ -225,6 +223,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Logique pour la page resultats.html ---
     const searchForm = document.getElementById('search-form');
     if (searchForm) {
+
+        // ***** SECTION MODIFIÉE SELON VOS DEMANDES *****
+        
         const dobInput = document.getElementById('dob-input');
         const calendarToggle = document.getElementById('calendar-toggle');
         
@@ -293,22 +294,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p>${message}</p>
                 </div>`;
         }
-
-        // ***** MODIFIED FUNCTION *****
+        
         function displayResults(data) {
             let notesHtml = '<p class="text-stone-600">Aucune note disponible pour le moment.</p>';
             
             if (data.matieres && data.matieres.length > 0) {
                 notesHtml = data.matieres.map(note => `
-                    <li class="py-3 border-b border-stone-200">
-                        <div class="block sm:hidden">
-                            <p class="text-stone-700">${note.matiere}</p>
-                            <p class="font-bold text-lg" style="color:var(--color-primary);">${note.note}</p>
-                        </div>
-
-                        <div class="hidden sm:flex justify-between items-center">
-                            <span class="text-stone-700">${note.matiere}</span>
-                            <span class="font-bold text-primary">${note.note}</span>
+                    <li class="py-2 border-b border-stone-200">
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-stone-700 pr-4">${note.matiere}</span>
+                            <span class="font-bold text-primary whitespace-nowrap">${note.note}</span>
                         </div>
                     </li>
                 `).join('');
@@ -318,9 +313,9 @@ document.addEventListener('DOMContentLoaded', function() {
             resultsContainer.innerHTML = `
                 <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg animate-fade-in">
                     <h3 class="text-xl font-bold mb-4" style="color:var(--color-primary);">${data.nomComplet}</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-2 mb-6 text-sm">
                         <div>
-                            <p class="text-sm text-stone-500">N° Inscription</p>
+                            <p class="text-stone-500">N° Inscription</p>
                             <p class="font-medium">${data.inscription || 'N/A'}</p>
                         </div>
                         <div>
@@ -336,6 +331,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const style = document.createElement('style');
         style.innerHTML = `@keyframes fade-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } } .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }`;
         document.head.appendChild(style);
+        
+        // ***** FIN DE LA SECTION MODIFIÉE *****
     }
     
     if (typeof lucide !== 'undefined') {
