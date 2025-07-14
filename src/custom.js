@@ -330,34 +330,32 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <h4 class="font-semibold mb-1 mt-6 text-stone-800 border-t pt-4">Relevé de notes</h4>
                     ${modulesHtml}
+
                     <div class="mt-8 text-center">
                         <button id="download-pdf" class="btn-primary inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold">
                             <i data-lucide="download" class="mr-2 h-5 w-5"></i>
                             Télécharger en PDF
                         </button>
                     </div>
-                </div>`;
+                    </div>`;
             
             if(typeof lucide !== 'undefined') {
                 lucide.createIcons();
             }
 
+            // ***** DÉBUT : AJOUT DE L'ÉVÉNEMENT POUR LE BOUTON PDF *****
             document.getElementById('download-pdf').addEventListener('click', () => {
                 generatePDF(data);
             });
+            // ***** FIN : AJOUT DE L'ÉVÉNEMENT POUR LE BOUTON PDF *****
 
             // ***** DÉBUT : AJOUT DU MESSAGE DE FÉLICITATIONS *****
-            // On vérifie s'il y a un résultat final à analyser
             if (data.resultatFinal) {
-                // On extrait le nombre de la chaîne "14.55/20"
                 const noteGenerale = parseFloat(data.resultatFinal);
-                // On vérifie si la note est supérieure ou égale à 10
                 if (!isNaN(noteGenerale) && noteGenerale >= 10) {
-                    // On crée l'élément du message
                     const successMessage = document.createElement('div');
                     successMessage.textContent = "Félicitations ! Vous avez été déclaré(e) admis(e).";
                     
-                    // On applique le style
                     successMessage.style.backgroundColor = '#28a745'; // Vert
                     successMessage.style.color = 'white';
                     successMessage.style.padding = '1rem';
@@ -367,22 +365,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     successMessage.style.marginBottom = '1rem';
                     successMessage.style.transition = 'opacity 0.5s ease-out';
                     
-                    // On insère le message au début du conteneur des résultats
                     resultsContainer.prepend(successMessage);
                     
-                    // On programme la disparition du message
                     setTimeout(() => {
                         successMessage.style.opacity = '0';
-                        // On supprime l'élément du DOM après la fin de la transition
                         setTimeout(() => {
                             successMessage.remove();
-                        }, 500); // 500ms = durée de la transition
-                    }, 2000); // Le message reste visible pendant 2 secondes
+                        }, 500);
+                    }, 2000);
                 }
             }
             // ***** FIN : AJOUT DU MESSAGE DE FÉLICITATIONS *****
         }
         
+        // ***** DÉBUT : NOUVELLE FONCTION POUR GÉNÉRER LE PDF *****
         function generatePDF(data) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -409,9 +405,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     { content: `${module.moyenneModule || ''}/20`, styles: { fontStyle: 'bold', fillColor: '#F2F0E6', halign: 'right' } }
                 ]);
 
-                module.matieres.forEach(matiere => {
-                    tableData.push(['', matiere.nomMatiere, { content: matiere.note, styles: { halign: 'right' } }]);
-                });
+                if (module.matieres && module.matieres.length > 0) {
+                    module.matieres.forEach(matiere => {
+                        tableData.push(['', matiere.nomMatiere, { content: matiere.note, styles: { halign: 'right' } }]);
+                    });
+                }
             });
 
             doc.autoTable({
@@ -440,6 +438,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             doc.save(`Releve-de-notes-${data.nomComplet}.pdf`);
         }
+        // ***** FIN : NOUVELLE FONCTION POUR GÉNÉRER LE PDF *****
         
         const style = document.createElement('style');
         style.innerHTML = `@keyframes fade-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } } .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }`;
