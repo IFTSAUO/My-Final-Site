@@ -330,7 +330,115 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <h4 class="font-semibold mb-1 mt-6 text-stone-800 border-t pt-4">Relevé de notes</h4>
                     ${modulesHtml}
+                    <div class="mt-8 text-center">
+                        <button id="download-pdf" class="btn-primary inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold">
+                            <i data-lucide="download" class="mr-2 h-5 w-5"></i>
+                            Télécharger en PDF
+                        </button>
+                    </div>
                 </div>`;
+            
+            if(typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+
+            document.getElementById('download-pdf').addEventListener('click', () => {
+                generatePDF(data);
+            });
+
+            // ***** DÉBUT : AJOUT DU MESSAGE DE FÉLICITATIONS *****
+            // On vérifie s'il y a un résultat final à analyser
+            if (data.resultatFinal) {
+                // On extrait le nombre de la chaîne "14.55/20"
+                const noteGenerale = parseFloat(data.resultatFinal);
+                // On vérifie si la note est supérieure ou égale à 10
+                if (!isNaN(noteGenerale) && noteGenerale >= 10) {
+                    // On crée l'élément du message
+                    const successMessage = document.createElement('div');
+                    successMessage.textContent = "Félicitations ! Vous avez été déclaré(e) admis(e).";
+                    
+                    // On applique le style
+                    successMessage.style.backgroundColor = '#28a745'; // Vert
+                    successMessage.style.color = 'white';
+                    successMessage.style.padding = '1rem';
+                    successMessage.style.textAlign = 'center';
+                    successMessage.style.fontWeight = 'bold';
+                    successMessage.style.borderRadius = '0.5rem';
+                    successMessage.style.marginBottom = '1rem';
+                    successMessage.style.transition = 'opacity 0.5s ease-out';
+                    
+                    // On insère le message au début du conteneur des résultats
+                    resultsContainer.prepend(successMessage);
+                    
+                    // On programme la disparition du message
+                    setTimeout(() => {
+                        successMessage.style.opacity = '0';
+                        // On supprime l'élément du DOM après la fin de la transition
+                        setTimeout(() => {
+                            successMessage.remove();
+                        }, 500); // 500ms = durée de la transition
+                    }, 2000); // Le message reste visible pendant 2 secondes
+                }
+            }
+            // ***** FIN : AJOUT DU MESSAGE DE FÉLICITATIONS *****
+        }
+        
+        function generatePDF(data) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFontSize(20);
+            doc.text("Relevé de Notes", 105, 20, null, null, "center");
+            doc.setFontSize(12);
+            doc.text("IFTSAU Oujda", 105, 28, null, null, "center");
+            
+            doc.setFontSize(11);
+            doc.text(`Étudiant(e): ${data.nomComplet}`, 14, 45);
+            doc.text(`C.I.N: ${data.cin}`, 14, 52);
+            doc.text(`N° Inscription: ${data.inscription || 'N/A'}`, 14, 59);
+            
+            doc.setFontSize(14);
+            doc.setFont(undefined, 'bold');
+            doc.text(`Moyenne Générale : ${data.resultatFinal || 'N/A'}`, 196, 59, null, null, 'right');
+            doc.setFont(undefined, 'normal');
+
+            const tableData = [];
+            data.modules.forEach(module => {
+                tableData.push([
+                    { content: module.nomModule, colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#F2F0E6' } },
+                    { content: `${module.moyenneModule || ''}/20`, styles: { fontStyle: 'bold', fillColor: '#F2F0E6', halign: 'right' } }
+                ]);
+
+                module.matieres.forEach(matiere => {
+                    tableData.push(['', matiere.nomMatiere, { content: matiere.note, styles: { halign: 'right' } }]);
+                });
+            });
+
+            doc.autoTable({
+                startY: 65,
+                head: [['Module', 'Matière', 'Note']],
+                body: tableData,
+                theme: 'grid',
+                headStyles: {
+                    fillColor: [152, 106, 68] // Couleur --color-primary
+                },
+                columnStyles: {
+                    0: { cellWidth: 45 },
+                    1: { cellWidth: 'auto' },
+                    2: { cellWidth: 25, halign: 'right' },
+                }
+            });
+
+            const pageCount = doc.internal.getNumberOfPages();
+            for(let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                const today = new Date().toLocaleDateString('fr-FR');
+                doc.setFontSize(8);
+                doc.text(`Généré le ${today}`, 14, doc.internal.pageSize.height - 10);
+                doc.text(`Page ${i}/${pageCount}`, 195, doc.internal.pageSize.height - 10, null, null, 'right');
+            }
+
+            doc.save(`Releve-de-notes-${data.nomComplet}.pdf`);
         }
         
         const style = document.createElement('style');
