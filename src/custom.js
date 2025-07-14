@@ -296,13 +296,13 @@ document.addEventListener('DOMContentLoaded', function() {
             let modulesHtml = '<p class="text-stone-600">Aucun relevé de notes disponible pour le moment.</p>';
             
             if (data.modules && data.modules.length > 0) {
-                modulesHtml = data.modules.map(module => {
-                    const matieresHtml = module.matieres.map(matiere => `
+                 modulesHtml = data.modules.map(module => {
+                    const matieresHtml = (module.matieres && module.matieres.length > 0) ? module.matieres.map(matiere => `
                         <li class="flex justify-between items-center py-2 border-b border-stone-200 text-sm">
                             <span class="text-stone-700 pr-4">${matiere.nomMatiere}</span>
                             <span class="font-bold text-primary whitespace-nowrap">${matiere.note}</span>
                         </li>
-                    `).join('');
+                    `).join('') : '<li class="text-sm text-stone-500 px-2 py-2">Aucun détail de matière disponible.</li>';
 
                     return `
                         <div class="mt-4">
@@ -318,45 +318,53 @@ document.addEventListener('DOMContentLoaded', function() {
 
             resultsContainer.innerHTML = `
                 <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg animate-fade-in">
-                    <div class="flex justify-between items-start mb-4">
+                    <div class="flex justify-between items-start mb-4 pb-4 border-b">
                         <div>
                             <h3 class="text-xl font-bold" style="color:var(--color-primary);">${data.nomComplet}</h3>
                             <p class="text-sm text-stone-500">C.I.N: ${data.cin} | N° Inscription: ${data.inscription || 'N/A'}</p>
                         </div>
                         <div class="text-right">
-                            <p class="text-sm text-stone-500">Moyenne Générale</p>
-                            <p class="text-2xl font-bold" style="color:var(--color-primary);">${data.resultatFinal || 'N/A'}</p>
+                            <p class="text-sm text-stone-500">Classement</p>
+                            <p class="text-2xl font-bold" style="color:var(--color-primary);">${data.classement || 'N/A'}</p>
                         </div>
                     </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-6 text-center">
+                         <div>
+                            <p class="text-sm text-stone-500">Moyenne Générale</p>
+                            <p class="text-xl font-bold">${data.resultatFinal || 'N/A'}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-stone-500">Assiduité</p>
+                            <p class="text-xl font-bold">${data.assiduite || 'N/A'}/20</p>
+                        </div>
+                    </div>
+
                     <h4 class="font-semibold mb-1 mt-6 text-stone-800 border-t pt-4">Relevé de notes</h4>
                     ${modulesHtml}
-
                     <div class="mt-8 text-center">
                         <button id="download-pdf" class="btn-primary inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold">
                             <i data-lucide="download" class="mr-2 h-5 w-5"></i>
                             Télécharger en PDF
                         </button>
                     </div>
-                    </div>`;
+                </div>`;
             
             if(typeof lucide !== 'undefined') {
                 lucide.createIcons();
             }
 
-            // ***** DÉBUT : AJOUT DE L'ÉVÉNEMENT POUR LE BOUTON PDF *****
             document.getElementById('download-pdf').addEventListener('click', () => {
                 generatePDF(data);
             });
-            // ***** FIN : AJOUT DE L'ÉVÉNEMENT POUR LE BOUTON PDF *****
 
-            // ***** DÉBUT : AJOUT DU MESSAGE DE FÉLICITATIONS *****
             if (data.resultatFinal) {
                 const noteGenerale = parseFloat(data.resultatFinal);
                 if (!isNaN(noteGenerale) && noteGenerale >= 10) {
                     const successMessage = document.createElement('div');
                     successMessage.textContent = "Félicitations ! Vous avez été déclaré(e) admis(e).";
                     
-                    successMessage.style.backgroundColor = '#28a745'; // Vert
+                    successMessage.style.backgroundColor = '#28a745';
                     successMessage.style.color = 'white';
                     successMessage.style.padding = '1rem';
                     successMessage.style.textAlign = 'center';
@@ -375,10 +383,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     }, 2000);
                 }
             }
-            // ***** FIN : AJOUT DU MESSAGE DE FÉLICITATIONS *****
         }
         
-        // ***** DÉBUT : NOUVELLE FONCTION POUR GÉNÉRER LE PDF *****
+        // ***** DÉBUT : FONCTION PDF CORRIGÉE *****
         function generatePDF(data) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -392,38 +399,40 @@ document.addEventListener('DOMContentLoaded', function() {
             doc.text(`Étudiant(e): ${data.nomComplet}`, 14, 45);
             doc.text(`C.I.N: ${data.cin}`, 14, 52);
             doc.text(`N° Inscription: ${data.inscription || 'N/A'}`, 14, 59);
-            
-            doc.setFontSize(14);
+
             doc.setFont(undefined, 'bold');
-            doc.text(`Moyenne Générale : ${data.resultatFinal || 'N/A'}`, 196, 59, null, null, 'right');
+            doc.text(`Moyenne Générale : ${data.resultatFinal || 'N/A'}`, 196, 52, null, null, 'right');
+            doc.text(`Classement : ${data.classement || 'N/A'}`, 196, 59, null, null, 'right');
             doc.setFont(undefined, 'normal');
 
-            const tableData = [];
-            data.modules.forEach(module => {
-                tableData.push([
-                    { content: module.nomModule, colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#F2F0E6' } },
-                    { content: `${module.moyenneModule || ''}/20`, styles: { fontStyle: 'bold', fillColor: '#F2F0E6', halign: 'right' } }
-                ]);
 
-                if (module.matieres && module.matieres.length > 0) {
-                    module.matieres.forEach(matiere => {
-                        tableData.push(['', matiere.nomMatiere, { content: matiere.note, styles: { halign: 'right' } }]);
-                    });
-                }
-            });
+            const tableData = [];
+            if (data.modules && data.modules.length > 0) {
+                data.modules.forEach(module => {
+                    tableData.push([
+                        { content: module.nomModule, styles: { fontStyle: 'bold' } },
+                        { content: `${module.moyenneModule || ''}/20`, styles: { fontStyle: 'bold', halign: 'right' } }
+                    ]);
+                });
+            }
+            
+            // On ajoute la note d'assiduité à la fin du tableau
+            tableData.push([
+                { content: "Assiduité", styles: { fontStyle: 'bold', fillColor: '#F2F0E6' } },
+                { content: `${data.assiduite || 'N/A'}/20`, styles: { fontStyle: 'bold', halign: 'right', fillColor: '#F2F0E6' } }
+            ]);
 
             doc.autoTable({
                 startY: 65,
-                head: [['Module', 'Matière', 'Note']],
+                head: [['Module', 'Moyenne']],
                 body: tableData,
                 theme: 'grid',
                 headStyles: {
                     fillColor: [152, 106, 68] // Couleur --color-primary
                 },
                 columnStyles: {
-                    0: { cellWidth: 45 },
-                    1: { cellWidth: 'auto' },
-                    2: { cellWidth: 25, halign: 'right' },
+                    0: { cellWidth: 'auto' },
+                    1: { cellWidth: 40, halign: 'right' },
                 }
             });
 
@@ -438,7 +447,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             doc.save(`Releve-de-notes-${data.nomComplet}.pdf`);
         }
-        // ***** FIN : NOUVELLE FONCTION POUR GÉNÉRER LE PDF *****
+        // ***** FIN : FONCTION PDF CORRIGÉE *****
         
         const style = document.createElement('style');
         style.innerHTML = `@keyframes fade-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } } .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }`;
