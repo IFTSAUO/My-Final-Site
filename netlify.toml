@@ -5,6 +5,6 @@
   directory = "netlify/functions/"
 
 # Cette règle s'applique à TOUTES les fonctions
+# et force l'inclusion du dossier "private" et de tout son contenu.
 [[functions."*"]]
-  # Force l'inclusion du dossier "private" et de tout son contenu
   included_files = ["private/**"]
