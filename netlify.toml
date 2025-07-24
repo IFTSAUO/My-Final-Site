@@ -4,7 +4,6 @@
   # Indique à Netlify où se trouvent vos fonctions
   directory = "netlify/functions/"
 
-# Cette règle s'applique à TOUTES les fonctions
-# et force l'inclusion du dossier "private" et de tout son contenu.
-[[functions."*"]]
-  included_files = ["private/**"]
+  # Cette ligne force l'inclusion du dossier _data et de tout son contenu
+  # avec les fonctions lors du déploiement.
+  included_files = ["netlify/functions/_data/**"]
