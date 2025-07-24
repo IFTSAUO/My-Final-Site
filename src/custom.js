@@ -65,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function() {
         searchForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            // --- MODIFICATION 1 : Supprimer l'ancien bouton flottant au début de chaque recherche ---
             const oldFab = document.getElementById('floating-download-btn');
             if (oldFab) {
                 oldFab.remove();
@@ -138,11 +137,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </div>`;
             
-            // --- MODIFICATION 2 : Créer et afficher le bouton flottant ---
             const fab = document.createElement('a');
             fab.id = 'floating-download-btn';
             fab.href = downloadUrl;
-            // On utilise les classes Tailwind pour le style, et on le cache sur les écrans moyens et plus grands (md:hidden)
             fab.className = 'fixed bottom-6 right-6 h-14 w-14 rounded-full flex items-center justify-center shadow-lg z-50 md:hidden';
             fab.style.backgroundColor = 'var(--color-primary)';
             fab.style.color = 'white';
