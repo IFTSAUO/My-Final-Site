@@ -8,7 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (preloader) {
         window.addEventListener('load', () => {
-            preloader.classList.add('hide');
+            preloader.style.transition = 'opacity 0.5s ease, visibility 0.5s ease';
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
         });
     }
 
@@ -22,202 +24,29 @@ document.addEventListener('DOMContentLoaded', function() {
         yearSpan.textContent = new Date().getFullYear();
     }
     
-    // --- Logique pour les statistiques animées (page d'accueil) ---
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const statValueEl = entry.target;
-                const finalValue = parseInt(statValueEl.getAttribute('data-value'), 10);
-                const prefix = statValueEl.getAttribute('data-prefix') || '';
-                const unit = statValueEl.getAttribute('data-unit') || '';
-                let duration = Math.min(2000, finalValue * 20);
-                let startTime = null;
-                function animate(currentTime) {
-                    if (startTime === null) startTime = currentTime;
-                    const elapsedTime = currentTime - startTime;
-                    const progress = Math.min(elapsedTime / duration, 1);
-                    statValueEl.textContent = prefix + Math.floor(progress * finalValue) + unit;
-                    if (progress < 1) requestAnimationFrame(animate);
-                    else statValueEl.textContent = prefix + finalValue + unit;
-                }
-                requestAnimationFrame(animate);
-                statsObserver.unobserve(statValueEl);
-            }
-        });
-    }, { threshold: 0.5 });
-    document.querySelectorAll('.stat-value').forEach(el => statsObserver.observe(el));
-
-    // --- Logique pour la section ACTUALITÉS (avec le nouvel événement) ---
+    // --- Logique pour la section ACTUALITÉS (intégralement restaurée) ---
     const newsSliderWrapper = document.getElementById('news-slider-wrapper');
     if (newsSliderWrapper) {
-
         const newsData = {
-            'visite-labo': { 
-                title: "Visite au laboratoire 'LABOTEST'", 
-                date: "24 Mai 2025",
-                category: "Visite Pédagogique", 
-                cardImage: "images/LABO1.jpg", 
-                description: `Suite à la visite au laboratoire de génie civil 'LABOTEST' effectuée le samedi 24 mai 2024 au profit des étudiants de la première année dans le but de découvrir les équipements et les techniques utilisés pour mieux comprendre les techniques des essais et leurs interprétations. Les essais ont été effectués sur place par l'ingénieur du laboratoire et encadré par Mr Alla Mostafa, à savoir ;
-                <ul class="list-disc list-inside mt-4 space-y-2 text-left">
-                    <li>Le cône d'Abrams</li>
-                    <li>L'équivalent de sable</li>
-                    <li>Écrasement de cylindre en Béton (résistance)</li>
-                    <li>Essais des différents matériaux</li>
-                    <li>Conservation des cylindre en béton.</li>
-                    <li>Consultation des différents équipements de la boratoire.</li>
-                </ul>`, 
-                images: ["images/LABO1.jpg", "images/LABO2.jpg", "images/LABO3.jpg", "images/LABO4.jpg", "images/LABO5.jpg"] 
-            },
-            'don-sang': { 
-                title: "Journée de don de sang", 
-                date: "20 Mai 2025", 
-                category: "Événement", 
-                cardImage: "images/sang1.jpg", 
-                description: "Le 20 mai 2025, l’Ordre des architectes d’Oujda a organisé une journée de dons de sang, avec une participation active des étudiants de l'IFTSAU Oujda.", 
-                images: ["images/sang1.jpg", "images/sang2.jpg", "images/sang3.jpg", "images/sang4.jpg", "images/sang5.jpg"] 
-            },
-            'visite-colonial': { 
-                title: "Visite de l'architecture coloniale", 
-                date: "21 Avril 2025", 
-                category: "Sortie Pédagogique", 
-                cardImage: "images/visite2.jpg", 
-                description: "Le 21 avril 2025, les étudiants de l'IFTSAU ont visité les vestiges de l'architecture coloniale au lycée Omar Moderne.", 
-                images: ["images/visite1.jpg", "images/visite2.jpg", "images/visite3.jpg", "images/visite4.jpg"] 
-            },
-            'forum-orientation': { 
-                title: "Forum d'orientation", 
-                date: "08 Avril 2025", 
-                category: "Événement", 
-                cardImage: "images/forum1.jpg", 
-                description: "L’IFTSAU a participé activement aux journées d’orientation pour informer les futurs bacheliers sur les opportunités scolaires et professionnelles.", 
-                images: ["images/forum1.jpg", "images/forum2.jpg", "images/forum3.jpg"] 
-            }
+            'visite-labo': { title: "Visite au laboratoire 'LABOTEST'", date: "24 Mai 2025", category: "Visite Pédagogique", cardImage: "images/LABO1.jpg", description: `Suite à la visite au laboratoire de génie civil 'LABOTEST' effectuée le samedi 24 mai 2024 au profit des étudiants de la première année dans le but de découvrir les équipements et les techniques utilisés pour mieux comprendre les techniques des essais et leurs interprétations. Les essais ont été effectués sur place par l'ingénieur du laboratoire et encadré par Mr Alla Mostafa, à savoir ;<ul class="list-disc list-inside mt-4 space-y-2 text-left"><li>Le cône d'Abrams</li><li>L'équivalent de sable</li><li>Écrasement de cylindre en Béton (résistance)</li><li>Essais des différents matériaux</li><li>Conservation des cylindre en béton.</li><li>Consultation des différents équipements de la boratoire.</li></ul>`, images: ["images/LABO1.jpg", "images/LABO2.jpg", "images/LABO3.jpg", "images/LABO4.jpg", "images/LABO5.jpg"] },
+            'don-sang': { title: "Journée de don de sang", date: "20 Mai 2025", category: "Événement", cardImage: "images/sang1.jpg", description: "Le 20 mai 2025, l’Ordre des architectes d’Oujda a organisé une journée de dons de sang, avec une participation active des étudiants de l'IFTSAU Oujda.", images: ["images/sang1.jpg", "images/sang2.jpg", "images/sang3.jpg", "images/sang4.jpg", "images/sang5.jpg"] },
+            'visite-colonial': { title: "Visite de l'architecture coloniale", date: "21 Avril 2025", category: "Sortie Pédagogique", cardImage: "images/visite2.jpg", description: "Le 21 avril 2025, les étudiants de l'IFTSAU ont visité les vestiges de l'architecture coloniale au lycée Omar Moderne.", images: ["images/visite1.jpg", "images/visite2.jpg", "images/visite3.jpg", "images/visite4.jpg"] },
+            'forum-orientation': { title: "Forum d'orientation", date: "08 Avril 2025", category: "Événement", cardImage: "images/forum1.jpg", description: "L’IFTSAU a participé activement aux journées d’orientation pour informer les futurs bacheliers sur les opportunités scolaires et professionnelles.", images: ["images/forum1.jpg", "images/forum2.jpg", "images/forum3.jpg"] }
         };
-
-        function parseFrenchDate(dateString) {
-            const months = { 'janvier': 0, 'février': 1, 'mars': 2, 'avril': 3, 'mai': 4, 'juin': 5, 'juillet': 6, 'août': 7, 'septembre': 8, 'octobre': 9, 'novembre': 10, 'décembre': 11 };
-            const parts = dateString.toLowerCase().split(' ');
-            if (parts.length !== 3) return new Date();
-            const day = parseInt(parts[0], 10);
-            const month = months[parts[1]];
-            const year = parseInt(parts[2], 10);
-            return new Date(year, month, day);
-        }
-
-        const sortedNewsIds = Object.keys(newsData).sort((a, b) => {
-            const dateA = parseFrenchDate(newsData[a].date);
-            const dateB = parseFrenchDate(newsData[b].date);
-            return dateB - dateA;
-        });
-
+        function parseFrenchDate(dateString) { const months = { 'janvier': 0, 'février': 1, 'mars': 2, 'avril': 3, 'mai': 4, 'juin': 5, 'juillet': 6, 'août': 7, 'septembre': 8, 'octobre': 9, 'novembre': 10, 'décembre': 11 }; const parts = dateString.toLowerCase().split(' '); if (parts.length !== 3) return new Date(); const day = parseInt(parts[0], 10); const month = months[parts[1]]; const year = parseInt(parts[2], 10); return new Date(year, month, day); }
+        const sortedNewsIds = Object.keys(newsData).sort((a, b) => parseFrenchDate(newsData[b].date) - parseFrenchDate(newsData[a].date));
         sortedNewsIds.forEach(id => {
             const newsItem = newsData[id];
             const cardDescription = newsItem.description.replace(/<[^>]*>/g, ' ').substring(0, 100).trim() + '...';
-            const cardHTML = `
-                <div class="swiper-slide h-full">
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 group">
-                        ${newsItem.cardImage ? `<div class="overflow-hidden"><img src="${newsItem.cardImage}" alt="${newsItem.title}" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"></div>` : ''}
-                        <div class="p-6 flex-grow flex flex-col">
-                            <div class="flex justify-between items-center mb-3">
-                                <span class="text-sm font-semibold text-white px-3 py-1 rounded-full" style="background-color: var(--color-primary);">${newsItem.category}</span>
-                                <span class="text-sm text-stone-500">${newsItem.date}</span>
-                            </div>
-                            <h3 class="text-xl font-bold mb-3 text-stone-800">${newsItem.title}</h3>
-                            <p class="text-stone-600 text-sm flex-grow">${cardDescription}</p>
-                            <button data-modal-id="${id}" class="modal-trigger mt-auto font-semibold text-primary inline-flex items-center self-start">
-                                Lire la suite<i data-lucide="arrow-right" class="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>`;
+            const cardHTML = `<div class="swiper-slide h-full"><div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 group">${newsItem.cardImage ? `<div class="overflow-hidden"><img src="${newsItem.cardImage}" alt="${newsItem.title}" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"></div>` : ''}<div class="p-6 flex-grow flex flex-col"><div class="flex justify-between items-center mb-3"><span class="text-sm font-semibold text-white px-3 py-1 rounded-full" style="background-color: var(--color-primary);">${newsItem.category}</span><span class="text-sm text-stone-500">${newsItem.date}</span></div><h3 class="text-xl font-bold mb-3 text-stone-800">${newsItem.title}</h3><p class="text-stone-600 text-sm flex-grow">${cardDescription}</p><button data-modal-id="${id}" class="modal-trigger mt-auto font-semibold text-primary inline-flex items-center self-start">Lire la suite<i data-lucide="arrow-right" class="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"></i></button></div></div></div>`;
             newsSliderWrapper.innerHTML += cardHTML;
         });
-        
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-
-        new Swiper('.news-slider', { 
-            loop: Object.keys(newsData).length > 2, 
-            spaceBetween: 30, 
-            slidesPerView: 1, 
-            autoplay: { 
-                delay: 4000, 
-                disableOnInteraction: false 
-            }, 
-            pagination: { 
-                el: '.swiper-pagination', 
-                clickable: true 
-            }, 
-            navigation: false,
-            breakpoints: { 
-                768: { slidesPerView: 2 }, 
-                1024: { slidesPerView: 3 } 
-            } 
-        });
-
-        const modal = document.getElementById('news-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalBody = document.getElementById('modal-body');
-        const modalClose = document.getElementById('modal-close');
-        let modalSwiper = null;
-
-        document.querySelectorAll('.modal-trigger').forEach(button => {
-            button.addEventListener('click', () => {
-                const modalId = button.dataset.modalId;
-                const data = newsData[modalId];
-                if (data) {
-                    modalTitle.textContent = data.title;
-                    let contentHTML = `<p class="text-stone-700">${data.description}</p>`;
-                    if (data.images && data.images.length > 0) {
-                        let galleryHTML = `
-                            <div class="swiper modal-gallery relative mb-4 rounded-lg overflow-hidden">
-                                <div class="swiper-wrapper">`;
-                        data.images.forEach(imgUrl => { 
-                            galleryHTML += `<div class="swiper-slide"><img src="${imgUrl}" class="w-full h-auto object-contain"></div>`; 
-                        });
-                        galleryHTML += `</div>
-                                <div class="swiper-button-next"></div>
-                                <div class="swiper-button-prev"></div>
-                            </div>`;
-                        contentHTML = galleryHTML + contentHTML;
-                    }
-                    modalBody.innerHTML = contentHTML;
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                    
-                    if (typeof lucide !== 'undefined') {
-                        lucide.createIcons();
-                    }
-
-                    if (data.images && data.images.length > 0) {
-                        modalSwiper = new Swiper('.modal-gallery', { 
-                            loop: true, 
-                            navigation: { 
-                                nextEl: '.swiper-button-next', 
-                                prevEl: '.swiper-button-prev' 
-                            } 
-                        });
-                    }
-                }
-            });
-        });
-
-        function closeModal() {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-            if (modalSwiper) { 
-                modalSwiper.destroy(true, true); 
-                modalSwiper = null; 
-            }
-        };
-
-        modalClose.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => { 
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
+        if (typeof Swiper !== 'undefined') new Swiper('.news-slider', { loop: Object.keys(newsData).length > 2, spaceBetween: 30, slidesPerView: 1, autoplay: { delay: 4000, disableOnInteraction: false }, pagination: { el: '.swiper-pagination', clickable: true }, navigation: false, breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } } });
+        const modal = document.getElementById('news-modal'); const modalTitle = document.getElementById('modal-title'); const modalBody = document.getElementById('modal-body'); const modalClose = document.getElementById('modal-close'); let modalSwiper = null;
+        document.querySelectorAll('.modal-trigger').forEach(button => { button.addEventListener('click', () => { const modalId = button.dataset.modalId; const data = newsData[modalId]; if (data) { modalTitle.textContent = data.title; let contentHTML = `<p class="text-stone-700">${data.description}</p>`; if (data.images && data.images.length > 0) { let galleryHTML = `<div class="swiper modal-gallery relative mb-4 rounded-lg overflow-hidden"><div class="swiper-wrapper">`; data.images.forEach(imgUrl => { galleryHTML += `<div class="swiper-slide"><img src="${imgUrl}" class="w-full h-auto object-contain"></div>`; }); galleryHTML += `</div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div></div>`; contentHTML = galleryHTML + contentHTML; } modalBody.innerHTML = contentHTML; modal.classList.add('active'); document.body.style.overflow = 'hidden'; if (typeof lucide !== 'undefined') lucide.createIcons(); if (data.images && data.images.length > 0) { modalSwiper = new Swiper('.modal-gallery', { loop: true, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } }); } } }); });
+        function closeModal() { if(modal) modal.classList.remove('active'); document.body.style.overflow = ''; if (modalSwiper) { modalSwiper.destroy(true, true); modalSwiper = null; } };
+        if(modalClose) modalClose.addEventListener('click', closeModal);
+        if(modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
     }
     
     // --- Logique pour la page resultats.html ---
@@ -225,33 +54,28 @@ document.addEventListener('DOMContentLoaded', function() {
     if (searchForm) {
         const dobInput = document.getElementById('dob-input');
         const calendarToggle = document.getElementById('calendar-toggle');
-        
         if(typeof flatpickr !== 'undefined'){
-            const fp = flatpickr(dobInput, {
-                dateFormat: "d/m/Y",
-                locale: "fr",
-                allowInput: true,
-                theme: "airbnb"
-            });
-            calendarToggle.addEventListener('click', () => fp.toggle());
+            const fp = flatpickr(dobInput, { dateFormat: "d/m/Y", locale: "fr", allowInput: true, theme: "airbnb" });
+            if(calendarToggle) { calendarToggle.addEventListener('click', () => fp.toggle()); }
         }
-        
         const searchButton = document.getElementById('search-button');
         const resultsContainer = document.getElementById('results-container');
         const originalButtonContent = searchButton.innerHTML;
 
         searchForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            const cin = document.getElementById('cin-input').value;
-            const dob = dobInput.value;
 
-            if (!cin || !dob) {
-                displayError('Veuillez remplir tous les champs.');
-                return;
+            // --- MODIFICATION 1 : Supprimer l'ancien bouton flottant au début de chaque recherche ---
+            const oldFab = document.getElementById('floating-download-btn');
+            if (oldFab) {
+                oldFab.remove();
             }
 
+            const cin = document.getElementById('cin-input').value;
+            const dob = dobInput.value;
+            if (!cin || !dob) { displayError('Veuillez remplir tous les champs.'); return; }
             setLoading(true);
-
+            resultsContainer.innerHTML = '';
             try {
                 const response = await fetch('/.netlify/functions/get-results', {
                     method: 'POST',
@@ -262,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!response.ok) {
                     displayError(data.message || 'Une erreur est survenue.');
                 } else {
-                    displayResults(data);
+                    displayPdfBulletin(data);
                 }
             } catch (error) {
                 displayError('Impossible de contacter le serveur. Vérifiez votre connexion.');
@@ -278,177 +102,57 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 searchButton.disabled = false;
                 searchButton.innerHTML = originalButtonContent;
-                if (typeof lucide !== 'undefined') {
-                    lucide.createIcons({ nodes: [searchButton] });
-                }
+                if (typeof lucide !== 'undefined') { lucide.createIcons({ nodes: [searchButton] }); }
             }
         }
 
         function displayError(message) {
-            resultsContainer.innerHTML = `
-                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md" role="alert">
-                    <p class="font-bold">Erreur</p>
-                    <p>${message}</p>
-                </div>`;
+            resultsContainer.innerHTML = `<div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md" role="alert"><p class="font-bold">Erreur</p><p>${message}</p></div>`;
         }
 
-        function displayResults(data) {
-            let modulesHtml = '<p class="text-stone-600">Aucun relevé de notes disponible pour le moment.</p>';
-            
-            if (data.modules && data.modules.length > 0) {
-                 modulesHtml = data.modules.map(module => {
-                    const matieresHtml = (module.matieres && module.matieres.length > 0) ? module.matieres.map(matiere => `
-                        <li class="flex justify-between items-center py-2 border-b border-stone-200 text-sm">
-                            <span class="text-stone-700 pr-4">${matiere.nomMatiere}</span>
-                            <span class="font-bold text-primary whitespace-nowrap">${matiere.note}</span>
-                        </li>
-                    `).join('') : '<li class="text-sm text-stone-500 px-2 py-2">Aucun détail de matière disponible.</li>';
-
-                    return `
-                        <div class="mt-4">
-                            <div class="flex justify-between items-center bg-stone-100 p-2 rounded-t-md">
-                                <h5 class="font-bold text-base text-stone-800">${module.nomModule}</h5>
-                                ${module.moyenneModule ? `<span class="font-bold text-lg" style="color:var(--color-primary);">${module.moyenneModule}<span class="text-sm">/20</span></span>` : ''}
-                            </div>
-                            <ul class="space-y-1 border border-t-0 border-stone-200 rounded-b-md px-2">${matieresHtml}</ul>
-                        </div>
-                    `;
-                }).join('');
+        function displayPdfBulletin(data) {
+            if (!data.nomFichier || !data.nomComplet) {
+                displayError("Les informations de l'étudiant sont incomplètes.");
+                return;
             }
+            
+            const viewUrl = `/.netlify/functions/view-pdf?nomFichier=${encodeURIComponent(data.nomFichier)}#toolbar=0`;
+            const downloadUrl = `/.netlify/functions/download-pdf?nomFichier=${encodeURIComponent(data.nomFichier)}`;
 
             resultsContainer.innerHTML = `
-                <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg animate-fade-in">
-                    <div class="flex justify-between items-start mb-4 pb-4 border-b">
-                        <div>
-                            <h3 class="text-xl font-bold" style="color:var(--color-primary);">${data.nomComplet}</h3>
-                            <p class="text-sm text-stone-500">C.I.N: ${data.cin} | N° Inscription: ${data.inscription || 'N/A'}</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-sm text-stone-500">Classement</p>
-                            <p class="text-2xl font-bold" style="color:var(--color-primary);">${data.classement || 'N/A'}</p>
-                        </div>
-                    </div>
+                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg animate-fade-in">
+                    <h3 class="text-xl font-bold text-center mb-4" style="color:var(--color-primary);">Bonjour, ${data.nomComplet}</h3>
+                    <p class="text-center text-stone-600 mb-6">Voici votre bulletin de notes.</p>
                     
-                    <div class="grid grid-cols-2 gap-4 mb-6 text-center">
-                         <div>
-                            <p class="text-sm text-stone-500">Moyenne Générale</p>
-                            <p class="text-xl font-bold">${data.resultatFinal || 'N/A'}</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-stone-500">Assiduité</p>
-                            <p class="text-xl font-bold">${data.assiduite || 'N/A'}/20</p>
-                        </div>
+                    <div class="pdf-viewer-container border rounded-md overflow-hidden bg-gray-100" style="height: 75vh;">
+                        <iframe src="${viewUrl}" width="100%" height="100%" frameborder="0" title="Visionneuse de PDF">
+                            <p>Votre navigateur ne prend pas en charge l'affichage des PDF. <a href="${viewUrl}" target="_blank">Cliquez ici pour l'ouvrir.</a></p>
+                        </iframe>
                     </div>
 
-                    <h4 class="font-semibold mb-1 mt-6 text-stone-800 border-t pt-4">Relevé de notes</h4>
-                    ${modulesHtml}
-                    <div class="mt-8 text-center">
-                        <button id="download-pdf" class="btn-primary inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold">
+                    <div class="mt-6 text-center">
+                        <a href="${downloadUrl}" class="btn-primary inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold whitespace-nowrap">
                             <i data-lucide="download" class="mr-2 h-5 w-5"></i>
-                            Télécharger en PDF
-                        </button>
+                            Télécharger (Copie électronique)
+                        </a>
                     </div>
                 </div>`;
+            
+            // --- MODIFICATION 2 : Créer et afficher le bouton flottant ---
+            const fab = document.createElement('a');
+            fab.id = 'floating-download-btn';
+            fab.href = downloadUrl;
+            // On utilise les classes Tailwind pour le style, et on le cache sur les écrans moyens et plus grands (md:hidden)
+            fab.className = 'fixed bottom-6 right-6 h-14 w-14 rounded-full flex items-center justify-center shadow-lg z-50 md:hidden';
+            fab.style.backgroundColor = 'var(--color-primary)';
+            fab.style.color = 'white';
+            fab.innerHTML = '<i data-lucide="download" class="h-7 w-7"></i>';
+            document.body.appendChild(fab);
             
             if(typeof lucide !== 'undefined') {
                 lucide.createIcons();
             }
-
-            document.getElementById('download-pdf').addEventListener('click', () => {
-                generatePDF(data);
-            });
-
-            if (data.resultatFinal) {
-                const noteGenerale = parseFloat(data.resultatFinal);
-                if (!isNaN(noteGenerale) && noteGenerale >= 10) {
-                    const successMessage = document.createElement('div');
-                    successMessage.textContent = "Félicitations ! Vous avez été déclaré(e) admis(e).";
-                    
-                    successMessage.style.backgroundColor = '#28a745';
-                    successMessage.style.color = 'white';
-                    successMessage.style.padding = '1rem';
-                    successMessage.style.textAlign = 'center';
-                    successMessage.style.fontWeight = 'bold';
-                    successMessage.style.borderRadius = '0.5rem';
-                    successMessage.style.marginBottom = '1rem';
-                    successMessage.style.transition = 'opacity 0.5s ease-out';
-                    
-                    resultsContainer.prepend(successMessage);
-                    
-                    setTimeout(() => {
-                        successMessage.style.opacity = '0';
-                        setTimeout(() => {
-                            successMessage.remove();
-                        }, 500);
-                    }, 2000);
-                }
-            }
         }
-        
-        // ***** DÉBUT : FONCTION PDF CORRIGÉE *****
-        function generatePDF(data) {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            doc.setFontSize(20);
-            doc.text("Relevé de Notes", 105, 20, null, null, "center");
-            doc.setFontSize(12);
-            doc.text("IFTSAU Oujda", 105, 28, null, null, "center");
-            
-            doc.setFontSize(11);
-            doc.text(`Étudiant(e): ${data.nomComplet}`, 14, 45);
-            doc.text(`C.I.N: ${data.cin}`, 14, 52);
-            doc.text(`N° Inscription: ${data.inscription || 'N/A'}`, 14, 59);
-
-            doc.setFont(undefined, 'bold');
-            doc.text(`Moyenne Générale : ${data.resultatFinal || 'N/A'}`, 196, 52, null, null, 'right');
-            doc.text(`Classement : ${data.classement || 'N/A'}`, 196, 59, null, null, 'right');
-            doc.setFont(undefined, 'normal');
-
-
-            const tableData = [];
-            if (data.modules && data.modules.length > 0) {
-                data.modules.forEach(module => {
-                    tableData.push([
-                        { content: module.nomModule, styles: { fontStyle: 'bold' } },
-                        { content: `${module.moyenneModule || ''}/20`, styles: { fontStyle: 'bold', halign: 'right' } }
-                    ]);
-                });
-            }
-            
-            // On ajoute la note d'assiduité à la fin du tableau
-            tableData.push([
-                { content: "Assiduité", styles: { fontStyle: 'bold', fillColor: '#F2F0E6' } },
-                { content: `${data.assiduite || 'N/A'}/20`, styles: { fontStyle: 'bold', halign: 'right', fillColor: '#F2F0E6' } }
-            ]);
-
-            doc.autoTable({
-                startY: 65,
-                head: [['Module', 'Moyenne']],
-                body: tableData,
-                theme: 'grid',
-                headStyles: {
-                    fillColor: [152, 106, 68] // Couleur --color-primary
-                },
-                columnStyles: {
-                    0: { cellWidth: 'auto' },
-                    1: { cellWidth: 40, halign: 'right' },
-                }
-            });
-
-            const pageCount = doc.internal.getNumberOfPages();
-            for(let i = 1; i <= pageCount; i++) {
-                doc.setPage(i);
-                const today = new Date().toLocaleDateString('fr-FR');
-                doc.setFontSize(8);
-                doc.text(`Généré le ${today}`, 14, doc.internal.pageSize.height - 10);
-                doc.text(`Page ${i}/${pageCount}`, 195, doc.internal.pageSize.height - 10, null, null, 'right');
-            }
-
-            doc.save(`Releve-de-notes-${data.nomComplet}.pdf`);
-        }
-        // ***** FIN : FONCTION PDF CORRIGÉE *****
-        
         const style = document.createElement('style');
         style.innerHTML = `@keyframes fade-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } } .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }`;
         document.head.appendChild(style);
