@@ -45,6 +45,14 @@
             border-color: var(--color-primary);
         }
         .nav-link:hover{color:var(--color-primary);}
+        /* Styles pour le loader du canvas */
+        .canvas-loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none; /* Caché par défaut */
+        }
     </style>
 </head>
 <body class="text-stone-800">
@@ -129,6 +137,11 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="src/flatpickr-fr.js"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-    <script src="src/custom.js?v=2"></script>
+    
+    <!-- Ajout des scripts pour PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js"></script>
+
+    <script src="src/custom.js?v=3"></script>
 </body>
 </html>
