@@ -8,8 +8,8 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: 'Nom de fichier invalide.' };
   }
   
-  // CHEMIN CORRIGÉ pour l'environnement de production Netlify
-  const pdfPath = path.resolve(__dirname, 'private/bulletins', nomFichier);
+  // CHEMIN CORRIGÉ : On utilise le dossier "_data"
+  const pdfPath = path.resolve(__dirname, '_data', 'bulletins', nomFichier);
 
   try {
     const pdfBytes = await fs.readFile(pdfPath);
