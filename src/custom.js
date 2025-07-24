@@ -65,20 +65,40 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!cin || !dob) { displayError('Veuillez remplir tous les champs.'); return; }
             setLoading(true);
             resultsContainer.innerHTML = '';
+            
             try {
-                const response = await fetch('/.netlify/functions/get-results', {
+                // CORRECTION : Utilisation du chemin /api/ pour la redirection
+                const response = await fetch('/api/get-results', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ cin, dob })
                 });
-                const data = await response.json();
+
                 if (!response.ok) {
-                    displayError(data.message || 'Une erreur est survenue.');
-                } else {
-                    displayPdfBulletin(data);
+                    let errorInfo = {
+                        status: response.status,
+                        statusText: response.statusText,
+                        message: `Erreur du serveur (Code: ${response.status}).`
+                    };
+                    try {
+                        const errorData = await response.json();
+                        errorInfo.message = errorData.message || errorInfo.message;
+                    } catch (e) {
+                        // Le corps de la réponse n'est pas du JSON
+                    }
+                    throw errorInfo;
                 }
+
+                const data = await response.json();
+                displayPdfBulletin(data);
+
             } catch (error) {
-                displayError('Impossible de contacter le serveur. Vérifiez votre connexion.');
+                console.error("Erreur détaillée lors de l'appel de la fonction:", error);
+                if (error.status) {
+                     displayError(`Erreur ${error.status}: ${error.message || error.statusText}`);
+                } else {
+                    displayError('Impossible de contacter le serveur. Vérifiez votre connexion ou la console pour plus de détails.');
+                }
             } finally {
                 setLoading(false);
             }
@@ -105,7 +125,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            const downloadUrl = `/.netlify/functions/download-pdf?nomFichier=${encodeURIComponent(data.nomFichier)}`;
+            // CORRECTION : Utilisation du chemin /api/ pour la redirection
+            const downloadUrl = `/api/download-pdf?nomFichier=${encodeURIComponent(data.nomFichier)}`;
 
             resultsContainer.innerHTML = `
                 <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg animate-fade-in">
@@ -152,7 +173,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const initPdfViewer = (nomFichier) => {
-            const url = `/.netlify/functions/view-pdf?nomFichier=${encodeURIComponent(nomFichier)}`;
+            // CORRECTION : Utilisation du chemin /api/ pour la redirection
+            const url = `/api/view-pdf?nomFichier=${encodeURIComponent(nomFichier)}`;
             const canvas = document.getElementById('pdf-canvas');
             const ctx = canvas.getContext('2d');
             const loader = document.querySelector('.canvas-loader');
