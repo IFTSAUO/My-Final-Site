@@ -1,9 +1,17 @@
 # Fichier : netlify.toml
 
-[functions]
-  # Indique à Netlify où se trouvent vos fonctions
-  directory = "netlify/functions/"
+[build]
+  # Indique à Netlify que vos fichiers de site (index.html, etc.) sont à la racine
+  publish = "."
+  # Indique à Netlify où trouver vos fonctions à déployer
+  functions = "netlify/functions"
 
-  # Cette ligne force l'inclusion du dossier _data et de tout son contenu
-  # avec les fonctions lors du déploiement.
+[functions]
+  # Force l'inclusion du dossier _data avec les fonctions
   included_files = ["netlify/functions/_data/**"]
+
+# Redirection pour que /.netlify/functions/ soit accessible
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
