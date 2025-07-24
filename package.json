@@ -18,6 +18,7 @@
     "terser": "^5.31.1"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^1.0.1"
+    "@neondatabase/serverless": "^1.0.1",
+    "pdf-lib": "^1.17.1"
   }
 }
