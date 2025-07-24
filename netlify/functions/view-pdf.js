@@ -1,3 +1,4 @@
+// netlify/functions/view-pdf.js
 const fs = require('fs').promises;
 const path = require('path');
 
@@ -7,7 +8,8 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: 'Nom de fichier invalide.' };
   }
   
-  const pdfPath = path.resolve(process.cwd(), 'private', 'bulletins', nomFichier);
+  // CHEMIN CORRIGÉ : On utilise __dirname pour un chemin robuste en production
+  const pdfPath = path.resolve(__dirname, '../../private/bulletins', nomFichier);
 
   try {
     const pdfBytes = await fs.readFile(pdfPath);
