@@ -8,11 +8,8 @@ exports.handler = async (event) => {
   }
 
   try {
-    // Logs pour le débogage dans l'environnement Netlify
-    console.log("Répertoire actuel de la fonction (__dirname):", __dirname);
-    const dataPath = path.resolve(__dirname, '_data/donnees.json');
-    console.log("Tentative de lecture du fichier de données depuis :", dataPath);
-
+    // CHEMIN CORRIGÉ pour l'environnement de production Netlify
+    const dataPath = path.resolve(__dirname, 'private/donnees.json');
     const etudiantsData = fs.readFileSync(dataPath, 'utf8');
     const etudiants = JSON.parse(etudiantsData);
 
@@ -39,12 +36,7 @@ exports.handler = async (event) => {
       };
     }
   } catch (error) {
-    // Logs d'erreur plus détaillés
-    console.error("!!! ERREUR CRITIQUE dans get-results.js !!!");
-    console.error("La fonction n'a pas pu lire le fichier de données. Vérifiez le chemin et la structure des dossiers.");
-    console.error("Chemin exact tenté :", path.resolve(__dirname, '_data/donnees.json'));
-    console.error("Erreur détaillée :", error);
-    
+    console.error("Erreur dans get-results.js:", error);
     return { 
       statusCode: 500, 
       body: JSON.stringify({ message: 'Erreur interne du serveur.' }) 
