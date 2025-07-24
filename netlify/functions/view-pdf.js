@@ -9,7 +9,7 @@ exports.handler = async (event) => {
   }
   
   // CHEMIN CORRIGÉ : On utilise __dirname pour un chemin robuste en production
-  const pdfPath = path.resolve(__dirname, '../../private/bulletins', nomFichier);
+  const pdfPath = path.resolve(__dirname, '..', '..', 'private', 'bulletins', nomFichier);
 
   try {
     const pdfBytes = await fs.readFile(pdfPath);
@@ -24,6 +24,8 @@ exports.handler = async (event) => {
     };
   } catch (error) {
     console.error('Erreur dans view-pdf.js:', error);
+    // Log pour voir le chemin exact qui a échoué
+    console.error('Chemin tenté :', pdfPath);
     return { statusCode: 404, body: 'Bulletin introuvable.' };
   }
 };

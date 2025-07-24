@@ -9,7 +9,7 @@ exports.handler = async (event) => {
 
   try {
     // CHEMIN CORRIGÉ : On utilise __dirname pour un chemin robuste en production
-    const dataPath = path.resolve(__dirname, '../../private/donnees.json');
+    const dataPath = path.resolve(__dirname, '..', '..', 'private', 'donnees.json');
     const etudiantsData = fs.readFileSync(dataPath, 'utf8');
     const etudiants = JSON.parse(etudiantsData);
 

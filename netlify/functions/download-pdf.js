@@ -1,5 +1,4 @@
-// netlify/functions/download-pdf.js (Version avec filigrane sur deux lignes)
-
+// netlify/functions/download-pdf.js
 const { PDFDocument, rgb, degrees, StandardFonts } = require('pdf-lib');
 const fs = require('fs').promises;
 const path = require('path');
@@ -10,7 +9,8 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: 'Nom de fichier invalide.' };
   }
   
-  const pdfPath = path.resolve(process.cwd(), 'private', 'bulletins', nomFichier);
+  // CHEMIN CORRIGÉ : On utilise __dirname pour un chemin robuste en production
+  const pdfPath = path.resolve(__dirname, '..', '..', 'private', 'bulletins', nomFichier);
 
   try {
     const existingPdfBytes = await fs.readFile(pdfPath);
@@ -20,7 +20,6 @@ exports.handler = async (event) => {
     const footerFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
     
     const pages = pdfDoc.getPages();
-    // --- TEXTE DU FILIGRANE SUR DEUX LIGNES ---
     const watermarkLine1 = 'ELECTRONIC';
     const watermarkLine2 = 'COPY';
     const footerText = "Ce bulletin est un document électronique. Veuillez consulter l'administration pour récupérer votre copie originale.";
@@ -28,17 +27,13 @@ exports.handler = async (event) => {
     for (const page of pages) {
       const { width, height } = page.getSize();
 
-      const watermarkSize = 50; // Taille adaptée
-      // On mesure la largeur de chaque ligne pour les centrer
+      const watermarkSize = 50;
       const watermarkWidth1 = watermarkFont.widthOfTextAtSize(watermarkLine1, watermarkSize);
       const watermarkWidth2 = watermarkFont.widthOfTextAtSize(watermarkLine2, watermarkSize);
       
-      // --- DESSIN DU FILIGRANE SUR DEUX LIGNES ---
-      
-      // Dessine la première ligne ("ELECTRONIC")
       page.drawText(watermarkLine1, {
         x: (width - watermarkWidth1) / 2,
-        y: height / 3 + 15, // Rapproché du centre
+        y: height / 3 + 15,
         size: watermarkSize,
         font: watermarkFont,
         color: rgb(0.75, 0.75, 0.75),
@@ -46,10 +41,9 @@ exports.handler = async (event) => {
         rotate: degrees(45),
       });
 
-      // Dessine la deuxième ligne ("COPY")
       page.drawText(watermarkLine2, {
         x: (width - watermarkWidth2) / 2,
-        y: height / 3 - 15, // Rapproché du centre
+        y: height / 3 - 15,
         size: watermarkSize,
         font: watermarkFont,
         color: rgb(0.75, 0.75, 0.75),
@@ -57,8 +51,6 @@ exports.handler = async (event) => {
         rotate: degrees(45),
       });
 
-
-      // --- PIED DE PAGE (INCHANGÉ) ---
       const footerSize = 8;
       const footerWidth = footerFont.widthOfTextAtSize(footerText, footerSize);
       page.drawText(footerText, {
