@@ -8,8 +8,13 @@ exports.handler = async (event) => {
   }
 
   try {
-    // CHEMIN CORRIGÉ pour l'environnement de production Netlify
-    const dataPath = path.resolve(__dirname, 'private/donnees.json');
+    // --- LIGNES DE DÉBOGAGE ---
+    // Affiche le contenu du répertoire où la fonction s'exécute
+    const currentDirectoryFiles = fs.readdirSync(__dirname);
+    console.log("Fichiers présents dans le répertoire de la fonction :", currentDirectoryFiles);
+    // --- FIN DES LIGNES DE DÉBOGAGE ---
+
+    const dataPath = path.resolve(__dirname, '_data/donnees.json');
     const etudiantsData = fs.readFileSync(dataPath, 'utf8');
     const etudiants = JSON.parse(etudiantsData);
 
