@@ -1,3 +1,4 @@
+// netlify/functions/get-results.js
 const fs = require('fs');
 const path = require('path');
 
@@ -7,8 +8,8 @@ exports.handler = async (event) => {
   }
 
   try {
-    // Ce chemin fonctionne grâce à la configuration dans netlify.toml
-    const dataPath = path.resolve(process.cwd(), 'private', 'donnees.json');
+    // CHEMIN CORRIGÉ : On utilise __dirname pour un chemin robuste en production
+    const dataPath = path.resolve(__dirname, '../../private/donnees.json');
     const etudiantsData = fs.readFileSync(dataPath, 'utf8');
     const etudiants = JSON.parse(etudiantsData);
 
