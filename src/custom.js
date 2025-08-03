@@ -257,6 +257,45 @@ document.addEventListener('DOMContentLoaded', function() {
         document.head.appendChild(style);
     }
     
+    // --- NOUVELLE LOGIQUE : Animation des statistiques ---
+    const statValues = document.querySelectorAll('.stat-value');
+    if (statValues.length > 0) {
+        const animateValue = (el, start, end, duration, prefix = '', unit = '') => {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const currentValue = Math.floor(progress * (end - start) + start);
+                el.textContent = `${prefix}${currentValue}${unit}`;
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const prefix = el.dataset.prefix || '';
+                    const unit = el.dataset.unit || '';
+                    const value = parseInt(el.dataset.value, 10);
+                    
+                    el.textContent = `${prefix}0${unit}`; // Affichage initial
+                    animateValue(el, 0, value, 2000, prefix, unit);
+                    observer.unobserve(el);
+                }
+            });
+        }, {
+            threshold: 0.5 
+        });
+
+        statValues.forEach(el => {
+            observer.observe(el);
+        });
+    }
+
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
