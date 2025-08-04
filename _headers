@@ -1,7 +1,7 @@
 /*
   # Content Security Policy (Version Finale et Corrigée)
-  # Ajout de www.google.com pour autoriser la carte
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com data:; frame-src 'self' https://www.google.com;
+  # Ajout de cdnjs.cloudflare.com pour PDF.js et de www.google.com pour la carte
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com data:; frame-src 'self' https://www.google.com; worker-src 'self' https://cdnjs.cloudflare.com;
 
   # Autres en-têtes de sécurité
   X-Frame-Options: SAMEORIGIN;
