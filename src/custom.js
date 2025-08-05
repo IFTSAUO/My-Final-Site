@@ -1,34 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- MODIFIÉ : Logique du preloader pour un affichage de 2 secondes minimum ---
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-        const startTime = Date.now(); // On enregistre le moment où le script commence
-
-        const hidePreloader = () => {
-            // Utilise la classe .hide déjà présente dans votre CSS pour la transition
-            preloader.classList.add('hide');
-        };
-
-        window.addEventListener('load', () => {
-            const elapsedTime = Date.now() - startTime;
-            const minimumDisplayTime = 2000; // 2000 millisecondes = 2 secondes
-
-            if (elapsedTime >= minimumDisplayTime) {
-                // Si la page a mis plus de 2s à charger, on cache le preloader immédiatement
-                hidePreloader();
-            } else {
-                // Sinon, on attend le temps restant pour atteindre les 2s
-                const delay = minimumDisplayTime - elapsedTime;
-                setTimeout(hidePreloader, delay);
-            }
-        });
-    }
-
-    // --- Logique générale (menu, etc.) ---
+    // --- Logique générale (menu, preloader, etc.) ---
     const mobileMenuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
     const yearSpan = document.getElementById("year");
+    const preloader = document.getElementById('preloader');
+
+    if (preloader) {
+        window.addEventListener('load', () => {
+            preloader.style.transition = 'opacity 0.5s ease, visibility 0.5s ease';
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
+        });
+    }
 
     if (mobileMenuButton && mobileMenu) {
         mobileMenuButton.addEventListener("click", () => {
@@ -40,12 +24,12 @@ document.addEventListener('DOMContentLoaded', function() {
         yearSpan.textContent = new Date().getFullYear();
     }
     
-    // --- Logique pour le Modal de l'avis de concours ---
+    // --- MODIFIÉ : Logique pour le Modal de l'avis de concours ---
     const concoursModal = document.getElementById('concours-modal');
     const concoursModalClose = document.getElementById('concours-modal-close');
 
     function openConcoursModal() {
-        if (concoursModal && (window.location.pathname === '/' || window.location.pathname.endsWith('index.html'))) {
+        if (concoursModal) {
             concoursModal.classList.add('active');
             document.body.style.overflow = 'hidden';
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -59,16 +43,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // Affiche le modal après 1 seconde sur la page d'accueil
     if (window.location.pathname === '/' || window.location.pathname.endsWith('index.html')) {
-       setTimeout(openConcoursModal, 1000); 
+       setTimeout(openConcoursModal, 1500); // Délai de 1500 ms = 1.5 seconde
     }
     
+    // Gère la fermeture
     if(concoursModalClose) concoursModalClose.addEventListener('click', closeConcoursModal);
     if(concoursModal) concoursModal.addEventListener('click', (e) => {
         if (e.target === concoursModal) {
             closeConcoursModal();
         }
     });
+
 
     // --- Logique pour la section ACTUALITÉS ---
     const newsSliderWrapper = document.getElementById('news-slider-wrapper');
