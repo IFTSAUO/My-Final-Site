@@ -25,16 +25,15 @@
         .swiper-pagination-bullet-active { background-color: var(--color-primary); }
         .news-slider { padding-bottom: 50px !important; }
 
-        /* --- MODIFIÉ : Styles pour le preloader --- */
         #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; background-color: #F2F0E6; display: flex; align-items: center; justify-content: center; transition: opacity 0.75s ease, visibility 0.75s ease; }
         #preloader.hide { opacity: 0; visibility: hidden; }
-        #preloader .logo { 
-            width: 120px; /* Taille ajustée pour le GIF */
+        
+        /* MODIFIÉ : Style pour la vidéo de chargement */
+        #preloader .loading-video { 
+            width: 150px; /* Vous pouvez ajuster cette taille */
             height: auto; 
-            /* L'animation CSS est supprimée car le GIF est déjà animé */
         }
         
-        /* Styles généraux pour les modales */
         .modal-overlay { visibility: hidden; opacity: 0; transition: visibility 0s linear 0.4s, opacity 0.4s ease-out; }
         .modal-overlay.active { visibility: visible; opacity: 1; transition-delay: 0s; }
         
@@ -57,7 +56,9 @@
 </head>
 <body class="text-stone-800">
 
-    <div id="preloader"><img src="loading.gif" alt="Chargement en cours..." class="logo"></div>
+    <div id="preloader">
+        <video src="loading.mp4" class="loading-video" autoplay loop muted playsinline width="150"></video>
+    </div>
 
     <header id="header" class="bg-white/80 backdrop-blur-sm shadow-md sticky top-0 z-50 transition-all duration-300 py-2">
         <div class="container mx-auto px-4 sm:px-6 flex justify-between items-center">
