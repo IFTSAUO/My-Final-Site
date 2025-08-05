@@ -28,12 +28,28 @@
         #preloader.hide { opacity: 0; visibility: hidden; }
         #preloader .logo { width: 100px; height: auto; animation: pulse 1.5s infinite ease-in-out; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-        .modal-overlay { visibility: hidden; opacity: 0; transition: visibility 0s linear 0.3s, opacity 0.3s; }
+        
+        /* Styles généraux pour les modales */
+        .modal-overlay { visibility: hidden; opacity: 0; transition: visibility 0s linear 0.4s, opacity 0.4s ease; }
         .modal-overlay.active { visibility: visible; opacity: 1; transition-delay: 0s; }
-        .modal-content { transform: scale(0.9); transition: transform 0.3s; }
-        .modal-overlay.active .modal-content { transform: scale(1); }
+        
+        /* Style par défaut pour le contenu des modales (utilisé par la galerie d'actualités) */
+        #news-modal .modal-content { transform: scale(0.95); transition: transform 0.4s ease; }
+        #news-modal.active .modal-content { transform: scale(1); }
+
         .modal-gallery .swiper-button-next, .modal-gallery .swiper-button-prev { color: white; --swiper-navigation-size: 28px; background-color: rgba(0,0,0,0.3); border-radius: 9999px; width: 44px; height: 44px; }
         .modal-gallery .swiper-button-next:after, .modal-gallery .swiper-button-prev:after { font-size: 20px; }
+
+        /* --- NOUVEAU : Effet d'animation pour la modale du concours --- */
+        #concours-modal .modal-content {
+            transform: translateY(-50px); /* Position de départ : 50px vers le haut */
+            opacity: 0;
+            transition: transform 0.4s ease-out, opacity 0.3s ease-out;
+        }
+        #concours-modal.active .modal-content {
+            transform: translateY(0); /* Position finale : à sa place */
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="text-stone-800">
