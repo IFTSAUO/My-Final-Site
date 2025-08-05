@@ -24,12 +24,12 @@ document.addEventListener('DOMContentLoaded', function() {
         yearSpan.textContent = new Date().getFullYear();
     }
     
-    // --- NOUVELLE LOGIQUE : Modal de l'avis de concours ---
+    // --- MODIFIÉ : Logique pour le Modal de l'avis de concours ---
     const concoursModal = document.getElementById('concours-modal');
     const concoursModalClose = document.getElementById('concours-modal-close');
 
     function openConcoursModal() {
-        if (concoursModal && (window.location.pathname === '/' || window.location.pathname.endsWith('index.html'))) {
+        if (concoursModal) {
             concoursModal.classList.add('active');
             document.body.style.overflow = 'hidden';
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -43,16 +43,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // Affiche le modal après 1 seconde sur la page d'accueil
     if (window.location.pathname === '/' || window.location.pathname.endsWith('index.html')) {
-       openConcoursModal();
+       setTimeout(openConcoursModal, 1500); // Délai de 1500 ms = 1.5 seconde
     }
     
+    // Gère la fermeture
     if(concoursModalClose) concoursModalClose.addEventListener('click', closeConcoursModal);
     if(concoursModal) concoursModal.addEventListener('click', (e) => {
         if (e.target === concoursModal) {
             closeConcoursModal();
         }
     });
+
 
     // --- Logique pour la section ACTUALITÉS ---
     const newsSliderWrapper = document.getElementById('news-slider-wrapper');
@@ -64,7 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 category: "Concours", 
                 cardImage: "concours.jpg", 
                 description: `Le Ministère de l'Aménagement du Territoire National organise le concours d'accès aux IFTSAU. Les préinscriptions en ligne se dérouleront du 08 au 14 Septembre 2025. L'examen écrit aura lieu le 21 Septembre 2025.`,
-                // MODIFICATION : Ajout des boutons dans la description détaillée
                 full_description: `Le Ministère de l'Aménagement du Territoire National, de l'Urbanisme, de l'Habitat et de la Politique de la Ville organise le concours d'accès aux Instituts de Formation des Techniciens Spécialisés en Urbanisme, Architecture, Construction et Génie Civil pour l'année académique 2025-2026.<br><br><strong class="text-primary">Dates Clés :</strong><ul class="list-disc list-inside mt-2 space-y-1"><li><strong>Préinscriptions :</strong> du 08 au 14 Septembre 2025</li><li><strong>Examen écrit :</strong> 21 Septembre 2025</li><li><strong>Résultats :</strong> 29 Septembre 2025</li></ul>
                 <div class="mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-center gap-4">
                     <a href="https://iftsau.matnuhpv.gov.ma" target="_blank" rel="noopener noreferrer" class="btn-primary font-bold py-3 px-6 rounded-md inline-flex items-center w-full sm:w-auto justify-center">
