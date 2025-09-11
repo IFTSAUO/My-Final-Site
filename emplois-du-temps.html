@@ -8,9 +8,23 @@
     <link href="style.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        :root{--color-bg:#F2F0E6;--color-text:#4a4238;--color-primary:#986A44;}
+        :root{--color-bg:#F2F0E6;--color-text:#4a4238;--color-primary:#986A44; --color-accent:#E6E2AF;}
         body{font-family:'Inter',sans-serif;background-color:var(--color-bg);color:var(--color-text);}
         .nav-link:hover{color:var(--color-primary);}
+        .btn-primary{background-color:var(--color-primary);color:white;transition: all 0.3s ease;}
+        .btn-primary:hover{background-color:#7a5536; transform: translateY(-3px);}
+        /* Style pour les cellules du tableau */
+        .course-cell {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e7e5e4; /* stone-200 */
+            border-right: 1px solid #e7e5e4;
+            min-height: 100px;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+        }
+        .course-cell:last-child {
+            border-right: 0;
+        }
     </style>
 </head>
 <body class="text-stone-800">
@@ -50,16 +64,110 @@
         </div>
     </header>
 
-    <main class="py-20 sm:py-28">
+    <main class="py-16 sm:py-24">
         <div class="container mx-auto px-4 sm:px-6">
-            <div class="max-w-2xl mx-auto text-center">
-                <div class="bg-white p-8 sm:p-12 rounded-lg shadow-lg flex flex-col items-center">
-                    <i data-lucide="calendar-clock" class="h-16 w-16 text-primary opacity-50 mb-6"></i>
-                    <h1 class="text-2xl sm:text-3xl font-bold text-primary mb-4">Prochainement disponible</h1>
-                    <p class="text-stone-600 text-base sm:text-lg">
-                        Les emplois du temps pour l'année académique 2025-2026 seront publiés à l'approche de la rentrée scolaire.
-                    </p>
-                    <p class="text-stone-500 text-sm mt-2">Merci de votre patience.</p>
+            <div class="max-w-7xl mx-auto text-center">
+                <h1 class="text-3xl sm:text-4xl font-bold text-primary mb-4">Emploi du Temps</h1>
+                <p class="text-stone-600 text-lg mb-10">2ème Année - Année Académique 2025-2026</p>
+
+                <div class="hidden lg:block bg-white rounded-lg shadow-lg overflow-x-auto">
+                    <div class="grid grid-cols-[auto,repeat(5,1fr)] min-w-[900px]">
+                        <div class="sticky top-0 z-10 bg-stone-100"></div>
+                        <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10">9h00 - 10h30</div>
+                        <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10">10h30 - 12h00</div>
+                        <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10">12h00 - 13h30</div>
+                        <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10">13h30 - 15h00</div>
+                        <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10">15h00 - 16h30</div>
+
+                        <div class="course-cell text-center font-bold bg-primary/10 sticky left-0">Lundi</div>
+                        <div class="course-cell"><p class="font-semibold">Métré approfondi des ouvrages</p><span class="text-xs text-stone-500">M. Alla</span></div>
+                        <div class="course-cell"><p class="font-semibold">Techniques et recherche d'emploi</p><span class="text-xs text-stone-500">M. El Rhali</span></div>
+                        <div class="course-cell"><p class="font-semibold">Projet d'architecture <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">Mme Berrabeh</span></div>
+                        <div class="course-cell"><p class="font-semibold">Projet d'architecture <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">Mme Berrabeh</span></div>
+                        <div class="course-cell"><p class="font-semibold">SIG <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Amrani</span><hr class="my-1"><p class="font-semibold">Infographie et Modélisation 3D <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Sadouqi</span></div>
+
+                        <div class="course-cell text-center font-bold bg-primary/10 sticky left-0">Mardi</div>
+                        <div class="course-cell"><p class="font-semibold">Projets d'urbanisme</p><span class="text-xs text-stone-500">M. Abdeljalil</span></div>
+                        <div class="course-cell"><p class="font-semibold">Topographie</p><span class="text-xs text-stone-500">Mme Baye</span></div>
+                        <div class="course-cell"><p class="font-semibold">Modélisation topographique <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">Mme Bensadoun</span></div>
+                        <div class="course-cell"></div>
+                        <div class="course-cell"></div>
+
+                        <div class="course-cell text-center font-bold bg-primary/10 sticky left-0">Mercredi</div>
+                        <div class="course-cell"><p class="font-semibold">Béton armé</p><span class="text-xs text-stone-500">Mme Mimouni</span></div>
+                        <div class="course-cell"><p class="font-semibold">Efficacité énergétique</p><span class="text-xs text-stone-500">Mme Bouslham</span></div>
+                        <div class="course-cell"><p class="font-semibold">Modélisation topographique <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">Mme Bensadoun</span><hr class="my-1"><p class="font-semibold">CAO-DAO <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Abdeljalil Y</span></div>
+                        <div class="course-cell"><p class="font-semibold">Art plastique <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Sarhdaoui</span><hr class="my-1"><p class="font-semibold">CAO-DAO <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Abdeljalil Younes</span></div>
+                        <div class="course-cell"><p class="font-semibold">Art plastique <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Sarhdaoui</span></div>
+
+                        <div class="course-cell text-center font-bold bg-primary/10 sticky left-0">Jeudi</div>
+                        <div class="course-cell"><p class="font-semibold">Management de projets</p><span class="text-xs text-stone-500">M. El Hamouti</span></div>
+                        <div class="course-cell"><p class="font-semibold">Assainissement et réseaux divers</p><span class="text-xs text-stone-500">M. Rahou</span></div>
+                        <div class="course-cell" colspan="2"><p class="font-semibold">Contrôle des infractions en matière d'urbanisme et de construction</p><span class="text-xs text-stone-500">M. Chouitar</span></div>
+                        <div class="course-cell"><p class="font-semibold">SIG <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Amrani</span><hr class="my-1"><p class="font-semibold">Infographie et Modélisation 3D <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Sadouqi</span></div>
+
+                        <div class="course-cell text-center font-bold bg-primary/10 sticky left-0" style="border-bottom: none;">Vendredi</div>
+                        <div class="course-cell" style="border-bottom: none;"><p class="font-semibold">Procédés techniques de construction</p><span class="text-xs text-stone-500">M. Rahou</span></div>
+                        <div class="course-cell" style="border-bottom: none;"><p class="font-semibold">Organisation et suivi du chantier</p><span class="text-xs text-stone-500">Mme Mimouni</span></div>
+                        <div class="course-cell" style="border-bottom: none;"></div>
+                        <div class="course-cell" style="border-bottom: none;"></div>
+                        <div class="course-cell" style="border-bottom: none;"></div>
+                    </div>
+                </div>
+
+                <div class="lg:hidden space-y-8">
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl text-primary mb-4">Lundi</h3>
+                        <div class="space-y-3 text-left">
+                            <div class="flex justify-between items-center border-b pb-2"><span class="font-medium text-stone-500">9h00 - 10h30</span><div><p>Métré approfondi des ouvrages</p><p class="text-xs text-stone-500">M. Alla</p></div></div>
+                            <div class="flex justify-between items-center border-b pb-2"><span class="font-medium text-stone-500">10h30 - 12h00</span><div><p>Techniques et recherche d'emploi</p><p class="text-xs text-stone-500">M. El Rhali</p></div></div>
+                            <div class="flex justify-between items-center border-b pb-2"><span class="font-medium text-stone-500">12h00 - 13h30</span><div><p>Projet d'architecture (Gr1)</p><p class="text-xs text-stone-500">Mme Berrabeh</p></div></div>
+                            <div class="flex justify-between items-center border-b pb-2"><span class="font-medium text-stone-500">13h30 - 15h00</span><div><p>Projet d'architecture (Gr2)</p><p class="text-xs text-stone-500">Mme Berrabeh</p></div></div>
+                            <div class="flex justify-between items-center"><span class="font-medium text-stone-500">15h00 - 16h30</span><div><p>SIG (Gr1) / Infographie 3D (Gr2)</p><p class="text-xs text-stone-500">M. Amrani / M. Sadouqi</p></div></div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl text-primary mb-4">Mardi</h3>
+                         <div class="space-y-3 text-left">
+                            <div class="flex justify-between items-center border-b pb-2"><span class="font-medium text-stone-500">9h00 - 10h30</span><div><p>Projets d'urbanisme</p><p class="text-xs text-stone-500">M. Abdeljalil</p></div></div>
+                            <div class="flex justify-between items-center border-b pb-2"><span class="font-medium text-stone-500">10h30 - 12h00</span><div><p>Topographie</p><p class="text-xs text-stone-500">Mme Baye</p></div></div>
+                            <div class="flex justify-between items-center"><span class="font-medium text-stone-500">12h00 - 13h30</span><div><p>Modélisation topographique (Gr1)</p><p class="text-xs text-stone-500">Mme Bensadoun</p></div></div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl text-primary mb-4">Mercredi</h3>
+                        <div class="space-y-3 text-left">
+                            <div class="flex justify-between items-center border-b pb-2"><span class="font-medium text-stone-500">9h00 - 10h30</span><div><p>Béton armé</p><p class="text-xs text-stone-500">Mme Mimouni</p></div></div>
+                            <div class="flex justify-between items-center border-b pb-2"><span class="font-medium text-stone-500">10h30 - 12h00</span><div><p>Efficacité énergétique</p><p class="text-xs text-stone-500">Mme Bouslham</p></div></div>
+                            <div class="flex justify-between items-center border-b pb-2"><span class="font-medium text-stone-500">12h00 - 13h30</span><div><p>Mod. topo (Gr2) / CAO-DAO (Gr1)</p><p class="text-xs text-stone-500">Mme Bensadoun / M. Abdeljalil Y</p></div></div>
+                            <div class="flex justify-between items-center border-b pb-2"><span class="font-medium text-stone-500">13h30 - 15h00</span><div><p>Art plastique (Gr1) / CAO-DAO (Gr2)</p><p class="text-xs text-stone-500">M. Sarhdaoui / M. Abdeljalil Y</p></div></div>
+                            <div class="flex justify-between items-center"><span class="font-medium text-stone-500">15h00 - 16h30</span><div><p>Art plastique (Gr2)</p><p class="text-xs text-stone-500">M. Sarhdaoui</p></div></div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl text-primary mb-4">Jeudi</h3>
+                        <div class="space-y-3 text-left">
+                            <div class="flex justify-between items-center border-b pb-2"><span class="font-medium text-stone-500">9h00 - 10h30</span><div><p>Management de projets</p><p class="text-xs text-stone-500">M. El Hamouti</p></div></div>
+                            <div class="flex justify-between items-center border-b pb-2"><span class="font-medium text-stone-500">10h30 - 12h00</span><div><p>Assainissement et réseaux divers</p><p class="text-xs text-stone-500">M. Rahou</p></div></div>
+                            <div class="flex justify-between items-center border-b pb-2"><span class="font-medium text-stone-500">12h00 - 13h30</span><div><p>Contrôle des infractions...</p><p class="text-xs text-stone-500">M. Chouitar</p></div></div>
+                            <div class="flex justify-between items-center"><span class="font-medium text-stone-500">15h00 - 16h30</span><div><p>SIG (Gr2) / Infographie 3D (Gr1)</p><p class="text-xs text-stone-500">M. Amrani / M. Sadouqi</p></div></div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl text-primary mb-4">Vendredi</h3>
+                        <div class="space-y-3 text-left">
+                            <div class="flex justify-between items-center border-b pb-2"><span class="font-medium text-stone-500">9h00 - 10h30</span><div><p>Procédés techniques de construction</p><p class="text-xs text-stone-500">M. Rahou</p></div></div>
+                            <div class="flex justify-between items-center"><span class="font-medium text-stone-500">10h30 - 12h00</span><div><p>Organisation et suivi du chantier</p><p class="text-xs text-stone-500">Mme Mimouni</p></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12 text-center">
+                    <a href="files/emploi-du-temps-2annee-2025-2026.pdf" download class="btn-primary inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold whitespace-nowrap">
+                        <i data-lucide="download" class="mr-2 h-5 w-5"></i>
+                        Télécharger l'emploi du temps (PDF)
+                    </a>
+                    <p class="text-xs text-stone-500 mt-4">Gr1 et Gr2 font référence aux groupes de travaux pratiques. Veuillez vous référer aux listes affichées à l'institut.</p>
                 </div>
             </div>
         </div>
@@ -71,6 +179,7 @@
        </div>
     </footer>
     
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <script src="src/custom.js"></script>
     <script>
         lucide.createIcons();
