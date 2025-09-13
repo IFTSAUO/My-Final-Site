@@ -27,13 +27,13 @@
         .accordion-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            transition: max-height 0.4s ease-out;
             padding-left: 1rem;
             padding-right: 1rem;
         }
         .accordion-item.active .accordion-content {
-            max-height: 1000px; /* Valeur suffisamment grande */
-            transition: max-height 0.5s ease-in, padding 0.5s ease-in;
+            max-height: 1000px; /* Valeur suffisamment grande pour contenir le contenu */
+            transition: max-height 0.5s ease-in;
             padding-top: 1rem;
             padding-bottom: 1rem;
         }
@@ -48,7 +48,39 @@
 <body class="text-stone-800">
 
     <header id="header" class="bg-white/80 backdrop-blur-sm shadow-md sticky top-0 z-50">
-        </header>
+        <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+            <a href="index.html" class="flex-shrink-0 flex items-center space-x-2 sm:space-x-3"><img src="logo-iftsau.png" alt="Logo IFTSAU Oujda" class="h-10 sm:h-12 w-auto"><span class="text-base sm:text-xl font-bold tracking-tight" style="color:var(--color-text)">IFTSAU Oujda</span></a>
+            <nav class="hidden md:flex items-center space-x-4 lg:space-x-6">
+                <a href="index.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Accueil</a>
+                <a href="formation.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Formation</a>
+                <a href="admission.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Admission</a>
+                <div class="relative group">
+                    <button class="nav-link font-medium text-primary whitespace-nowrap flex items-center">Scolarité<i data-lucide="chevron-down" class="w-4 h-4 ml-1"></i></button>
+                    <div class="absolute top-full -left-4 w-48 bg-white shadow-lg rounded-md mt-2 py-1 opacity-0 group-hover:opacity-100 transition-all duration-300 invisible group-hover:visible z-20">
+                        <a href="demande-document.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Demande de document</a>
+                        <a href="emplois-du-temps.html" class="block px-4 py-2 text-sm text-primary bg-stone-50 hover:text-primary">Emplois du temps</a>
+                        <a href="planning.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Planning</a>
+                        <a href="resultats.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Resultats</a>
+                    </div>
+                </div>
+                <a href="vie-etudiante.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Vie Étudiante</a>
+                <a href="contact.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Contact</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden"><i data-lucide="menu" class="h-6 w-6 text-stone-700"></i></button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-200">
+            <a href="index.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Accueil</a>
+            <a href="formation.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Formation</a>
+            <a href="admission.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Admission</a>
+            <span class="block py-3 px-6 text-stone-400 text-sm font-semibold">Scolarité</span>
+            <a href="demande-document.html" class="block py-2 px-10 text-stone-600 hover:bg-stone-50 hover:text-primary">Demande de document</a>
+            <a href="emplois-du-temps.html" class="block py-2 px-10 text-primary bg-stone-50 hover:text-primary">Emplois du temps</a>
+            <a href="planning.html" class="block py-2 px-10 text-stone-600 hover:bg-stone-50 hover:text-primary">Planning</a>
+            <a href="resultats.html" class="block py-2 px-10 text-stone-600 hover:bg-stone-50 hover:text-primary">Resultats</a>
+            <a href="vie-etudiante.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Vie Étudiante</a>
+            <a href="contact.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Contact</a>
+        </div>
+    </header>
 
     <main class="py-16 sm:py-24">
         <div class="container mx-auto px-4 sm:px-6">
@@ -57,7 +89,45 @@
                 <p class="text-stone-600 text-lg mb-10">2ème Année - Année Académique 2025-2026</p>
 
                 <div class="hidden lg:block bg-white rounded-lg shadow-lg overflow-x-auto">
+                    <div class="grid grid-cols-[auto,repeat(5,1fr)] min-w-[900px]">
+                        <div class="sticky top-0 z-10 bg-stone-100"></div>
+                        <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">9h00 - 10h30</div>
+                        <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">10h30 - 12h00</div>
+                        <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">12h00 - 13h30</div>
+                        <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">13h30 - 15h00</div>
+                        <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">15h00 - 16h30</div>
+                        <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Lundi</div>
+                        <div class="course-cell"><p class="font-semibold">Métré approfondi des ouvrages</p><span class="text-xs text-stone-500">M. Alla</span></div>
+                        <div class="course-cell"><p class="font-semibold">Techniques et recherche d'emploi</p><span class="text-xs text-stone-500">M. El Rhali</span></div>
+                        <div class="course-cell"><p class="font-semibold">Projet d'architecture <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">Mme Berrabeh</span></div>
+                        <div class="course-cell"><p class="font-semibold">Projet d'architecture <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">Mme Berrabeh</span></div>
+                        <div class="course-cell"><p class="font-semibold">SIG <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Amrani</span><hr class="my-1"><p class="font-semibold">Infographie et Modélisation 3D <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Sadouqi</span></div>
+                        <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Mardi</div>
+                        <div class="course-cell"><p class="font-semibold">Projets d'urbanisme</p><span class="text-xs text-stone-500">M. Abdeljalil</span></div>
+                        <div class="course-cell"><p class="font-semibold">Topographie</p><span class="text-xs text-stone-500">Mme Baye</span></div>
+                        <div class="course-cell"><p class="font-semibold">Modélisation topographique <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">Mme Bensadoun</span></div>
+                        <div class="course-cell"></div>
+                        <div class="course-cell"></div>
+                        <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Mercredi</div>
+                        <div class="course-cell"><p class="font-semibold">Béton armé</p><span class="text-xs text-stone-500">Mme Mimouni</span></div>
+                        <div class="course-cell"><p class="font-semibold">Efficacité énergétique</p><span class="text-xs text-stone-500">Mme Bouslham</span></div>
+                        <div class="course-cell"><p class="font-semibold">Modélisation topographique <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">Mme Bensadoun</span><hr class="my-1"><p class="font-semibold">CAO-DAO <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Abdeljalil Y</span></div>
+                        <div class="course-cell"><p class="font-semibold">Art plastique <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Sarhdaoui</span><hr class="my-1"><p class="font-semibold">CAO-DAO <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Abdeljalil Younes</span></div>
+                        <div class="course-cell"><p class="font-semibold">Art plastique <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Sarhdaoui</span></div>
+                        <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Jeudi</div>
+                        <div class="course-cell"><p class="font-semibold">Management de projets</p><span class="text-xs text-stone-500">M. El Hamouti</span></div>
+                        <div class="course-cell"><p class="font-semibold">Assainissement et réseaux divers</p><span class="text-xs text-stone-500">M. Rahou</span></div>
+                        <div class="course-cell"><p class="font-semibold">Contrôle des infractions en matière d'urbanisme et de construction</p><span class="text-xs text-stone-500">M. Chouitar</span></div>
+                        <div class="course-cell"></div>
+                        <div class="course-cell"><p class="font-semibold">SIG <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Amrani</span><hr class="my-1"><p class="font-semibold">Infographie et Modélisation 3D <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Sadouqi</span></div>
+                        <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider" style="border-bottom: none;">Vendredi</div>
+                        <div class="course-cell" style="border-bottom: none;"><p class="font-semibold">Procédés techniques de construction</p><span class="text-xs text-stone-500">M. Rahou</span></div>
+                        <div class="course-cell" style="border-bottom: none;"><p class="font-semibold">Organisation et suivi du chantier</p><span class="text-xs text-stone-500">Mme Mimouni</span></div>
+                        <div class="course-cell" style="border-bottom: none;"></div>
+                        <div class="course-cell" style="border-bottom: none;"></div>
+                        <div class="course-cell" style="border-bottom: none;"></div>
                     </div>
+                </div>
 
                 <div class="lg:hidden space-y-2">
                     <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden active">
@@ -66,7 +136,7 @@
                             <i data-lucide="chevron-down" class="text-primary"></i>
                         </div>
                         <div class="accordion-content">
-                            <div class="space-y-3 text-left">
+                             <div class="space-y-3 text-left">
                                <div class="flex gap-4"><div class="w-24 text-right shrink-0 font-serif"><p class="font-semibold text-primary">9h00</p><p class="text-xs text-stone-500">10h30</p></div><div class="border-l border-stone-200 pl-4 flex-grow"><p class="font-semibold">Métré approfondi des ouvrages</p><p class="text-sm text-stone-500">M. Alla</p></div></div>
                                <div class="flex gap-4 border-t pt-3"><div class="w-24 text-right shrink-0 font-serif"><p class="font-semibold text-primary">10h30</p><p class="text-xs text-stone-500">12h00</p></div><div class="border-l border-stone-200 pl-4 flex-grow"><p class="font-semibold">Techniques et recherche d'emploi</p><p class="text-sm text-stone-500">M. El Rhali</p></div></div>
                                <div class="flex gap-4 border-t pt-3"><div class="w-24 text-right shrink-0 font-serif"><p class="font-semibold text-primary">12h00</p><p class="text-xs text-stone-500">13h30</p></div><div class="border-l border-stone-200 pl-4 flex-grow"><span class="inline-block bg-accent text-primary text-xs font-bold px-2 py-0.5 rounded-full mb-1">Groupe 1</span><p class="font-semibold">Projet d'architecture</p><p class="text-sm text-stone-500">Mme Berrabeh</p></div></div>
@@ -88,7 +158,48 @@
                             </div>
                         </div>
                     </div>
+                    <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="accordion-header flex justify-between items-center p-4 cursor-pointer">
+                            <h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Mercredi</h3>
+                            <i data-lucide="chevron-down" class="text-stone-700"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="p-4 space-y-3 text-left">
+                                 <div class="flex gap-4"><div class="w-24 text-right shrink-0 font-serif"><p class="font-semibold text-primary">9h00</p><p class="text-xs text-stone-500">10h30</p></div><div class="border-l border-stone-200 pl-4 flex-grow"><p class="font-semibold">Béton armé</p><p class="text-sm text-stone-500">Mme Mimouni</p></div></div>
+                                 <div class="flex gap-4 border-t pt-3"><div class="w-24 text-right shrink-0 font-serif"><p class="font-semibold text-primary">10h30</p><p class="text-xs text-stone-500">12h00</p></div><div class="border-l border-stone-200 pl-4 flex-grow"><p class="font-semibold">Efficacité énergétique</p><p class="text-sm text-stone-500">Mme Bouslham</p></div></div>
+                                 <div class="flex gap-4 border-t pt-3"><div class="w-24 text-right shrink-0 font-serif"><p class="font-semibold text-primary">12h00</p><p class="text-xs text-stone-500">13h30</p></div><div class="border-l border-stone-200 pl-4 flex-grow space-y-3"><div><span class="inline-block bg-accent text-primary text-xs font-bold px-2 py-0.5 rounded-full mb-1">Groupe 2</span><p class="font-semibold">Modélisation topographique</p><p class="text-sm text-stone-500">Mme Bensadoun</p></div><div><span class="inline-block bg-accent text-primary text-xs font-bold px-2 py-0.5 rounded-full mb-1">Groupe 1</span><p class="font-semibold">CAO-DAO</p><p class="text-sm text-stone-500">M. Abdeljalil Y</p></div></div></div>
+                                 <div class="flex gap-4 border-t pt-3"><div class="w-24 text-right shrink-0 font-serif"><p class="font-semibold text-primary">13h30</p><p class="text-xs text-stone-500">15h00</p></div><div class="border-l border-stone-200 pl-4 flex-grow space-y-3"><div><span class="inline-block bg-accent text-primary text-xs font-bold px-2 py-0.5 rounded-full mb-1">Groupe 1</span><p class="font-semibold">Art plastique</p><p class="text-sm text-stone-500">M. Sarhdaoui</p></div><div><span class="inline-block bg-accent text-primary text-xs font-bold px-2 py-0.5 rounded-full mb-1">Groupe 2</span><p class="font-semibold">CAO-DAO</p><p class="text-sm text-stone-500">M. Abdeljalil Younes</p></div></div></div>
+                                 <div class="flex gap-4 border-t pt-3"><div class="w-24 text-right shrink-0 font-serif"><p class="font-semibold text-primary">15h00</p><p class="text-xs text-stone-500">16h30</p></div><div class="border-l border-stone-200 pl-4 flex-grow"><span class="inline-block bg-accent text-primary text-xs font-bold px-2 py-0.5 rounded-full mb-1">Groupe 2</span><p class="font-semibold">Art plastique</p><p class="text-sm text-stone-500">M. Sarhdaoui</p></div></div>
+                            </div>
+                        </div>
                     </div>
+                     <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="accordion-header flex justify-between items-center p-4 cursor-pointer">
+                            <h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Jeudi</h3>
+                            <i data-lucide="chevron-down" class="text-stone-700"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="p-4 space-y-3 text-left">
+                                <div class="flex gap-4"><div class="w-24 text-right shrink-0 font-serif"><p class="font-semibold text-primary">9h00</p><p class="text-xs text-stone-500">10h30</p></div><div class="border-l border-stone-200 pl-4 flex-grow"><p class="font-semibold">Management de projets</p><p class="text-sm text-stone-500">M. El Hamouti</p></div></div>
+                                <div class="flex gap-4 border-t pt-3"><div class="w-24 text-right shrink-0 font-serif"><p class="font-semibold text-primary">10h30</p><p class="text-xs text-stone-500">12h00</p></div><div class="border-l border-stone-200 pl-4 flex-grow"><p class="font-semibold">Assainissement et réseaux divers</p><p class="text-sm text-stone-500">M. Rahou</p></div></div>
+                                <div class="flex gap-4 border-t pt-3"><div class="w-24 text-right shrink-0 font-serif"><p class="font-semibold text-primary">12h00</p><p class="text-xs text-stone-500">13h30</p></div><div class="border-l border-stone-200 pl-4 flex-grow"><p class="font-semibold">Contrôle des infractions...</p><p class="text-sm text-stone-500">M. Chouitar</p></div></div>
+                                <div class="flex gap-4 border-t pt-3"><div class="w-24 text-right shrink-0 font-serif"><p class="font-semibold text-primary">15h00</p><p class="text-xs text-stone-500">16h30</p></div><div class="border-l border-stone-200 pl-4 flex-grow space-y-3"><div><span class="inline-block bg-accent text-primary text-xs font-bold px-2 py-0.5 rounded-full mb-1">Groupe 2</span><p class="font-semibold">SIG</p><p class="text-sm text-stone-500">M. Amrani</p></div><div><span class="inline-block bg-accent text-primary text-xs font-bold px-2 py-0.5 rounded-full mb-1">Groupe 1</span><p class="font-semibold">Infographie et Modélisation 3D</p><p class="text-sm text-stone-500">M. Sadouqi</p></div></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="accordion-header flex justify-between items-center p-4 cursor-pointer">
+                            <h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Vendredi</h3>
+                            <i data-lucide="chevron-down" class="text-stone-700"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="p-4 space-y-3 text-left">
+                                <div class="flex gap-4"><div class="w-24 text-right shrink-0 font-serif"><p class="font-semibold text-primary">9h00</p><p class="text-xs text-stone-500">10h30</p></div><div class="border-l border-stone-200 pl-4 flex-grow"><p class="font-semibold">Procédés techniques de construction</p><p class="text-sm text-stone-500">M. Rahou</p></div></div>
+                                <div class="flex gap-4 border-t pt-3"><div class="w-24 text-right shrink-0 font-serif"><p class="font-semibold text-primary">10h30</p><p class="text-xs text-stone-500">12h00</p></div><div class="border-l border-stone-200 pl-4 flex-grow"><p class="font-semibold">Organisation et suivi du chantier</p><p class="text-sm text-stone-500">Mme Mimouni</p></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="mt-12 text-center">
                     <a href="files/emploi-du-temps-2annee-2025-2026.pdf" download class="btn-primary inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold whitespace-nowrap">
@@ -102,12 +213,12 @@
     </main>
 
     <footer style="background-color: var(--color-primary);" class="mt-12 sm:mt-20">
-       </footer>
+        <div class="container mx-auto px-6 py-8 text-center text-stone-200">
+           <p>&copy; <span id="year"></span> IFTSAU Oujda. Tous droits réservés.</p>
+       </div>
+    </footer>
     
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <script src="src/custom.js"></script>
-    <script>
-        lucide.createIcons();
-    </script>
 </body>
 </html>
