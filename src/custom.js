@@ -6,13 +6,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const yearSpan = document.getElementById("year");
     const preloader = document.getElementById('preloader');
 
+    // Correction de la logique du preloader pour qu'elle soit plus robuste
     if (preloader) {
+        const startTime = Date.now();
+        const hidePreloader = () => {
+            preloader.classList.add('hide'); // Assurez-vous d'avoir .hide dans le CSS
+        };
         window.addEventListener('load', () => {
-            preloader.style.transition = 'opacity 0.5s ease, visibility 0.5s ease';
-            preloader.style.opacity = '0';
-            preloader.style.visibility = 'hidden';
+            const elapsedTime = Date.now() - startTime;
+            const minimumDisplayTime = 2000; // 2 secondes
+            if (elapsedTime >= minimumDisplayTime) {
+                hidePreloader();
+            } else {
+                setTimeout(hidePreloader, minimumDisplayTime - elapsedTime);
+            }
         });
     }
+
 
     if (mobileMenuButton && mobileMenu) {
         mobileMenuButton.addEventListener("click", () => {
@@ -24,12 +34,12 @@ document.addEventListener('DOMContentLoaded', function() {
         yearSpan.textContent = new Date().getFullYear();
     }
     
-    // --- MODIFIÉ : Logique pour le Modal de l'avis de concours ---
+    // --- Logique pour le Modal de l'avis de concours ---
     const concoursModal = document.getElementById('concours-modal');
     const concoursModalClose = document.getElementById('concours-modal-close');
 
     function openConcoursModal() {
-        if (concoursModal) {
+        if (concoursModal && (window.location.pathname === '/' || window.location.pathname.endsWith('index.html'))) {
             concoursModal.classList.add('active');
             document.body.style.overflow = 'hidden';
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -43,19 +53,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Affiche le modal après 1 seconde sur la page d'accueil
     if (window.location.pathname === '/' || window.location.pathname.endsWith('index.html')) {
        setTimeout(openConcoursModal, 1500); // Délai de 1500 ms = 1.5 seconde
     }
     
-    // Gère la fermeture
     if(concoursModalClose) concoursModalClose.addEventListener('click', closeConcoursModal);
     if(concoursModal) concoursModal.addEventListener('click', (e) => {
         if (e.target === concoursModal) {
             closeConcoursModal();
         }
     });
-
 
     // --- Logique pour la section ACTUALITÉS ---
     const newsSliderWrapper = document.getElementById('news-slider-wrapper');
@@ -349,6 +356,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
         statValues.forEach(el => {
             observer.observe(el);
+        });
+    }
+
+    // --- AJOUT : Logique pour l'accordéon de l'emploi du temps ---
+    const accordionItems = document.querySelectorAll('.accordion-item');
+    if(accordionItems.length > 0) {
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            header.addEventListener('click', () => {
+                const currentlyActive = item.classList.contains('active');
+
+                // Ferme tous les autres items
+                accordionItems.forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                    const otherHeader = otherItem.querySelector('.accordion-header');
+                    otherHeader.querySelector('h3').classList.replace('text-primary', 'text-stone-700');
+                    otherHeader.classList.remove('bg-stone-100');
+                });
+
+                // Ouvre le nouvel item (s'il n'était pas déjà ouvert)
+                if (!currentlyActive) {
+                    item.classList.add('active');
+                    const h3 = header.querySelector('h3');
+                    h3.classList.replace('text-stone-700', 'text-primary');
+                    header.classList.add('bg-stone-100');
+                }
+            });
         });
     }
 
