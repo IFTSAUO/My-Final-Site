@@ -7,10 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const preloader = document.getElementById('preloader');
 
     if (preloader) {
-        // Logique preloader avec délai minimum
         const startTime = Date.now();
         const hidePreloader = () => {
-            preloader.classList.add('hide'); 
+            preloader.classList.add('hide');
         };
         window.addEventListener('load', () => {
             const elapsedTime = Date.now() - startTime;
@@ -53,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     if (window.location.pathname === '/' || window.location.pathname.endsWith('index.html')) {
-       setTimeout(openConcoursModal, 1500);
+       setTimeout(openConcoursModal, 1500); 
     }
     
     if(concoursModalClose) concoursModalClose.addEventListener('click', closeConcoursModal);
@@ -138,11 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const resultsContainer = document.getElementById('results-container');
         const originalButtonContent = searchButton.innerHTML;
 
-        let pdfDoc = null,
-            pageNum = 1,
-            pageIsRendering = false,
-            pageNumIsPending = null,
-            scale = 1.5;
+        let pdfDoc = null, pageNum = 1, pageIsRendering = false, pageNumIsPending = null, scale = 1.5;
 
         searchForm.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -358,7 +353,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- AJOUT : Logique pour l'accordéon de l'emploi du temps ---
+    // --- AJOUTÉ : Logique pour l'accordéon de l'emploi du temps ---
     const accordionItems = document.querySelectorAll('.accordion-item');
     if(accordionItems.length > 0) {
         accordionItems.forEach(item => {
