@@ -73,7 +73,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 category: "Concours", 
                 cardImage: "concours.jpg", 
                 description: `Les listes des candidats présélectionnés pour l'examen écrit du concours d'accès aux IFTSAU sont maintenant disponibles. L'examen aura lieu le 21 Septembre 2025.`,
-                full_description: `Les listes des candidats autorisés à passer l'examen écrit pour l'accès aux IFTSAU au titre de l'année 2025-2026 sont disponibles.<br><br>L'examen écrit se déroulera le <strong>Dimanche 21 Septembre 2025</strong>. Assurez-vous de vérifier votre nom sur les listes et de préparer les documents nécessaires.
+                full_description: `Les listes des candidats autorisés à passer l'examen écrit pour l'accès aux IFTSAU au titre de l'année 2025-2026 sont disponibles.<br><br>L'examen écrit se déroulera le <strong>Dimanche 21 septembre 2025, à partir de 8h00, à la Faculté des Sciences Juridiques, Économiques et Sociales de l'Université Mohammed Premier d'Oujda.
+
+Les candidats sont priés de se munir de leur carte d'identité nationale (CIN), de leur convocation et du matériel d'examen nécessaire.
+
+Il est impératif de consulter les listes affichées pour connaître la répartition par amphithéâtre.
                 <div class="mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-center gap-4">
                     <a href="https://iftsau.matnuhpv.gov.ma/subscribe/#/preselect" target="_blank" rel="noopener noreferrer" class="btn-primary font-bold py-3 px-6 rounded-md inline-flex items-center w-full sm:w-auto justify-center">
                         <i data-lucide="list-checks" class="mr-2 h-5 w-5"></i> Lien des listes présélection
