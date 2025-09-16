@@ -44,17 +44,91 @@
         </div>
     </header>
     <main>
-        <section class="py-16 sm:py-20"><div class="container mx-auto px-4 sm:px-6"><div class="max-w-3xl mx-auto"><div class="text-center"><h1 class="section-title relative inline-block text-3xl sm:text-4xl font-bold mb-4 pb-2">Demande de Document</h1><p class="text-center text-stone-600 mb-12">Remplissez le formulaire ci-dessous pour faire une demande de document administratif.</p></div><div id="form-container" class="bg-white p-8 rounded-lg shadow-lg"><form id="scolarite-form" name="demande-document" method="POST" action="/demande-document.html?success=true" data-netlify="true"><input type="hidden" name="form-name" value="demande-document"/><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><label for="nom" class="block text-sm font-medium text-stone-700 mb-1">Nom</label><input type="text" id="nom" name="nom" class="w-full px-4 py-2 border border-stone-300 rounded-md uppercase" required></div><div><label for="prenom" class="block text-sm font-medium text-stone-700 mb-1">Prénom</label><input type="text" id="prenom" name="prenom" class="w-full px-4 py-2 border border-stone-300 rounded-md uppercase" required></div></div><div class="mt-6"><label for="cin" class="block text-sm font-medium text-stone-700 mb-1">N° CIN ou Passeport</label><input type="text" id="cin" name="cin" class="w-full px-4 py-2 border border-stone-300 rounded-md uppercase" required></div><div class="mt-6"><label for="type_document" class="block text-sm font-medium text-stone-700 mb-1">Type de document</label><select id="type_document" name="type_document" class="w-full px-4 py-2 border border-stone-300 rounded-md" required><option value="">-- Choisir un document --</option><option value="certificat_scolarite">Certificat de scolarité</option><option value="attestation_reussite">Attestation de réussite</option><option value="releve_notes">Relevé de notes</option><option value="autre">Autre</option></select></div><div id="autre-document-container" class="mt-6 hidden"><label for="autre_document_nom" class="block text-sm font-medium text-stone-700 mb-1">Veuillez préciser le document</label><input type="text" id="autre_document_nom" name="autre_document_nom" class="w-full px-4 py-2 border border-stone-300 rounded-md uppercase"></div><div class="mt-6"><label class="block text-sm font-medium text-stone-700 mb-2">Niveau Scolaire</label><div class="flex items-center space-x-6"><label for="annee1" class="flex items-center"><input type="radio" id="annee1" name="annee" value="1ere" class="h-4 w-4 border-stone-300" required><span class="ml-2 text-sm text-stone-700">1ère année</span></label><label for="annee2" class="flex items-center"><input type="radio" id="annee2" name="annee" value="2eme" class="h-4 w-4 border-stone-300"><span class="ml-2 text-sm text-stone-700">2ème année</span></label></div></div><div class="mt-6"><label for="num_inscription" class="block text-sm font-medium text-stone-700 mb-1">Numéro d'inscription</label><input type="text" id="num_inscription" name="num_inscription" class="w-full px-4 py-2 border border-stone-300 rounded-md" placeholder="Ex: 01/2025" required></div><div class="mt-6"><label for="observation" class="block text-sm font-medium text-stone-700 mb-1">Observation (Optionnel)</label><textarea id="observation" name="observation" rows="3" class="w-full px-4 py-2 border border-stone-300 rounded-md"></textarea></div><div class="mt-8"><label for="validation-check" class="flex items-center cursor-pointer"><input id="validation-check" name="validation-check" type="checkbox" class="h-4 w-4 border-stone-300 rounded"><span class="ml-2 block text-sm text-stone-900">Je valide les données saisies.</span></label></div><div class="mt-6 text-center"><button type="submit" id="submit-button" class="btn-primary inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md disabled:bg-stone-400 disabled:cursor-not-allowed w-full md:w-auto"><i data-lucide="send" class="mr-2 h-5 w-5"></i>Demander</button></div></form></div><div id="success-message" class="hidden mt-8 text-center bg-green-100 border-green-400 text-green-700 px-4 py-3 rounded-lg relative" role="alert"><strong class="font-bold">Succès!</strong><span class="block sm:inline"> Votre demande de document a été effectuée avec succès.</span></div></div></div></section>
+        <section class="py-16 sm:py-20"><div class="container mx-auto px-4 sm:px-6"><div class="max-w-3xl mx-auto"><div class="text-center"><h1 class="section-title relative inline-block text-3xl sm:text-4xl font-bold mb-4 pb-2">Demande de Document</h1><p class="text-center text-stone-600 mb-12">Remplissez le formulaire ci-dessous pour faire une demande de document administratif.</p></div><div id="form-container" class="bg-white p-8 rounded-lg shadow-lg"><form id="scolarite-form" name="demande-document" method="POST" action="/demande-document.html?success=true" data-netlify="true"><input type="hidden" name="form-name" value="demande-document"/><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><label for="nom" class="block text-sm font-medium text-stone-700 mb-1">Nom</label><input type="text" id="nom" name="nom" class="w-full px-4 py-2 border border-stone-300 rounded-md uppercase" required></div><div><label for="prenom" class="block text-sm font-medium text-stone-700 mb-1">Prénom</label><input type="text" id="prenom" name="prenom" class="w-full px-4 py-2 border border-stone-300 rounded-md uppercase" required></div></div><div class="mt-6"><label for="cin" class="block text-sm font-medium text-stone-700 mb-1">N° CIN ou Passeport</label><input type="text" id="cin" name="cin" class="w-full px-4 py-2 border border-stone-300 rounded-md uppercase" required></div><div class="mt-6"><label for="type_document" class="block text-sm font-medium text-stone-700 mb-1">Type de document</label><select id="type_document" name="type_document" class="w-full px-4 py-2 border border-stone-300 rounded-md" required><option value="">-- Choisir un document --</option><option value="certificat_scolarite">Certificat de scolarité</option><option value="attestation_reussite">Attestation de réussite</option><option value="releve_notes">Relevé de notes</option><option value="autre">Autre</option></select></div><div id="autre-document-container" class="mt-6 hidden"><label for="autre_document_nom" class="block text-sm font-medium text-stone-700 mb-1">Veuillez préciser le document</label><input type="text" id="autre_document_nom" name="autre_document_nom" class="w-full px-4 py-2 border border-stone-300 rounded-md uppercase"></div><div class="mt-6"><label class="block text-sm font-medium text-stone-700 mb-2">Niveau Scolaire</label><div class="flex items-center space-x-6"><label for="annee1" class="flex items-center"><input type="radio" id="annee1" name="annee" value="1ere" class="h-4 w-4 border-stone-300" required><span class="ml-2 text-sm text-stone-700">1ère année</span></label><label for="annee2" class="flex items-center"><input type="radio" id="annee2" name="annee" value="2eme" class="h-4 w-4 border-stone-300"><span class="ml-2 text-sm text-stone-700">2ème année</span></label></div></div><div class="mt-6"><label for="num_inscription" class="block text-sm font-medium text-stone-700 mb-1">Numéro d'inscription</label><input type="text" id="num_inscription" name="num_inscription" class="w-full px-4 py-2 border border-stone-300 rounded-md" placeholder="Ex: 01/2025" required></div><div class="mt-6"><label for="observation" class="block text-sm font-medium text-stone-700 mb-1">Observation (Optionnel)</label><textarea id="observation" name="observation" rows="3" class="w-full px-4 py-2 border border-stone-300 rounded-md"></textarea></div><div class="mt-8"><label for="validation-check" class="flex items-center cursor-pointer"><input id="validation-check" name="validation-check" type="checkbox" class="h-4 w-4 border-stone-300 rounded" required><span class="ml-2 block text-sm text-stone-900">Je valide les données saisies.</span></label></div><div class="mt-6 text-center"><button type="submit" id="submit-button" class="btn-primary inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md disabled:bg-stone-400 disabled:cursor-not-allowed w-full md:w-auto"><i data-lucide="send" class="mr-2 h-5 w-5"></i>Demander</button></div></form></div><div id="success-message" class="hidden mt-8 text-center bg-green-100 border-green-400 text-green-700 px-4 py-3 rounded-lg relative" role="alert"><strong class="font-bold">Succès!</strong><span class="block sm:inline"> Votre demande de document a été effectuée avec succès.</span></div></div></div></section>
     </main>
     <footer style="background-color:var(--color-primary)"><div class="container mx-auto px-4 sm:px-6 py-8 text-center text-stone-200"><p>&copy; <span id="year"></span> IFTSAU Oujda. Tous droits réservés.</p></div></footer>
     
-    <script src="src/form-validation.js"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    
     <script>
-        // Initialisation des icônes après le chargement de la page
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-        });
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // --- Logique générale (menu, année, icônes, etc.) ---
+        lucide.createIcons();
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const yearSpan = document.getElementById("year");
+        
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener("click", () => {
+                mobileMenu.classList.toggle("hidden");
+            });
+        }
+        if (yearSpan) {
+            yearSpan.textContent = new Date().getFullYear();
+        }
+        
+        // --- Logique du formulaire de demande de document ---
+        const form = document.getElementById('scolarite-form');
+        if (form) {
+            const nomInput = document.getElementById('nom');
+            const prenomInput = document.getElementById('prenom');
+            const cinInput = document.getElementById('cin');
+            const typeDocumentSelect = document.getElementById('type_document');
+            const autreDocumentContainer = document.getElementById('autre-document-container');
+            const autreDocumentInput = document.getElementById('autre_document_nom');
+            const numInscriptionInput = document.getElementById('num_inscription');
+            const validationCheck = document.getElementById('validation-check');
+            const submitButton = document.getElementById('submit-button');
+
+            // Fonction pour filtrer et mettre en majuscules
+            const filterAndUppercase = (element, regex) => {
+                element.addEventListener('input', (e) => {
+                    e.target.value = e.target.value.replace(regex, '').toUpperCase();
+                });
+            };
+
+            // 1. Nom et Prénom : Lettres, espaces, tirets autorisés
+            filterAndUppercase(nomInput, /[^a-zA-Z\s-]/g);
+            filterAndUppercase(prenomInput, /[^a-zA-Z\s-]/g);
+            filterAndUppercase(autreDocumentInput, /[^a-zA-Z\s-]/g);
+
+            // 2. CIN/Passeport : Lettres et chiffres autorisés
+            filterAndUppercase(cinInput, /[^a-zA-Z0-9]/g);
+            
+            // 3. Champ "Autre" conditionnel
+            typeDocumentSelect.addEventListener('change', () => {
+                if (typeDocumentSelect.value === 'autre') {
+                    autreDocumentContainer.classList.remove('hidden');
+                    autreDocumentInput.setAttribute('required', 'required');
+                } else {
+                    autreDocumentContainer.classList.add('hidden');
+                    autreDocumentInput.removeAttribute('required');
+                    autreDocumentInput.value = '';
+                }
+            });
+
+            // 4. Numéro d'inscription : Chiffres et "/" uniquement
+            numInscriptionInput.addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/[^0-9/]/g, '');
+            });
+
+            // 5. Activation du bouton de soumission
+            const toggleSubmitButton = () => {
+                submitButton.disabled = !validationCheck.checked;
+            };
+            
+            validationCheck.addEventListener('change', toggleSubmitButton);
+            toggleSubmitButton(); // État initial
+            
+            // Affichage du message de succès
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('success')) {
+                document.getElementById('form-container').classList.add('hidden');
+                document.getElementById('success-message').classList.remove('hidden');
+            }
+        }
+    });
     </script>
 </body>
 </html>
