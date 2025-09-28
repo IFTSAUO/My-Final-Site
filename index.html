@@ -24,6 +24,7 @@
         .nav-link:hover{color:var(--color-primary);}
         .swiper-pagination-bullet-active { background-color: var(--color-primary); }
         .news-slider { padding-bottom: 50px !important; }
+
         #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; background-color: #F2F0E6; display: flex; align-items: center; justify-content: center; transition: opacity 0.75s ease, visibility 0.75s ease; }
         #preloader.hide { opacity: 0; visibility: hidden; }
         #preloader .logo { width: 100px; height: auto; animation: pulse 1.5s infinite ease-in-out; }
@@ -177,7 +178,7 @@
     <div id="concours-modal" class="modal-overlay fixed inset-0 z-[70] bg-black bg-opacity-70 flex items-center justify-center p-4">
         <div class="modal-content bg-white w-11/12 md:w-full md:max-w-3xl max-h-[95vh] rounded-lg shadow-2xl flex flex-col">
             <div class="flex justify-between items-center p-4 border-b">
-                <h3 class="text-xl sm:text-2xl font-bold text-primary">Résultats de la Présélection</h3>
+                <h3 class="text-xl sm:text-2xl font-bold text-primary">Résultats Finaux du Concours</h3>
                 <button id="concours-modal-close" class="text-stone-500 hover:text-primary"><i data-lucide="x" class="h-8 w-8"></i></button>
             </div>
             <div class="p-4 sm:p-6 overflow-y-auto text-left">
@@ -185,18 +186,16 @@
                     <img src="concours.jpg" alt="Logo Concours IFTSUACGC" class="w-32 sm:w-48 h-auto object-contain">
                     <div>
                         <h4 class="text-xl font-semibold mb-2">Concours d'accès 2025-2026</h4>
-                        <p class="text-stone-600">Les listes des candidats présélectionnés pour passer l'examen écrit sont maintenant disponibles.<strong> L'examen écrit se déroulera le Dimanche 21 septembre 2025, à partir de 8h00, à la Faculté des Sciences Juridiques, Économiques et Sociales de l'Université Mohammed Premier d'Oujda. Les candidats sont priés de se munir de leur carte d'identité nationale (CIN), de leur convocation et du matériel d'examen nécessaire. Il est impératif de consulter les listes affichées pour connaître la répartition par amphithéâtre</strong>.</p>
+                        <p class="text-stone-600">Les résultats finaux du concours d'accès aux IFTSAU (liste principale et listes d'attente) sont maintenant disponibles.</p>
+                        <p class="text-stone-600 mt-2">Félicitations à tous les admis !</p>
                     </div>
                 </div>
                 <div class="mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a href="https://iftsau.matnuhpv.gov.ma/subscribe/#/preselect" target="_blank" rel="noopener noreferrer" class="btn-primary font-bold py-3 px-6 rounded-md inline-flex items-center w-full sm:w-auto justify-center">
-                        <i data-lucide="list-checks" class="mr-2 h-5 w-5"></i> Lien des listes présélection
-                    </a>
-                     <a href="avis.pdf" download="Avis-Concours-IFTSAU-2025-2026.pdf" class="bg-stone-200 text-stone-800 hover:bg-stone-300 font-bold py-3 px-6 rounded-md inline-flex items-center w-full sm:w-auto justify-center">
-                        <i data-lucide="download-cloud" class="mr-2 h-5 w-5"></i> Télécharger l'avis initial
+                    <a href="https://iftsau.matnuhpv.gov.ma/subscribe/" target="_blank" rel="noopener noreferrer" class="btn-primary font-bold py-3 px-6 rounded-md inline-flex items-center w-full sm:w-auto justify-center">
+                        <i data-lucide="award" class="mr-2 h-5 w-5"></i> Consulter les résultats
                     </a>
                 </div>
-                 <p class="text-center text-sm text-stone-500 mt-4">Consultez les listes pour vérifier si vous êtes convoqué(e) à l'examen écrit.</p>
+                 <p class="text-center text-sm text-stone-500 mt-4">Les candidats admis sont priés de suivre les instructions pour finaliser leur inscription.</p>
             </div>
         </div>
     </div>

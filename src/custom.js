@@ -7,18 +7,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const preloader = document.getElementById('preloader');
 
     if (preloader) {
-        const startTime = Date.now();
-        const hidePreloader = () => {
-            preloader.classList.add('hide');
-        };
         window.addEventListener('load', () => {
-            const elapsedTime = Date.now() - startTime;
-            const minimumDisplayTime = 2000;
-            if (elapsedTime >= minimumDisplayTime) {
-                hidePreloader();
-            } else {
-                setTimeout(hidePreloader, minimumDisplayTime - elapsedTime);
-            }
+            preloader.style.transition = 'opacity 0.5s ease, visibility 0.5s ease';
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
         });
     }
 
@@ -37,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const concoursModalClose = document.getElementById('concours-modal-close');
 
     function openConcoursModal() {
-        if (concoursModal && (window.location.pathname === '/' || window.location.pathname.endsWith('index.html'))) {
+        if (concoursModal) {
             concoursModal.classList.add('active');
             document.body.style.overflow = 'hidden';
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -52,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     if (window.location.pathname === '/' || window.location.pathname.endsWith('index.html')) {
-       setTimeout(openConcoursModal, 1500); 
+       setTimeout(openConcoursModal, 1500);
     }
     
     if(concoursModalClose) concoursModalClose.addEventListener('click', closeConcoursModal);
@@ -62,30 +54,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+
     // --- Logique pour la section ACTUALITÉS ---
     const newsSliderWrapper = document.getElementById('news-slider-wrapper');
     if (newsSliderWrapper) {
         const newsData = {
-            // MODIFIÉ : Mise à jour du contenu pour les résultats de présélection
+            // MODIFIÉ : Mise à jour du contenu pour les résultats finaux
             'concours-2025': { 
-                title: "Concours 2025-2026 : Listes des Présélectionnés", 
-                date: "16 Septembre 2025", 
+                title: "Résultats Finaux du Concours 2025-2026", 
+                date: "29 Septembre 2025", 
                 category: "Concours", 
                 cardImage: "concours.jpg", 
-                description: `Les listes des candidats présélectionnés pour l'examen écrit du concours d'accès aux IFTSAU sont maintenant disponibles. L'examen aura lieu le 21 Septembre 2025.`,
-                full_description: `Les listes des candidats autorisés à passer l'examen écrit pour l'accès aux IFTSAU au titre de l'année 2025-2026 sont disponibles.<br><br><strong>L'examen écrit se déroulera le Dimanche 21 septembre 2025, à partir de 8h00, à la Faculté des Sciences Juridiques, Économiques et Sociales de l'Université Mohammed Premier d'Oujda.
-
-Les candidats sont priés de se munir de leur carte d'identité nationale (CIN), de leur convocation et du matériel d'examen nécessaire.
-
-Il est impératif de consulter les listes affichées pour connaître la répartition par amphithéâtre.
+                description: `Les résultats finaux du concours d'accès (liste principale et listes d'attente) sont désormais disponibles. Félicitations aux nouveaux admis !`,
+                full_description: `Les résultats finaux du concours d'accès aux IFTSAU pour l'année académique 2025-2026 sont publiés.<br><br>Nous adressons nos vives félicitations aux candidats admis sur la liste principale ainsi qu'à ceux retenus sur les listes d'attente.
                 <div class="mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a href="https://iftsau.matnuhpv.gov.ma/subscribe/#/preselect" target="_blank" rel="noopener noreferrer" class="btn-primary font-bold py-3 px-6 rounded-md inline-flex items-center w-full sm:w-auto justify-center">
-                        <i data-lucide="list-checks" class="mr-2 h-5 w-5"></i> Lien des listes présélection
+                    <a href="https://iftsau.matnuhpv.gov.ma/subscribe/" target="_blank" rel="noopener noreferrer" class="btn-primary font-bold py-3 px-6 rounded-md inline-flex items-center w-full sm:w-auto justify-center">
+                        <i data-lucide="award" class="mr-2 h-5 w-5"></i> Consulter les résultats
                     </a>
-                     <a href="avis.pdf" download="Avis-Concours-IFTSAU-2025-2026.pdf" class="bg-stone-200 text-stone-800 hover:bg-stone-300 font-bold py-3 px-6 rounded-md inline-flex items-center w-full sm:w-auto justify-center">
-                        <i data-lucide="download-cloud" class="mr-2 h-5 w-5"></i> Télécharger l'avis initial
-                    </a>
-                </div>`,
+                </div>
+                 <p class="text-center text-sm text-stone-500 mt-4">Les instructions relatives à l'inscription seront communiquées ultérieurement.</p>`,
                 images: ["concours.jpg"]
             },
             'visite-labo': { title: "Visite au laboratoire 'LABOTEST'", date: "24 Mai 2025", category: "Visite Pédagogique", cardImage: "images/LABO1.jpg", description: `Suite à la visite au laboratoire de génie civil 'LABOTEST' effectuée le samedi 24 mai 2024 au profit des étudiants de la première année dans le but de découvrir les équipements et les techniques utilisés pour mieux comprendre les techniques des essais et leurs interprétations. Les essais ont été effectués sur place par l'ingénieur du laboratoire et encadré par Mr Alla Mostafa, à savoir ;<ul class="list-disc list-inside mt-4 space-y-2 text-left"><li>Le cône d'Abrams</li><li>L'équivalent de sable</li><li>Écrasement de cylindre en Béton (résistance)</li><li>Essais des différents matériaux</li><li>Conservation des cylindre en béton.</li><li>Consultation des différents équipements de la boratoire.</li></ul>`, images: ["images/LABO1.jpg", "images/LABO2.jpg", "images/LABO3.jpg", "images/LABO4.jpg", "images/LABO5.jpg"] },
