@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+
     // --- Logique pour la section ACTUALITÉS ---
     const newsSliderWrapper = document.getElementById('news-slider-wrapper');
     if (newsSliderWrapper) {
