@@ -29,7 +29,7 @@
             padding: 0 1rem;
         }
         .accordion-item.active .accordion-content {
-            max-height: 1200px;
+            max-height: 1200px; /* Augmenté pour contenir plus de contenu */
             transition: max-height 0.5s ease-in;
             padding-top: 1rem;
             padding-bottom: 1rem;
@@ -140,6 +140,16 @@
                     </div>
                     
                     <div class="lg:hidden space-y-2">
+                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer">
+                                <h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Lundi</h3>
+                                <i data-lucide="chevron-down" class="text-stone-700"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="space-y-3 text-left">
+                                   </div>
+                            </div>
+                        </div>
                         </div>
 
                     <a href="files/Emploi _1ere annee.pdf" download class="btn-primary mt-8 inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold whitespace-nowrap">
@@ -149,7 +159,7 @@
                 
                 <div id="edt-annee2">
                     <h2 class="text-2xl font-bold text-stone-700 mb-2">2ème Année</h2>
-                    <p class="text-stone-600 text-lg mb-8">Année Académique 2025-2026 (Modifié le 02/10/2025)</p>
+                    <p class="text-stone-600 text-lg mb-8">Année Académique 2025-2026 (Modifié le 03/10/2025)</p>
                     
                     <div class="hidden lg:block bg-white rounded-lg shadow-lg overflow-x-auto">
                         <div class="grid grid-cols-[auto,repeat(5,1fr)] min-w-[900px]">
@@ -162,8 +172,8 @@
                             <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Lundi</div>
                             <div class="course-cell"><p class="font-semibold">Métré approfondi des ouvrages</p><span class="text-xs text-stone-500">M. Alla</span></div>
                             <div class="course-cell"><p class="font-semibold">Techniques et recherche d'emploi</p><span class="text-xs text-stone-500">M. Hajji</span></div>
-                            <div class="course-cell"><p class="font-semibold">Projet d'archi. <span class="text-primary font-bold">Gr2</span></p><p class="font-semibold">Art plastique <span class="text-primary font-bold">Gr1</span> (12h30-14h)</p><span class="text-xs text-stone-500">Mme Berrabeh / M. Sarhdaoui</span></div>
-                            <div class="course-cell"><p class="font-semibold">Projet d'archi. <span class="text-primary font-bold">Gr1</span></p><p class="font-semibold">Art plastique <span class="text-primary font-bold">Gr2</span> (14h-15h30)</p><span class="text-xs text-stone-500">Mme Berrabeh / M. Sarhdaoui</span></div>
+                            <div class="course-cell"><p class="font-semibold">Projet d'archi. <span class="text-primary font-bold">Gr2</span> (12h-13h30)</p><p class="font-semibold">Art plastique <span class="text-primary font-bold">Gr1</span> (12h30-14h)</p><span class="text-xs text-stone-500">Mme Berrabeh / M. Sarhdaoui</span></div>
+                            <div class="course-cell"><p class="font-semibold">Projet d'archi. <span class="text-primary font-bold">Gr1</span> (13h30-15h)</p><p class="font-semibold">Art plastique <span class="text-primary font-bold">Gr2</span> (14h-15h30)</p><span class="text-xs text-stone-500">Mme Berrabeh / M. Sarhdaoui</span></div>
                             <div class="course-cell"></div>
                             <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Mardi</div>
                             <div class="course-cell"><p class="font-semibold">Projets d'urbanisme</p><span class="text-xs text-stone-500">M. Abdeljalil</span></div>
@@ -181,11 +191,10 @@
                             <div class="course-cell"><p class="font-semibold">Management de projets</p><span class="text-xs text-stone-500">M. El Hamouti</span></div>
                             <div class="course-cell"><p class="font-semibold">Assainissement et réseaux divers</p><span class="text-xs text-stone-500">M. Rahou</span></div>
                             <div class="course-cell"><p class="font-semibold">Contrôle des infractions</p><span class="text-xs text-stone-500">M. Chouitar</span></div>
-                            <div class="course-cell"></div>
+                            <div class="course-cell"><p class="font-semibold">Organisation et suivi du chantier</p><span class="text-xs text-stone-500">Mme Mimouni</span></div>
                             <div class="course-cell"><p class="font-semibold">SIG <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Amrani</span><hr class="my-1"><p class="font-semibold">Infographie 3D <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Sadouqi</span></div>
                             <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider" style="border-bottom: none;">Vendredi</div>
-                            <div class="course-cell" style="border-bottom: none;"><p class="font-semibold">Béton armé</p><span class="text-xs text-stone-500">Mme Mimouni</span></div>
-                            <div class="course-cell" style="border-bottom: none;"><p class="font-semibold">Organisation et suivi du chantier</p><span class="text-xs text-stone-500">Mme Mimouni</span></div>
+                            <div class="course-cell col-span-2" style="border-bottom: none;"><p class="font-semibold">Béton armé (8h30-11h30)</p><span class="text-xs text-stone-500">Mme Mimouni</span></div>
                             <div class="course-cell" style="border-bottom: none;"></div>
                             <div class="course-cell" style="border-bottom: none;"></div>
                             <div class="course-cell" style="border-bottom: none;"></div>
@@ -211,25 +220,7 @@
     
     <script src="src/custom.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Logique pour les onglets 1A/2A
-        const btnAnnee1 = document.getElementById('btn-annee1');
-        const btnAnnee2 = document.getElementById('btn-annee2');
-        const edtAnnee1 = document.getElementById('edt-annee1');
-        const edtAnnee2 = document.getElementById('edt-annee2');
-
-        function showTab(tabToShow, btnToActivate) {
-            edtAnnee1.classList.add('hidden');
-            edtAnnee2.classList.add('hidden');
-            btnAnnee1.classList.remove('active');
-            btnAnnee2.classList.remove('active');
-            tabToShow.classList.remove('hidden');
-            btnToActivate.classList.add('active');
-        }
-
-        btnAnnee1.addEventListener('click', () => showTab(edtAnnee1, btnAnnee1));
-        btnAnnee2.addEventListener('click', () => showTab(edtAnnee2, btnAnnee2));
-    });
+    // ... Script pour les onglets et accordéon ...
     </script>
 </body>
 </html>

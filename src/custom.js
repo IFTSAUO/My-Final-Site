@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const newsSliderWrapper = document.getElementById('news-slider-wrapper');
     if (newsSliderWrapper) {
         const newsData = {
+            // MODIFIÉ : Mise à jour du contenu pour les résultats finaux
             'concours-2025': { 
                 title: "Résultats Finaux du Concours 2025-2026", 
                 date: "29 Septembre 2025", 
@@ -127,11 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const resultsContainer = document.getElementById('results-container');
         const originalButtonContent = searchButton.innerHTML;
 
-        let pdfDoc = null,
-            pageNum = 1,
-            pageIsRendering = false,
-            pageNumIsPending = null,
-            scale = 1.5;
+        let pdfDoc = null, pageNum = 1, pageIsRendering = false, pageNumIsPending = null, scale = 1.5;
 
         searchForm.addEventListener('submit', async (event) => {
             event.preventDefault();
