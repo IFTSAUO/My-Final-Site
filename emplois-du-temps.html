@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emplois du temps - IFTSAU Oujda</title>
     <link rel="icon" type="image/png" href="logo-iftsau.png">
-    <script src="https://cdn.tailwindcss.com"></script> 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link href="style.css" rel="stylesheet">
+
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root{--color-bg:#F2F0E6;--color-text:#4a4238;--color-primary:#986A44; --color-accent:#E6E2AF;}
@@ -30,7 +31,7 @@
             padding: 0 1rem;
         }
         .accordion-item.active .accordion-content {
-            max-height: 1500px; /* Augmenté pour contenir plus de contenu */
+            max-height: 1500px;
             transition: max-height 0.5s ease-in;
             padding-top: 1rem;
             padding-bottom: 1rem;
@@ -371,11 +372,9 @@
                     const header = item.querySelector('.accordion-header');
                     header.addEventListener('click', () => {
                         const currentlyActive = item.classList.contains('active');
-                        // Fermer tous les items dans le même conteneur
                         accordionItems.forEach(otherItem => {
                             otherItem.classList.remove('active');
                         });
-                        // Ouvrir l'item cliqué s'il n'était pas déjà ouvert
                         if (!currentlyActive) {
                             item.classList.add('active');
                         }
