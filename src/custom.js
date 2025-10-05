@@ -1,18 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- Logique générale (menu, preloader, etc.) ---
+    // --- Logique générale (menu, etc.) ---
     const mobileMenuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
     const yearSpan = document.getElementById("year");
-    const preloader = document.getElementById('preloader');
-
-    if (preloader) {
-        window.addEventListener('load', () => {
-            preloader.style.transition = 'opacity 0.5s ease, visibility 0.5s ease';
-            preloader.style.opacity = '0';
-            preloader.style.visibility = 'hidden';
-        });
-    }
 
     if (mobileMenuButton && mobileMenu) {
         mobileMenuButton.addEventListener("click", () => {
@@ -43,9 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    if (window.location.pathname === '/' || window.location.pathname.endsWith('index.html')) {
-       setTimeout(openConcoursModal, 1500);
-    }
+    // Le bloc qui affichait le pop-up automatiquement a été retiré ici.
     
     if(concoursModalClose) concoursModalClose.addEventListener('click', closeConcoursModal);
     if(concoursModal) concoursModal.addEventListener('click', (e) => {
