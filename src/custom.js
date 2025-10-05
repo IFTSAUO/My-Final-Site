@@ -1,18 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- Logique générale (menu, preloader, etc.) ---
+    // --- Logique générale (menu, etc.) ---
     const mobileMenuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
     const yearSpan = document.getElementById("year");
-    const preloader = document.getElementById('preloader');
-
-    if (preloader) {
-        window.addEventListener('load', () => {
-            preloader.style.transition = 'opacity 0.5s ease, visibility 0.5s ease';
-            preloader.style.opacity = '0';
-            preloader.style.visibility = 'hidden';
-        });
-    }
 
     if (mobileMenuButton && mobileMenu) {
         mobileMenuButton.addEventListener("click", () => {
@@ -59,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const newsSliderWrapper = document.getElementById('news-slider-wrapper');
     if (newsSliderWrapper) {
         const newsData = {
-            // MODIFIÉ : Mise à jour du contenu pour les résultats finaux
             'concours-2025': { 
                 title: "Résultats Finaux du Concours 2025-2026", 
                 date: "29 Septembre 2025", 
