@@ -34,9 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    if (window.location.pathname === '/' || window.location.pathname.endsWith('index.html')) {
-       setTimeout(openConcoursModal, 1500);
-    }
+    // Le bloc qui affichait le pop-up automatiquement a été retiré ici.
     
     if(concoursModalClose) concoursModalClose.addEventListener('click', closeConcoursModal);
     if(concoursModal) concoursModal.addEventListener('click', (e) => {
@@ -50,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const newsSliderWrapper = document.getElementById('news-slider-wrapper');
     if (newsSliderWrapper) {
         const newsData = {
+            // MODIFIÉ : Mise à jour du contenu pour les résultats finaux
             'concours-2025': { 
                 title: "Résultats Finaux du Concours 2025-2026", 
                 date: "29 Septembre 2025", 
