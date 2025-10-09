@@ -202,6 +202,7 @@
                         <i data-lucide="download" class="mr-2 h-5 w-5"></i> Télécharger (PDF)
                     </a>
                 </div>
+                
                 <div id="edt-annee2" class="hidden">
                     <h2 class="text-2xl font-bold text-stone-700 mb-2">2ème Année</h2>
                     <p class="text-stone-600 text-lg mb-8">Année Académique 2025-2026 (Modifié le 03/10/2025)</p>
@@ -360,7 +361,6 @@
         btnAnnee1.addEventListener('click', showAnnee1);
         btnAnnee2.addEventListener('click', showAnnee2);
         
-        // La page charge maintenant la 1ère année par défaut
         showAnnee1();
 
         // --- Logique pour l'Accordéon ---
@@ -371,11 +371,9 @@
                     const header = item.querySelector('.accordion-header');
                     header.addEventListener('click', () => {
                         const currentlyActive = item.classList.contains('active');
-                        // Ferme tous les items avant d'en ouvrir un nouveau
                         accordionItems.forEach(otherItem => {
                             otherItem.classList.remove('active');
                         });
-                        // Si l'item cliqué n'était pas déjà actif, on l'active
                         if (!currentlyActive) {
                             item.classList.add('active');
                         }
