@@ -159,7 +159,7 @@
     </header>
     
     <main>
-        <section id="accueil" class="relative min-h-[85vh] bg-cover bg-center flex items-center justify-center" style="background-image: url('background.jpg');">
+    <section id="accueil" class="relative min-h-[85vh] bg-cover bg-center flex items-center justify-center anim-fade-up will-change-transform" style="background-image: url('background.jpg');">
             <div class="absolute inset-0 bg-black/60"></div>
             <div class="relative container mx-auto px-6 text-center z-10">
                 <h1 class="text-white text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 leading-tight">Bâtissez votre avenir</h1>
@@ -168,11 +168,11 @@
             </div>
         </section>
         
-        <section id="a-propos" class="py-20 bg-white">
+    <section id="a-propos" class="py-20 bg-white anim-fade-up will-change-transform">
             <div class="container mx-auto px-4 sm:px-6 text-center">
                 <h2 class="section-title inline-block text-4xl font-bold mb-12">Notre Institut</h2>
                 <div class="text-left flex flex-col md:flex-row items-center gap-12">
-                    <div class="md:w-1/2"><img src="photo.png" alt="Photo de l'Institut IFTSAU Oujda" class="rounded-lg shadow-xl w-full h-full object-cover"/></div>
+                    <div class="md:w-1/2"><img src="photo.png" alt="Photo de l'Institut IFTSAU Oujda" loading="lazy" decoding="async" class="rounded-lg shadow-xl w-full h-full object-cover"/></div>
                     <div class="md:w-1/2">
                         <p class="text-stone-600 text-lg mb-8">L'Institut de Formation des Techniciens Spécialisés en Architecture et en Urbanisme (IFTSAU) d'Oujda est un établissement public sous la tutelle du Ministère de l'Aménagement du Territoire National, de l'Urbanisme, de l'Habitat et de la Politique de la Ville. Depuis 2017, notre institut s'est engagé à former des techniciens hautement qualifiés, capables de répondre aux défis du secteur du BTP, de l'architecture et de l'urbanisme au Maroc.</p>
                         <div class="grid grid-cols-2 gap-6 text-center">
@@ -186,7 +186,7 @@
             </div>
         </section>
 
-        <section id="actualites" class="py-20">
+    <section id="actualites" class="py-20 anim-fade-up will-change-transform">
             <div class="container mx-auto px-4 sm:px-6">
                 <div class="text-center mb-12">
                     <h2 class="section-title inline-block text-4xl font-bold mb-4">Actualités et Événements</h2>
@@ -201,7 +201,7 @@
             </div>
         </section>
         
-        <section id="contact" class="py-20 bg-white">
+    <section id="contact" class="py-20 bg-white anim-fade-up will-change-transform">
             <div class="container mx-auto px-4 sm:px-6 text-center">
                 <h2 class="section-title inline-block text-4xl font-bold mb-12">Contactez-nous</h2>
                 <div class="flex flex-col lg:flex-row gap-12 text-left">
@@ -281,7 +281,7 @@
     </footer>
     
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/lucide@0.258.0/dist/umd/lucide.min.js"></script>
         <script>
         (function(){
             const preloader = document.getElementById('preloader');
@@ -318,6 +318,15 @@
             requestAnimationFrame(animate);
         })();
         </script>
+            <script>
+            // Reveal sections with a small stagger for a polished feel
+            document.addEventListener('DOMContentLoaded', function(){
+                const els = document.querySelectorAll('.anim-fade-up');
+                els.forEach((el, i) => {
+                    setTimeout(()=> el.classList.add('anim-in'), i * 120);
+                });
+            });
+            </script>
     <script src="src/custom.js"></script>
 </body>
 </html>
