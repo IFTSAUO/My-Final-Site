@@ -80,7 +80,7 @@
                         <!-- delicate segmented progress circle: thinner, shorter dashes, soft glow -->
                         <circle class="progress-ring__circle" id="progress-circle" cx="60" cy="60" r="50" fill="transparent" stroke="url(#ringGrad)" stroke-width="6" stroke-linecap="round" transform="rotate(-90 60 60)" stroke-dasharray="6 10"></circle>
                     </svg>
-                    <img src="logo-iftsau.png" alt="IFTSAU Oujda" class="preloader-logo logo-pulse" width="78" height="78">
+                    <img src="logo-iftsau.png" alt="IFTSAU Oujda" class="preloader-logo logo-pulse logo-float" width="78" height="78">
                 </div>
                 <div class="preloader-percent" id="preloader-percent">0%</div>
             </div>
@@ -100,6 +100,12 @@
     :root{--preloader-scale-min:0.96;--preloader-scale-max:1.04}
     .preloader-logo{transform-origin:center center}
     .logo-pulse{animation:logo-zoom var(--preloader-duration,3000ms) ease-in-out both}
+    .logo-float{animation:logo-float calc(var(--preloader-duration,3000ms) * 1) ease-in-out both}
+    @keyframes logo-float{
+        0%{transform:translateY(-6px) scale(var(--preloader-scale-min))}
+        50%{transform:translateY(6px) scale(var(--preloader-scale-max))}
+        100%{transform:translateY(-6px) scale(var(--preloader-scale-min))}
+    }
     @keyframes logo-zoom{
         0%{transform:scale(var(--preloader-scale-min))}
         50%{transform:scale(var(--preloader-scale-max))}
@@ -107,6 +113,7 @@
     }
     @media (prefers-reduced-motion: reduce){
         .logo-pulse{animation:none}
+        .logo-float{animation:none}
     }
     /* emphasize dashes and give a subtle rotation for a modern feel */
     .progress-ring__circle[stroke-dasharray]{stroke-linejoin:round}
