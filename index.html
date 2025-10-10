@@ -25,7 +25,6 @@
         font-family: 'Inter', sans-serif;
       }
 
-      /* Preloader styles */
       #preloader {
         position: fixed;
         top: 0; left: 0; width: 100vw; height: 100vh;
@@ -42,16 +41,15 @@
         pointer-events: none;
         transition: opacity 0.7s;
       }
-
       .preloader-logo {
         width: 90px;
         margin-bottom: 32px;
+        object-fit: contain;
+        border-radius: 10px;
       }
       .progress-ring {
         margin-bottom: 20px;
       }
-
-      /* Header & Nav */
       .site-header {
         background: var(--color-bg);
         box-shadow: 0 2px 8px rgba(0,0,0,0.04);
@@ -139,8 +137,6 @@
         display: flex;
         animation: fadeInScale 0.32s;
       }
-
-      /* Section Titles */
       .section-title {
         text-align: center;
         color: var(--color-primary);
@@ -159,8 +155,6 @@
         background: var(--color-primary);
         border-radius: 2.5px;
       }
-
-      /* Button Style */
       .btn-primary {
         background: var(--color-primary);
         color: var(--color-bg);
@@ -175,8 +169,6 @@
         background: var(--color-primary-dark);
         transform: translateY(-3px) scale(1.025);
       }
-
-      /* Hero Section */
       .hero-section {
         position: relative;
         min-height: 82vh;
@@ -212,8 +204,6 @@
         font-size: 1.12rem;
         margin-bottom: 1.2em;
       }
-
-      /* About Section & Stats */
       .about-section .about-img {
         border-radius: 11px;
         object-fit: cover;
@@ -251,8 +241,6 @@
         font-size: 1.07rem;
         font-weight: 500;
       }
-
-      /* News Section */
       .news-section .swiper {
         padding-bottom: 35px !important;
       }
@@ -299,8 +287,6 @@
         color: #85776d;
         flex: 1 1 auto;
       }
-
-      /* Contact Section */
       .contact-details {
         background: var(--color-accent);
         border-radius: 10px;
@@ -314,8 +300,6 @@
         display: flex; align-items: center; gap: 12px;
         font-size: 1.09rem;
       }
-
-      /* Modals */
       .modal {
         display: none;
         position: fixed;
@@ -376,8 +360,6 @@
       .news-modal-gallery {
         margin-bottom: 18px;
       }
-
-      /* Footer */
       .site-footer {
         background: var(--color-primary);
         color: #fff;
@@ -388,8 +370,6 @@
         border-radius: 0 0 12px 12px;
         box-shadow: 0 -2px 9px -7px #6d5a4399;
       }
-
-      /* Fade-In Animations */
       .fade-in-section {
         opacity: 0;
         transform: translateY(38px);
@@ -405,7 +385,7 @@
   <body>
     <!-- Preloader -->
     <div id="preloader">
-      <img src="https://placehold.co/120x120?text=IFTSAU+Oujda" alt="IFTSAU Oujda Logo" class="preloader-logo" />
+      <img src="image.jpg" alt="IFTSAU Oujda Logo" class="preloader-logo" />
       <svg class="progress-ring" width="75" height="75">
         <circle
           id="progress-ring-bg"
@@ -434,10 +414,9 @@
     <header class="site-header px-3 lg:px-0 h-[70px] flex items-center shadow-sm">
       <div class="container max-w-6xl mx-auto flex justify-between items-center w-full h-full relative">
         <div class="flex items-center gap-2">
-          <img src="https://placehold.co/48x48?text=Logo" alt="IFTSAU Oujda Logo" class="w-10 h-10 rounded-md" />
+          <img src="image.jpg" alt="IFTSAU Oujda Logo" class="w-10 h-10 rounded-md object-contain" />
           <span class="ml-2 font-bold text-lg text-[var(--color-primary)]">IFTSAU Oujda</span>
         </div>
-        <!-- Desktop Nav -->
         <nav class="desktop-nav flex items-center space-x-2 hidden lg:flex">
           <a href="#hero" class="nav-link active">Accueil</a>
           <a href="#about" class="nav-link">A propos</a>
@@ -455,7 +434,6 @@
           <a href="#contact" class="nav-link">Contact</a>
           <a href="#concours-modal" id="open-concours-btn" class="nav-link text-[var(--color-primary-dark)]">Résultats Concours</a>
         </nav>
-        <!-- Mobile Nav -->
         <div class="mobile-nav flex items-center lg:hidden">
           <button id="mobile-menu-btn" class="p-2 rounded transition duration-150 hover:bg-[var(--color-accent)]">
             <svg data-lucide="menu" class="w-7 h-7"></svg>
@@ -482,9 +460,7 @@
       </div>
     </header>
 
-    <!-- Main Content -->
     <main>
-      <!-- Hero Section -->
       <section class="hero-section" id="hero">
         <div class="hero-inner fade-in-section">
           <h1 class="hero-title">Bienvenue à l'IFTSAU Oujda</h1>
@@ -494,8 +470,6 @@
           <a href="#about" class="btn-primary text-lg shadow-md">Découvrir l'institut</a>
         </div>
       </section>
-
-      <!-- About Section -->
       <section class="about-section py-14" id="about">
         <div class="container max-w-6xl mx-auto px-4 grid gap-11 grid-cols-1 md:grid-cols-2 items-center fade-in-section">
           <img src="https://placehold.co/590x420" alt="IFTSAU bâtiment" class="about-img w-full h-[260px] md:h-[350px]"/>
@@ -523,23 +497,17 @@
           </div>
         </div>
       </section>
-
-      <!-- News Section -->
       <section class="news-section px-2 py-16 bg-[var(--color-accent)]" id="news">
         <div class="max-w-6xl mx-auto fade-in-section">
           <h2 class="section-title">Actualités et Événements</h2>
           <div class="swiper mySwiper mt-12" id="news-swiper">
-            <div class="swiper-wrapper" id="news-slider-wrapper">
-              <!-- News cards injected by JS -->
-            </div>
+            <div class="swiper-wrapper" id="news-slider-wrapper"></div>
             <div class="swiper-pagination"></div>
             <div class="swiper-button-next text-[var(--color-primary)]"></div>
             <div class="swiper-button-prev text-[var(--color-primary)]"></div>
           </div>
         </div>
       </section>
-
-      <!-- Contact Section -->
       <section class="contact-section py-16" id="contact">
         <div class="container max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 px-4 fade-in-section">
           <div class="contact-details flex flex-col gap-7">
@@ -567,8 +535,6 @@
         </div>
       </section>
     </main>
-
-    <!-- News Modal -->
     <div id="news-modal" class="modal items-center justify-center">
       <div class="modal-content max-w-[550px] max-h-[88vh] overflow-auto">
         <button class="modal-close" aria-label="Fermer">&times;</button>
@@ -577,8 +543,6 @@
         <div class="news-modal-gallery pb-4"></div>
       </div>
     </div>
-
-    <!-- Concours Modal -->
     <div id="concours-modal" class="modal items-center justify-center">
       <div class="modal-content max-w-[425px]">
         <button class="modal-close" aria-label="Fermer">&times;</button>
@@ -589,328 +553,291 @@
         </div>
       </div>
     </div>
-
-    <!-- Footer -->
     <footer class="site-footer text-base font-medium">
       &copy; <span id="footer-year"></span> IFTSAU Oujda. Tous droits réservés.
     </footer>
-
-    <!-- Swiper.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <!-- Lucide Icons CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/lucide@0.322.0/dist/umd/lucide.min.js"></script>
-    <!-- JS Functionality -->
     <script>
-      // Preloader animation
       document.addEventListener("DOMContentLoaded", function () {
+        // Preloader animation
         const preloader = document.getElementById("preloader");
         const ring = document.getElementById("progress-ring");
         const percent = document.getElementById("preloader-percentage");
-        const circle = ring;
-        const radius = circle.r.baseVal.value;
-        const circumference = 2 * Math.PI * radius;
-        let value = 0;
-        ring.style.strokeDasharray = \`\${circumference}\`;
-        ring.style.strokeDashoffset = \`\${circumference}\`;
-
-        function setProgress(pct) {
-          const offset = circumference - (pct / 100) * circumference;
-          ring.style.strokeDashoffset = offset;
-          percent.textContent = Math.round(pct) + "%";
-        }
-
-        let current = 0;
-        const duration = 3000; // 3s
-        const interval = 33;
-        const steps = duration / interval;
-        const increment = 100 / steps;
-        const progressInterval = setInterval(() => {
-          current += increment;
-          if (current >= 100) {
-            current = 100;
-            clearInterval(progressInterval);
-            setTimeout(() => {
-              preloader.classList.add("hide");
-              setTimeout(() => preloader.style.display = "none", 550);
-            }, 420);
+        if (ring && percent && preloader) {
+          const circle = ring;
+          const radius = circle.r.baseVal.value;
+          const circumference = 2 * Math.PI * radius;
+          let value = 0;
+          ring.style.strokeDasharray =`${circumference}`;
+          ring.style.strokeDashoffset =`${circumference}`;
+          function setProgress(pct) {
+            const offset = circumference - (pct / 100) * circumference;
+            ring.style.strokeDashoffset = offset;
+            percent.textContent = Math.round(pct) + "%";
           }
-          setProgress(current);
-        }, interval);
-      });
-
-      // Responsive mobile nav
-      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-      const mobileMenu = document.getElementById("mobile-menu");
-      mobileMenuBtn && mobileMenuBtn.addEventListener("click", () => {
-        mobileMenu.classList.toggle("shown");
-      });
-      document.addEventListener("click", (e) => {
-        if (
-          mobileMenu &&
-          !mobileMenu.contains(e.target) &&
-          !mobileMenuBtn.contains(e.target)
-        ) mobileMenu.classList.remove("shown");
-      });
-
-      // Modal logic (News + Concours)
-      function openModal(modal) {
-        modal.classList.add("active");
-        document.body.style.overflow = "hidden";
-      }
-      function closeModal(modal) {
-        modal.classList.remove("active");
-        document.body.style.overflow = "";
-      }
-      document.querySelectorAll(".modal-close").forEach(btn =>
-        btn.addEventListener("click", function () {
-          closeModal(this.closest(".modal"));
-        })
-      );
-      document.querySelectorAll("#open-concours-btn, #mobile-concours-btn").forEach(btn => {
-        btn && btn.addEventListener("click", function (e) {
-          e.preventDefault();
-          openModal(document.getElementById("concours-modal"));
-        });
-      });
-      [ "news-modal", "concours-modal" ].forEach(id => {
-        const modal = document.getElementById(id);
-        modal.addEventListener("click", function(e) {
-          if (e.target === modal) closeModal(modal);
-        });
-      });
-
-      // News Data and Swiper Carousel
-      const newsData = [
-        {
-          title: "Rencontre pédagogique & ateliers",
-          date: "2025-09-20",
-          category: "Éducation",
-          cardImage: "https://placehold.co/600x320",
-          description: "Les étudiants et enseignants ont échangé lors d'ateliers interactifs sur l’urbanisme moderne.",
-          full_description:
-            "Durant cette journée, plusieurs intervenants spécialisés ont partagé leurs expériences et approfondi les thématiques liées à l’architecture durable et à l'intégration urbaine.",
-          images: [
-            "https://placehold.co/1200x800",
-            "https://placehold.co/1200x800/6a7ca4/fff?text=Atelier"
-          ]
-        },
-        {
-          title: "Avis d'inscription 2025-2026",
-          date: "2025-09-10",
-          category: "Annonce",
-          cardImage: "https://placehold.co/600x320/aea29a/fff?text=Inscription",
-          description: "Ouverture des inscriptions pour la rentrée prochaine. Procédures et documents à télécharger.",
-          full_description:
-            "Déposez votre dossier avant le 3 octobre via notre portail ou à l’accueil. Toutes les informations et formulaires sont disponibles dans la rubrique 'Scolarité'.",
-          images: [
-            "https://placehold.co/1200x800/ccbeaf/fff?text=Inscription"
-          ]
-        },
-        {
-          title: "Visite de terrain à Saïdia",
-          date: "2025-08-15",
-          category: "Sortie",
-          cardImage: "https://placehold.co/600x320/76955e/fff?text=Sortie",
-          description: "Sortie sur le terrain à Saïdia pour une étude pratique avec les étudiants de 2ème année.",
-          full_description:
-            "Les élèves ont pu mettre en application leurs connaissances sur le terrain, encadrés par des professionnels de la région de l’Oriental.",
-          images: [
-            "https://placehold.co/1200x800/577244/fff?text=Saïdia+1",
-            "https://placehold.co/1200x800/94ad66/fff?text=Saïdia+2",
-            "https://placehold.co/1200x800",
-          ]
-        },
-        {
-          title: "Événement: Journée Portes Ouvertes",
-          date: "2025-05-30",
-          category: "Événement",
-          cardImage: "https://placehold.co/600x320/ebc86e/fff?text=JPO",
-          description: "Nos portes ouvertes permettent aux futurs étudiants de découvrir l'institut et ses formations.",
-          full_description:
-            "Des visites guidées, des présentations sur les programmes, ainsi qu'un échange avec les membres du corps enseignant ont marqué la journée.",
-          images: [
-            "https://placehold.co/1200x800/ebc86e/fff?text=JPO"
-          ]
-        },
-        {
-          title: "Projet Lauréat: Réaménagement Urbain",
-          date: "2025-04-10",
-          category: "Projet",
-          cardImage: "https://placehold.co/600x320/987a44/fff?text=Lauréat",
-          description: "Un groupe d’étudiants a été récompensé pour le projet de réaménagement d’une place publique.",
-          full_description:
-            "Ce projet a remporté un prix lors du Forum National d’Urbanisme grâce à son innovation, son impact social et écologique.",
-          images: [
-            "https://placehold.co/1200x800/987a44/fff?text=Projet+Lauréat"
-          ]
-        }
-      ];
-
-      // Inject news cards
-      function createNewsCards() {
-        const wrapper = document.getElementById("news-slider-wrapper");
-        wrapper.innerHTML = "";
-        newsData.forEach((item, i) => {
-          const div = document.createElement("div");
-          div.className = "swiper-slide py-3";
-          div.innerHTML = \`
-            <div class="news-card flex flex-col h-full">
-              <img src="\${item.cardImage}" alt="Illustration \${item.title}" class="news-card-thumb" />
-              <div class="news-card-content flex flex-col flex-1">
-                <div class="news-meta">
-                  <span>\${item.category}</span>
-                  <span class="text-xs text-gray-400">•</span>
-                  <span>\${item.date}</span>
-                </div>
-                <div class="news-title">\${item.title}</div>
-                <div class="news-desc">\${item.description}</div>
-                <button data-news-index="\${i}" class="btn-primary mt-1 self-start text-sm px-6 py-2 news-readmore-btn">Lire la suite</button>
-              </div>
-            </div>
-          \`;
-          wrapper.appendChild(div);
-        });
-      }
-
-      function setupNewsModal() {
-        document.querySelectorAll(".news-readmore-btn").forEach(btn =>
-          btn.addEventListener("click", function () {
-            const idx = parseInt(btn.dataset.newsIndex, 10);
-            const news = newsData[idx];
-            const modal = document.getElementById("news-modal");
-            modal.querySelector('.modal-title').innerText = news.title;
-            modal.querySelector('.modal-desc').innerHTML = news.full_description;
-            // Gallery
-            const galleryDiv = modal.querySelector('.news-modal-gallery');
-            if (news.images && news.images.length > 0) {
-              if (news.images.length > 1) {
-                galleryDiv.innerHTML = \`
-                  <div class="swiper gallery-swiper">
-                    <div class="swiper-wrapper">
-                      \${news.images
-                        .map(
-                          img =>
-                            \`<div class="swiper-slide"><img src="\${img}" alt="Image - \${news.title}" class="rounded-lg w-full h-[260px] object-cover" /></div>\`
-                        )
-                        .join("")}
-                    </div>
-                    <div class="swiper-pagination"></div>
-                  </div>
-                \`;
-                // Init Swiper for modal gallery
-                if (typeof Swiper !== "undefined" && window.gallerySwiper) {
-                  window.gallerySwiper.destroy();
-                }
-                setTimeout(() => {
-                  window.gallerySwiper = new Swiper(
-                    modal.querySelector(".gallery-swiper"),
-                    {
-                      slidesPerView: 1,
-                      spaceBetween: 7,
-                      pagination: { el: ".gallery-swiper .swiper-pagination", clickable: true },
-                    }
-                  );
-                }, 100);
-              } else {
-                galleryDiv.innerHTML = \`
-                  <img src="\${news.images[0]}" alt="Image - \${news.title}" class="rounded-lg w-full h-[250px] object-cover mb-1" />
-                \`;
-              }
-            } else {
-              galleryDiv.innerHTML = "";
+          let current = 0;
+          const duration = 3000, interval = 33;
+          const steps = duration / interval;
+          const increment = 100 / steps;
+          const progressInterval = setInterval(() => {
+            current += increment;
+            if (current >= 100) {
+              current = 100;
+              clearInterval(progressInterval);
+              setTimeout(() => {
+                preloader.classList.add("hide");
+                setTimeout(() => preloader.style.display = "none", 550);
+              }, 420);
             }
-            openModal(modal);
-            setTimeout(() => lucide && lucide.createIcons(), 120);
+            setProgress(current);
+          }, interval);
+        }
+        // Responsive mobile nav
+        const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+        mobileMenuBtn && mobileMenuBtn.addEventListener("click", () => {
+          mobileMenu.classList.toggle("shown");
+        });
+        document.addEventListener("click", (e) => {
+          if (
+            mobileMenu &&
+            !mobileMenu.contains(e.target) &&
+            !mobileMenuBtn.contains(e.target)
+          ) mobileMenu.classList.remove("shown");
+        });
+        // Modal logic (News + Concours)
+        function openModal(modal) {
+          modal.classList.add("active");
+          document.body.style.overflow = "hidden";
+        }
+        function closeModal(modal) {
+          modal.classList.remove("active");
+          document.body.style.overflow = "";
+        }
+        document.querySelectorAll(".modal-close").forEach(btn =>
+          btn.addEventListener("click", function () {
+            closeModal(this.closest(".modal"));
           })
         );
-      }
-
-      function initNewsSwiper() {
-        new Swiper("#news-swiper", {
-          slidesPerView: 1,
-          spaceBetween: 22,
-          loop: true,
-          autoplay: { delay: 3600, disableOnInteraction: false },
-          pagination: { el: ".swiper-pagination", clickable: true },
-          navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev"
+        document.querySelectorAll("#open-concours-btn, #mobile-concours-btn").forEach(btn => {
+          btn && btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            openModal(document.getElementById("concours-modal"));
+          });
+        });
+        [ "news-modal", "concours-modal" ].forEach(id => {
+          const modal = document.getElementById(id);
+          modal.addEventListener("click", function(e) {
+            if (e.target === modal) closeModal(modal);
+          });
+        });
+        // News Data and Swiper Carousel
+        const newsData = [
+          {
+            title: "Rencontre pédagogique & ateliers",
+            date: "2025-09-20",
+            category: "Éducation",
+            cardImage: "https://placehold.co/600x320",
+            description: "Les étudiants et enseignants ont échangé lors d'ateliers interactifs sur l’urbanisme moderne.",
+            full_description:
+              "Durant cette journée, plusieurs intervenants spécialisés ont partagé leurs expériences et approfondi les thématiques liées à l’architecture durable et à l'intégration urbaine.",
+            images: [
+              "https://placehold.co/1200x800",
+              "https://placehold.co/1200x800/6a7ca4/fff?text=Atelier"
+            ]
           },
-          breakpoints: {
-            640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
+          {
+            title: "Avis d'inscription 2025-2026",
+            date: "2025-09-10",
+            category: "Annonce",
+            cardImage: "https://placehold.co/600x320/aea29a/fff?text=Inscription",
+            description: "Ouverture des inscriptions pour la rentrée prochaine. Procédures et documents à télécharger.",
+            full_description:
+              "Déposez votre dossier avant le 3 octobre via notre portail ou à l’accueil. Toutes les informations et formulaires sont disponibles dans la rubrique 'Scolarité'.",
+            images: [
+              "https://placehold.co/1200x800/ccbeaf/fff?text=Inscription"
+            ]
+          },
+          {
+            title: "Visite de terrain à Saïdia",
+            date: "2025-08-15",
+            category: "Sortie",
+            cardImage: "https://placehold.co/600x320/76955e/fff?text=Sortie",
+            description: "Sortie sur le terrain à Saïdia pour une étude pratique avec les étudiants de 2ème année.",
+            full_description:
+              "Les élèves ont pu mettre en application leurs connaissances sur le terrain, encadrés par des professionnels de la région de l’Oriental.",
+            images: [
+              "https://placehold.co/1200x800/577244/fff?text=Saïdia+1",
+              "https://placehold.co/1200x800/94ad66/fff?text=Saïdia+2",
+              "https://placehold.co/1200x800",
+            ]
+          },
+          {
+            title: "Événement: Journée Portes Ouvertes",
+            date: "2025-05-30",
+            category: "Événement",
+            cardImage: "https://placehold.co/600x320/ebc86e/fff?text=JPO",
+            description: "Nos portes ouvertes permettent aux futurs étudiants de découvrir l'institut et ses formations.",
+            full_description:
+              "Des visites guidées, des présentations sur les programmes, ainsi qu'un échange avec les membres du corps enseignant ont marqué la journée.",
+            images: [
+              "https://placehold.co/1200x800/ebc86e/fff?text=JPO"
+            ]
+          },
+          {
+            title: "Projet Lauréat: Réaménagement Urbain",
+            date: "2025-04-10",
+            category: "Projet",
+            cardImage: "https://placehold.co/600x320/987a44/fff?text=Lauréat",
+            description: "Un groupe d’étudiants a été récompensé pour le projet de réaménagement d’une place publique.",
+            full_description:
+              "Ce projet a remporté un prix lors du Forum National d’Urbanisme grâce à son innovation, son impact social et écologique.",
+            images: [
+              "https://placehold.co/1200x800/987a44/fff?text=Projet+Lauréat"
+            ]
           }
-        });
-      }
-
-      // Animated Stat Counters
-      function animateStats () {
-        const counters = document.querySelectorAll('.stat-count');
-        counters.forEach(counter => {
-          counter.innerText = "0";
-          let start = 0, end = parseInt(counter.dataset.target,10);
-          let duration = 1550, stepTime = Math.abs(Math.floor(duration / end));
-          function run() {
-            start += 1;
-            counter.innerText = start;
-            if (start < end) setTimeout(run, stepTime);
-            else counter.innerText = end;
-          }
-          run();
-        });
-      }
-      function setupStatsOnScroll () {
-        let started = false;
-        const box = document.querySelector('.about-section');
-        if (!box) return;
-        const observer = new IntersectionObserver(entries => {
-          if (entries[0].isIntersecting && !started) {
-            animateStats();
-            started = true;
-          }
-        }, { threshold: 0.38 });
-        observer.observe(box);
-      }
-
-      // Fade-in on scroll
-      function setupFadeInSections() {
-        const fadeElems = document.querySelectorAll('.fade-in-section');
-        const observer = new IntersectionObserver(function(entries, observer){
-          entries.forEach(e => {
-            if (e.isIntersecting) {
-              e.target.classList.add('visible');
-              observer.unobserve(e.target);
+        ];
+        function createNewsCards() {
+          const wrapper = document.getElementById("news-slider-wrapper");
+          wrapper.innerHTML = "";
+          newsData.forEach((item, i) => {
+            const div = document.createElement("div");
+            div.className = "swiper-slide py-3";
+            div.innerHTML = `
+              <div class="news-card flex flex-col h-full">
+                <img src="${item.cardImage}" alt="Illustration ${item.title}" class="news-card-thumb" />
+                <div class="news-card-content flex flex-col flex-1">
+                  <div class="news-meta">
+                    <span>${item.category}</span>
+                    <span class="text-xs text-gray-400">•</span>
+                    <span>${item.date}</span>
+                  </div>
+                  <div class="news-title">${item.title}</div>
+                  <div class="news-desc">${item.description}</div>
+                  <button data-news-index="${i}" class="btn-primary mt-1 self-start text-sm px-6 py-2 news-readmore-btn">Lire la suite</button>
+                </div>
+              </div>
+            `;
+            wrapper.appendChild(div);
+          });
+        }
+        function setupNewsModal() {
+          document.querySelectorAll(".news-readmore-btn").forEach(btn =>
+            btn.addEventListener("click", function () {
+              const idx = parseInt(btn.dataset.newsIndex, 10);
+              const news = newsData[idx];
+              const modal = document.getElementById("news-modal");
+              modal.querySelector('.modal-title').innerText = news.title;
+              modal.querySelector('.modal-desc').innerHTML = news.full_description;
+              const galleryDiv = modal.querySelector('.news-modal-gallery');
+              if (news.images && news.images.length > 0) {
+                if (news.images.length > 1) {
+                  galleryDiv.innerHTML = `
+                    <div class="swiper gallery-swiper">
+                      <div class="swiper-wrapper">
+                        ${news.images
+                          .map(
+                            img =>
+                              `<div class="swiper-slide"><img src="${img}" alt="Image - ${news.title}" class="rounded-lg w-full h-[260px] object-cover" /></div>`
+                          )
+                          .join("")}
+                      </div>
+                      <div class="swiper-pagination"></div>
+                    </div>
+                  `;
+                  setTimeout(() => {
+                    window.gallerySwiper = new Swiper(
+                      modal.querySelector(".gallery-swiper"),
+                      {
+                        slidesPerView: 1,
+                        spaceBetween: 7,
+                        pagination: { el: ".gallery-swiper .swiper-pagination", clickable: true },
+                      }
+                    );
+                  }, 100);
+                } else {
+                  galleryDiv.innerHTML = `
+                    <img src="${news.images[0]}" alt="Image - ${news.title}" class="rounded-lg w-full h-[250px] object-cover mb-1" />
+                  `;
+                }
+              } else {
+                galleryDiv.innerHTML = "";
+              }
+              openModal(modal);
+              setTimeout(() => lucide && lucide.createIcons(), 120);
+            })
+          );
+        }
+        function initNewsSwiper() {
+          new Swiper("#news-swiper", {
+            slidesPerView: 1,
+            spaceBetween: 22,
+            loop: true,
+            autoplay: { delay: 3600, disableOnInteraction: false },
+            pagination: { el: ".swiper-pagination", clickable: true },
+            navigation: {
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev"
+            },
+            breakpoints: {
+              640: { slidesPerView: 1 },
+              768: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
             }
           });
-        }, { threshold: 0.17 });
-        fadeElems.forEach(el => observer.observe(el));
-      }
-
-      // Footer year
-      document.getElementById('footer-year').innerText = new Date().getFullYear();
-
-      // DOMContentLoaded event for main flows
-      document.addEventListener("DOMContentLoaded", function () {
-        // News
+        }
+        function animateStats () {
+          const counters = document.querySelectorAll('.stat-count');
+          counters.forEach(counter => {
+            counter.innerText = "0";
+            let start = 0, end = parseInt(counter.dataset.target,10);
+            let duration = 1550, stepTime = Math.abs(Math.floor(duration / end));
+            function run() {
+              start += 1;
+              counter.innerText = start;
+              if (start < end) setTimeout(run, stepTime);
+              else counter.innerText = end;
+            }
+            run();
+          });
+        }
+        function setupStatsOnScroll () {
+          let started = false;
+          const box = document.querySelector('.about-section');
+          if (!box) return;
+          const observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && !started) {
+              animateStats();
+              started = true;
+            }
+          }, { threshold: 0.38 });
+          observer.observe(box);
+        }
+        function setupFadeInSections() {
+          const fadeElems = document.querySelectorAll('.fade-in-section');
+          const observer = new IntersectionObserver(function(entries, observer){
+            entries.forEach(e => {
+              if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                observer.unobserve(e.target);
+              }
+            });
+          }, { threshold: 0.17 });
+          fadeElems.forEach(el => observer.observe(el));
+        }
+        document.getElementById('footer-year').innerText = new Date().getFullYear();
         createNewsCards();
         initNewsSwiper();
         setTimeout(setupNewsModal, 532); // let cards load
-        // Stats
         setupStatsOnScroll();
-        // Animations
         setupFadeInSections();
-        // Lucide icons initial render
         if (window.lucide) lucide.createIcons();
       });
-
-      // Support for hot content: recalc icons when news/quotes modal opens
       document.addEventListener("lucideCreate", function(){
         if (window.lucide) lucide.createIcons();
       });
-      // Fallback Lucide after dynamic loads
       setTimeout(() => { if (window.lucide) lucide.createIcons(); }, 1600);
-
     </script>
   </body>
 </html>
