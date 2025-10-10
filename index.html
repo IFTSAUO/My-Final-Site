@@ -6,6 +6,8 @@
     <title>IFTSAU Oujda - Institut de Formation des Techniciens Spécialisés en Architecture et en Urbanisme Oujda</title>
     <meta name="description" content="Découvrez l'IFTSAU d'Oujda, un institut public de formation des techniciens spécialisés en architecture, urbanisme et BTP.">
     <link rel="icon" type="image/png" href="logo-iftsau.png">
+    <!-- Preload the logo for the splash/preloader -->
+    <link rel="preload" href="logo-iftsau.png" as="image">
     <link href="style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
@@ -55,6 +57,35 @@
     </script>
     </head>
 <body class="text-stone-800">
+
+        <!-- Preloader: full-screen modern splash with logo and progress 0%->100% (~3s) -->
+        <div id="preloader" aria-hidden="false" style="--preloader-duration:3000ms;">
+            <div class="preloader-backdrop" role="status" aria-live="polite">
+                <div class="preloader-content">
+                    <img src="logo-iftsau.png" alt="IFTSAU Oujda" class="preloader-logo" width="140" height="140">
+                    <div class="preloader-text">Chargement <span id="preloader-percent">0%</span></div>
+                    <div class="progress-wrap" aria-hidden="true">
+                        <div class="progress-bar" id="preloader-bar" style="width:0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+        /* Preloader styles (kept local to index.html to avoid extra files) */
+        #preloader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(255,255,255,0.98),rgba(250,246,241,0.98));backdrop-filter: blur(4px);z-index:99999;transition:opacity .6s ease,visibility .6s ease;}
+        #preloader[aria-hidden="true"]{opacity:0;visibility:hidden;pointer-events:none}
+        .preloader-content{display:flex;flex-direction:column;align-items:center;gap:16px;padding:24px}
+        .preloader-logo{display:block;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+        .preloader-text{font-family:Inter,system-ui,Segoe UI,Arial; color:var(--color-text,#4a4238);font-weight:600}
+        .progress-wrap{width:220px;height:8px;background:rgba(0,0,0,0.06);border-radius:999px;overflow:hidden}
+        .progress-bar{height:100%;background:linear-gradient(90deg,var(--color-primary,#986A44),var(--color-primary-dark,#7a5536));transition:width .18s linear}
+        /* Respect prefers-reduced-motion */
+        @media (prefers-reduced-motion: reduce){
+            #preloader{transition:none}
+            .progress-bar{transition:none}
+        }
+        </style>
 
     <header id="header" class="bg-white/80 backdrop-blur-sm shadow-md sticky top-0 z-50 transition-all duration-300 py-2">
         <div class="container mx-auto px-4 sm:px-6 flex justify-between items-center">
@@ -215,6 +246,40 @@
     
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+        <script>
+        // Preloader script: animate percent and bar over duration then hide
+        (function(){
+            const preloader = document.getElementById('preloader');
+            if(!preloader) return;
+            const bar = document.getElementById('preloader-bar');
+            const pct = document.getElementById('preloader-percent');
+            const duration = parseInt(getComputedStyle(preloader).getPropertyValue('--preloader-duration')) || 3000;
+
+            // If user prefers reduced motion, skip animated progression and hide quickly
+            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if(reduce){
+                if(bar) bar.style.width = '100%';
+                if(pct) pct.textContent = '100%';
+                setTimeout(()=>{ preloader.setAttribute('aria-hidden','true'); }, 250);
+                return;
+            }
+
+            const start = performance.now();
+            function step(now){
+                const t = Math.min(1, (now - start) / duration);
+                const value = Math.round(t * 100);
+                if(bar) bar.style.width = value + '%';
+                if(pct) pct.textContent = value + '%';
+                if(t < 1){
+                    requestAnimationFrame(step);
+                } else {
+                    // small delay so users see 100%
+                    setTimeout(()=>{ preloader.setAttribute('aria-hidden','true'); }, 250);
+                }
+            }
+            requestAnimationFrame(step);
+        })();
+        </script>
     <script src="src/custom.js"></script>
 </body>
 </html>
