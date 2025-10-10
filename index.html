@@ -1,322 +1,916 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IFTSAU Oujda - Institut de Formation des Techniciens Spécialisés en Architecture et en Urbanisme Oujda</title>
-    <meta name="description" content="Découvrez l'IFTSAU d'Oujda, un institut public de formation des techniciens spécialisés en architecture, urbanisme et BTP.">
-    <link rel="icon" type="image/png" href="logo-iftsau.png">
-    <!-- Preload the logo for the splash/preloader -->
-    <link rel="preload" href="logo-iftsau.png" as="image">
-    <link href="style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>IFTSAU Oujda - Institut</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css?family=Inter:400,600,700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Swiper.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
-        :root{--color-bg:#F2F0E6;--color-text:#4a4238;--color-primary:#986A44;--color-primary-dark:#7a5536;--color-accent:#E6E2AF;}
-        body{font-family:'Inter',sans-serif;scroll-behavior:smooth;background-color:var(--color-bg);color:var(--color-text);}
-        
-        .section-title{position:relative;padding-bottom:.5rem;margin-bottom:1rem;line-height:1.2;}
-        .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:4px;background-color:var(--color-primary);border-radius:2px;}
-        .btn-primary{background-color:var(--color-primary);color:white;transition: all 0.3s ease;}
-        .btn-primary:hover{background-color:var(--color-primary-dark); transform: translateY(-3px);}
-        .text-primary{color:var(--color-primary);}
-        .nav-link{position:relative;padding-bottom:.25rem;transition:color .3s;}
-        .nav-link::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background-color:var(--color-primary);transform:scaleX(0);transform-origin:bottom right;transition:transform .3s ease-out;}
-        .nav-link:hover::after{transform:scaleX(1);transform-origin:bottom left;}
-        .nav-link:hover{color:var(--color-primary);}
-        .swiper-pagination-bullet-active { background-color: var(--color-primary); }
-        .news-slider { padding-bottom: 50px !important; }
+      :root {
+        --color-bg: #F2F0E6;
+        --color-text: #4a4238;
+        --color-primary: #986A44;
+        --color-primary-dark: #7a5536;
+        --color-accent: #E6E2AF;
+      }
 
-        .modal-overlay { visibility: hidden; opacity: 0; transition: visibility 0s linear 0.4s, opacity 0.4s ease-out; }
-        .modal-overlay.active { visibility: visible; opacity: 1; transition-delay: 0s; }
-        
-        #news-modal .modal-content { transform: scale(0.95); opacity: 0; transition: transform 0.3s ease, opacity 0.3s ease; }
-        #news-modal.active .modal-content { transform: scale(1); opacity: 1; }
+      body {
+        background: var(--color-bg);
+        color: var(--color-text);
+        font-family: 'Inter', sans-serif;
+      }
 
-        .modal-gallery .swiper-button-next, .modal-gallery .swiper-button-prev { color: white; --swiper-navigation-size: 28px; background-color: rgba(0,0,0,0.3); border-radius: 9999px; width: 44px; height: 44px; }
-        .modal-gallery .swiper-button-next:after, .modal-gallery .swiper-button-prev:after { font-size: 20px; }
+      /* Preloader styles */
+      #preloader {
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        z-index: 9999;
+        background: var(--color-bg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.5s;
+      }
+      #preloader.hide {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.7s;
+      }
 
-        #concours-modal .modal-content {
-            transform: translateY(-50px);
-            opacity: 0;
-            transition: transform 0.4s ease-out, opacity 0.4s ease-out;
-        }
-        #concours-modal.active .modal-content {
-            transform: translateY(0);
-            opacity: 1;
-        }
+      .preloader-logo {
+        width: 90px;
+        margin-bottom: 32px;
+      }
+      .progress-ring {
+        margin-bottom: 20px;
+      }
+
+      /* Header & Nav */
+      .site-header {
+        background: var(--color-bg);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        position: sticky;
+        top: 0;
+        z-index: 80;
+        transition: box-shadow 0.2s;
+      }
+      .nav-link {
+        position: relative;
+        padding: 8px 14px;
+        transition: color 0.2s;
+      }
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        left: 15%;
+        right: 15%;
+        bottom: 0;
+        height: 2.5px;
+        background: var(--color-primary);
+        border-radius: 2px;
+        opacity: 0;
+        transform: scaleX(0);
+        transition: all 0.25s;
+      }
+      .nav-link:hover, .nav-link:focus {
+        color: var(--color-primary);
+      }
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+      .dropdown {
+        display: none;
+        position: absolute;
+        min-width: 180px;
+        left: 0;
+        top: 130%;
+        background: var(--color-bg);
+        border-radius: 0 0 7px 7px;
+        box-shadow: 0 6px 26px -8px rgba(0,0,0,0.14);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.21s;
+        z-index: 100;
+      }
+      .nav-item:hover .dropdown {
+        display: block;
+        opacity: 1;
+        pointer-events: all;
+      }
+      .dropdown a {
+        display: block;
+        padding: 12px 20px;
+        color: var(--color-text);
+        transition: background 0.14s;
+      }
+      .dropdown a:hover {
+        background: var(--color-accent);
+        color: var(--color-primary-dark);
+      }
+      @media (max-width: 1023px) {
+        .desktop-nav { display: none !important;}
+        .mobile-nav { display: flex !important;}
+      }
+      @media (min-width: 1024px) {
+        .mobile-nav { display: none !important;}
+        .desktop-nav { display: flex !important;}
+      }
+      .mobile-menu {
+        display: none;
+        flex-direction: column;
+        background: var(--color-bg);
+        position: absolute;
+        right: 1rem;
+        top: 70px;
+        width: 220px;
+        box-shadow: 0 8px 25px -7px #3a3020b0;
+        border-radius: 9px;
+        z-index: 101;
+      }
+      .mobile-menu.shown {
+        display: flex;
+        animation: fadeInScale 0.32s;
+      }
+
+      /* Section Titles */
+      .section-title {
+        text-align: center;
+        color: var(--color-primary);
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        font-size: 2rem;
+        position: relative;
+        margin-bottom: 14px;
+      }
+      .section-title::after {
+        content: '';
+        display: block;
+        width: 55px;
+        height: 3.5px;
+        margin: 13px auto 0 auto;
+        background: var(--color-primary);
+        border-radius: 2.5px;
+      }
+
+      /* Button Style */
+      .btn-primary {
+        background: var(--color-primary);
+        color: var(--color-bg);
+        font-weight: 600;
+        border-radius: 7px;
+        padding: 12px 26px;
+        box-shadow: 0 2px 12px -5px #93654073;
+        transition: transform 0.16s, background 0.19s;
+        will-change: transform;
+      }
+      .btn-primary:hover, .btn-primary:focus {
+        background: var(--color-primary-dark);
+        transform: translateY(-3px) scale(1.025);
+      }
+
+      /* Hero Section */
+      .hero-section {
+        position: relative;
+        min-height: 82vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: url('https://placehold.co/1600x800') center center/cover no-repeat;
+      }
+      .hero-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(44, 36, 27, 0.38);
+        z-index: 1;
+      }
+      .hero-inner {
+        z-index: 2;
+        position: relative;
+        max-width: 650px;
+        margin: 0 auto;
+        padding: 40px 25px 80px 25px;
+        text-align: center;
+      }
+      .hero-title {
+        font-size: 2.6rem;
+        color: #fff;
+        font-weight: 800;
+        margin-bottom: 0.65em;
+        letter-spacing: 0.03em;
+      }
+      .hero-desc {
+        color: #f0eede;
+        font-size: 1.12rem;
+        margin-bottom: 1.2em;
+      }
+
+      /* About Section & Stats */
+      .about-section .about-img {
+        border-radius: 11px;
+        object-fit: cover;
+        box-shadow: 0 5px 40px -13px #927d63af;
+        margin-bottom: 20px;
+      }
+      .stats-grid {
+        gap: 18px;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 30px;
+        justify-content: flex-start;
+      }
+      .stat-box {
+        flex: 1 1 180px;
+        background: var(--color-accent);
+        color: var(--color-primary-dark);
+        border-radius: 10px;
+        min-width: 140px;
+        padding: 22px 18px;
+        margin-right: 12px;
+        margin-bottom: 14px;
+        text-align: center;
+        box-shadow: 0 3px 14px -9px #ad9d86b0;
+        transition: box-shadow 0.17s;
+      }
+      .stat-count {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--color-primary);
+        margin-bottom: 0.22em;
+      }
+      .stat-label {
+        color: var(--color-primary-dark);
+        font-size: 1.07rem;
+        font-weight: 500;
+      }
+
+      /* News Section */
+      .news-section .swiper {
+        padding-bottom: 35px !important;
+      }
+      .news-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 3px 16px -7px #907c62b6;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        transition: transform 0.18s;
+      }
+      .news-card:hover {
+        transform: translateY(-6px) scale(1.024);
+        box-shadow: 0 8px 22px -6px #ab8c53a9;
+      }
+      .news-card-thumb {
+        aspect-ratio: 4/2.4;
+        object-fit: cover;
+        width: 100%;
+      }
+      .news-card-content {
+        padding: 20px 19px 15px 19px;
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .news-meta {
+        font-size: 0.99rem; color: var(--color-primary-dark); margin-bottom: 9px;
+        display: flex; gap: 7px; flex-wrap: wrap;
+        align-items: center;
+      }
+      .news-title {
+        font-size: 1.16rem;
+        font-weight: 700;
+        margin-bottom: 7px;
+        color: var(--color-text);
+      }
+      .news-desc {
+        font-size: 1.01rem;
+        margin-bottom: 13px;
+        color: #85776d;
+        flex: 1 1 auto;
+      }
+
+      /* Contact Section */
+      .contact-details {
+        background: var(--color-accent);
+        border-radius: 10px;
+        padding: 27px 17px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .contact-item {
+        display: flex; align-items: center; gap: 12px;
+        font-size: 1.09rem;
+      }
+
+      /* Modals */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        inset: 0;
+        background: rgba(55, 44, 27, 0.22);
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.24s;
+      }
+      .modal.active {
+        display: flex;
+        animation: fadeInScale 0.16s;
+      }
+      @keyframes fadeInScale {
+        0% {opacity:0; transform: scale(0.97);}
+        100% {opacity:1; transform: scale(1);}
+      }
+      .modal-content {
+        background: var(--color-bg);
+        border-radius: 12px;
+        max-width: 98vw;
+        max-height: 95vh;
+        box-shadow: 0 14px 60px -20px #19382227, 0 1px 3px #bb9d7f22;
+        width: 600px;
+        position: relative;
+        padding: 45px 33px 33px 33px;
+        animation: fadeInScale 0.15s;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+      }
+      .modal-close {
+        position: absolute;
+        top: 11px;
+        right: 16px;
+        border: none;
+        background: none;
+        font-size: 25px;
+        cursor: pointer;
+        color: var(--color-primary-dark);
+        opacity: 0.57;
+        z-index: 10;
+        transition: opacity 0.22s;
+      }
+      .modal-close:hover { opacity: 1; }
+      .modal-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-primary);
+        margin-bottom: 9px;
+      }
+      .modal-desc {
+        font-size: 1.08rem;
+        color: var(--color-text);
+        margin-bottom: 17px;
+      }
+      .news-modal-gallery {
+        margin-bottom: 18px;
+      }
+
+      /* Footer */
+      .site-footer {
+        background: var(--color-primary);
+        color: #fff;
+        text-align: center;
+        font-size: 1rem;
+        padding: 19px 0 11px 0;
+        margin-top: 48px;
+        border-radius: 0 0 12px 12px;
+        box-shadow: 0 -2px 9px -7px #6d5a4399;
+      }
+
+      /* Fade-In Animations */
+      .fade-in-section {
+        opacity: 0;
+        transform: translateY(38px);
+        transition: opacity 0.52s, transform 0.43s;
+        will-change: opacity, transform;
+      }
+      .fade-in-section.visible {
+        opacity: 1;
+        transform: none;
+      }
     </style>
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K4NQ6BL922"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-    
-      gtag('config', 'G-K4NQ6BL922');
-    </script>
-    </head>
-<body class="text-stone-800">
+  </head>
+  <body>
+    <!-- Preloader -->
+    <div id="preloader">
+      <img src="https://placehold.co/120x120?text=IFTSAU+Oujda" alt="IFTSAU Oujda Logo" class="preloader-logo" />
+      <svg class="progress-ring" width="75" height="75">
+        <circle
+          id="progress-ring-bg"
+          cx="37.5"
+          cy="37.5"
+          r="32"
+          stroke="#E6E2AF"
+          stroke-width="8"
+          fill="none"/>
+        <circle
+          id="progress-ring"
+          cx="37.5"
+          cy="37.5"
+          r="32"
+          stroke="#986A44"
+          stroke-width="8"
+          fill="none"
+          stroke-linecap="round"
+          stroke-dasharray="201.06"
+          stroke-dashoffset="201.06"/>
+      </svg>
+      <div id="preloader-percentage" class="text-lg font-semibold text-[var(--color-primary-dark)]">0%</div>
+    </div>
 
-        <!-- Backup: previous preloader preserved for rollback -->
-        <!--
-        <div id="preloader" aria-hidden="false" style="--preloader-duration:3000ms;">
-            ... previous preloader markup ...
+    <!-- Header -->
+    <header class="site-header px-3 lg:px-0 h-[70px] flex items-center shadow-sm">
+      <div class="container max-w-6xl mx-auto flex justify-between items-center w-full h-full relative">
+        <div class="flex items-center gap-2">
+          <img src="https://placehold.co/48x48?text=Logo" alt="IFTSAU Oujda Logo" class="w-10 h-10 rounded-md" />
+          <span class="ml-2 font-bold text-lg text-[var(--color-primary)]">IFTSAU Oujda</span>
         </div>
-        -->
-
-        <!-- Copied preloader (from test index.html) - self-contained styles/markup -->
-        <div id="preloader" class="preloader" aria-hidden="false" style="--preloader-duration:3000ms;">
-            <div class="preloader-decoration" aria-hidden="true">
-                <div class="decoration-circle"></div>
-                <div class="decoration-circle"></div>
-                <div class="decoration-circle"></div>
+        <!-- Desktop Nav -->
+        <nav class="desktop-nav flex items-center space-x-2 hidden lg:flex">
+          <a href="#hero" class="nav-link active">Accueil</a>
+          <a href="#about" class="nav-link">A propos</a>
+          <div class="relative nav-item">
+            <a href="#" class="nav-link">Scolarité
+              <svg data-lucide="chevron-down" class="inline -mb-1 w-5 h-5"></svg>
+            </a>
+            <div class="dropdown mt-2">
+              <a href="#">Inscriptions</a>
+              <a href="#">Calendrier</a>
+              <a href="#">Documents</a>
             </div>
-            
-            <div class="preloader-logo">
-                <img src="logo-iftsau.png" alt="IFTSAU Logo">
-                <svg class="progress-ring" width="140" height="140" aria-hidden="true">
-                    <circle class="progress-ring-circle" stroke-width="3" fill="transparent" r="68" cx="70" cy="70"/>
-                </svg>
+          </div>
+          <a href="#news" class="nav-link">Actualités</a>
+          <a href="#contact" class="nav-link">Contact</a>
+          <a href="#concours-modal" id="open-concours-btn" class="nav-link text-[var(--color-primary-dark)]">Résultats Concours</a>
+        </nav>
+        <!-- Mobile Nav -->
+        <div class="mobile-nav flex items-center lg:hidden">
+          <button id="mobile-menu-btn" class="p-2 rounded transition duration-150 hover:bg-[var(--color-accent)]">
+            <svg data-lucide="menu" class="w-7 h-7"></svg>
+          </button>
+          <div id="mobile-menu" class="mobile-menu absolute right-0 top-14 mt-2 bg-[var(--color-bg)] border shadow-lg rounded z-40 flex flex-col divide-y">
+            <a href="#hero" class="py-3 px-7 nav-link active">Accueil</a>
+            <a href="#about" class="py-3 px-7 nav-link">A propos</a>
+            <div class="relative nav-item group">
+              <a href="#" class="py-3 px-7 nav-link flex items-center justify-between">
+                Scolarité
+                <svg data-lucide="chevron-down" class="inline w-5 h-5"></svg>
+              </a>
+              <div class="dropdown absolute left-0 w-[180px] top-full mt-0 bg-[var(--color-bg)] shadow rounded-b z-50 hidden group-hover:block">
+                <a href="#" class="block px-6 py-3">Inscriptions</a>
+                <a href="#" class="block px-6 py-3">Calendrier</a>
+                <a href="#" class="block px-6 py-3">Documents</a>
+              </div>
             </div>
-            
-            <div class="preloader-text">Chargement <span class="loading-dots"><span></span><span></span><span></span></span></div>
-            
-            <div id="preloader-percentage" class="preloader-percentage">0%</div>
+            <a href="#news" class="py-3 px-7 nav-link">Actualités</a>
+            <a href="#contact" class="py-3 px-7 nav-link">Contact</a>
+            <a href="#concours-modal" id="mobile-concours-btn" class="py-3 px-7 nav-link text-[var(--color-primary-dark)]">Résultats Concours</a>
+          </div>
         </div>
-
-        <style>
-        /* Inlined minimal preloader styles copied from test index.html */
-        .preloader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(255,255,255,0.98),rgba(250,246,241,0.98));backdrop-filter: blur(4px);z-index:99999}
-        .preloader[aria-hidden="true"]{opacity:0;visibility:hidden;pointer-events:none}
-        .preloader-decoration{position:absolute;inset:auto;top:20%;display:flex;gap:10px;pointer-events:none}
-        .decoration-circle{width:8px;height:8px;border-radius:50%;background:rgba(138,106,73,0.08)}
-        .preloader-logo{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
-        .preloader-logo img{width:78px;height:auto;display:block}
-        .progress-ring{position:relative;width:140px;height:140px}
-        .progress-ring-circle{stroke:#b88b5f;stroke-linecap:round;stroke-dasharray:430;stroke-dashoffset:430;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset .12s linear}
-        .preloader-text{color:var(--color-text,#4a4238);font-weight:600}
-        .loading-dots span{display:inline-block;width:6px;height:6px;margin:0 3px;border-radius:999px;background:var(--color-primary,#986A44);animation:dot 1s infinite linear}
-        .loading-dots span:nth-child(2){animation-delay:.1s}
-        .loading-dots span:nth-child(3){animation-delay:.2s}
-        @keyframes dot{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-6px)}}
-        .preloader-percentage{font-family:Inter,system-ui,Segoe UI,Arial;color:var(--color-text,#4a4238);font-weight:700;margin-top:6px}
-        /* Respect reduced motion */
-        @media (prefers-reduced-motion: reduce){.loading-dots span{animation:none}.progress-ring-circle{transition:none}}
-        </style>
-
-    <header id="header" class="bg-white/80 backdrop-blur-sm shadow-md sticky top-0 z-50 transition-all duration-300 py-2">
-        <div class="container mx-auto px-4 sm:px-6 flex justify-between items-center">
-            <a href="index.html" class="flex-shrink-0 flex items-center space-x-3"><img src="logo-iftsau.png" alt="Logo IFTSAU Oujda" class="h-12 w-auto"><span class="text-xl font-bold tracking-tight hidden sm:block" style="color:var(--color-text)">IFTSAU Oujda</span></a>
-            <nav class="hidden md:flex items-center space-x-6">
-                <a href="index.html" class="nav-link font-medium text-primary whitespace-nowrap">Accueil</a>
-                <a href="formation.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Formation</a>
-                <a href="admission.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Admission</a>
-                <div class="relative group">
-                    <button class="nav-link font-medium text-stone-600 whitespace-nowrap flex items-center">Scolarité<i data-lucide="chevron-down" class="w-4 h-4 ml-1 transition-transform duration-300 group-hover:rotate-180"></i></button>
-                    <div class="absolute top-full -left-4 w-48 bg-white shadow-lg rounded-md mt-2 py-1 opacity-0 group-hover:opacity-100 transition-all duration-300 invisible group-hover:visible z-20">
-                        <a href="demande-document.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Demande de document</a>
-                        <a href="emplois-du-temps.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Emplois du temps</a>
-                        <a href="planning.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Planning</a>
-                        <a href="resultats.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Resultats</a>
-                    </div>
-                </div>
-                <a href="vie-etudiante.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Vie Étudiante</a>
-                <a href="#contact" class="nav-link font-medium text-stone-600 whitespace-nowrap">Contact</a>
-            </nav>
-            <button id="mobile-menu-button" class="md:hidden"><i data-lucide="menu" class="h-6 w-6 text-stone-700"></i></button>
-        </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-200">
-             <a href="index.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Accueil</a>
-            <a href="formation.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Formation</a>
-            <a href="admission.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Admission</a>
-            <span class="block py-3 px-6 text-stone-400 text-sm font-semibold">Scolarité</span>
-            <a href="demande-document.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Demande de document</a>
-            <a href="emplois-du-temps.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Emplois du temps</a>
-            <a href="planning.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Planning</a>
-            <a href="resultats.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Resultats</a>
-            <a href="vie-etudiante.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Vie Étudiante</a>
-            <a href="#contact" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Contact</a>
-        </div>
+      </div>
     </header>
-    
-    <main>
-    <section id="accueil" class="relative min-h-[85vh] bg-cover bg-center flex items-center justify-center anim-fade-up will-change-transform" style="background-image: url('background.jpg');">
-            <div class="absolute inset-0 bg-black/60"></div>
-            <div class="relative container mx-auto px-6 text-center z-10">
-                <h1 class="text-white text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 leading-tight">Bâtissez votre avenir</h1>
-                <p class="text-white/90 text-lg md:text-xl font-light mb-8 max-w-3xl mx-auto">Formez-vous aux métiers de l'Architecture et de l'Urbanisme à l'IFTSAU d'Oujda.</p>
-                <a href="formation.html" class="btn-primary font-bold py-3 px-8 rounded-full text-lg shadow-lg">Découvrir notre formation</a>
-            </div>
-        </section>
-        
-    <section id="a-propos" class="py-20 bg-white anim-fade-up will-change-transform">
-            <div class="container mx-auto px-4 sm:px-6 text-center">
-                <h2 class="section-title inline-block text-4xl font-bold mb-12">Notre Institut</h2>
-                <div class="text-left flex flex-col md:flex-row items-center gap-12">
-                    <div class="md:w-1/2"><img src="photo.png" alt="Photo de l'Institut IFTSAU Oujda" loading="lazy" decoding="async" class="rounded-lg shadow-xl w-full h-full object-cover"/></div>
-                    <div class="md:w-1/2">
-                        <p class="text-stone-600 text-lg mb-8">L'Institut de Formation des Techniciens Spécialisés en Architecture et en Urbanisme (IFTSAU) d'Oujda est un établissement public sous la tutelle du Ministère de l'Aménagement du Territoire National, de l'Urbanisme, de l'Habitat et de la Politique de la Ville. Depuis 2017, notre institut s'est engagé à former des techniciens hautement qualifiés, capables de répondre aux défis du secteur du BTP, de l'architecture et de l'urbanisme au Maroc.</p>
-                        <div class="grid grid-cols-2 gap-6 text-center">
-                            <div class="p-4 rounded-lg" style="background-color:rgba(229,226,175,0.3)"><i data-lucide="award" class="h-8 w-8 text-primary mx-auto mb-2"></i><span class="stat-value text-2xl font-bold text-primary" data-prefix="+ " data-value="200"></span><p class="text-sm text-stone-500">Lauréats depuis 2017</p></div>
-                            <div class="p-4 rounded-lg" style="background-color:rgba(229,226,175,0.3)"><i data-lucide="trending-up" class="h-8 w-8 text-primary mx-auto mb-2"></i><span class="stat-value text-2xl font-bold text-primary" data-unit="%" data-value="90"></span><p class="text-sm text-stone-500">Taux de réussite</p></div>
-                            <div class="p-4 rounded-lg" style="background-color:rgba(229,226,175,0.3)"><i data-lucide="briefcase" class="h-8 w-8 text-primary mx-auto mb-2"></i><span class="stat-value text-2xl font-bold text-primary" data-prefix="+ " data-unit="%" data-value="60"></span><p class="text-sm text-stone-500">Intégration au marché</p></div>
-                            <div class="p-4 rounded-lg" style="background-color:rgba(229,226,175,0.3)"><i data-lucide="graduation-cap" class="h-8 w-8 text-primary mx-auto mb-2"></i><span class="stat-value text-2xl font-bold text-primary" data-prefix="+ " data-unit="%" data-value="30"></span><p class="text-sm text-stone-500">Poursuite d'études</p></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-    <section id="actualites" class="py-20 anim-fade-up will-change-transform">
-            <div class="container mx-auto px-4 sm:px-6">
-                <div class="text-center mb-12">
-                    <h2 class="section-title inline-block text-4xl font-bold mb-4">Actualités et Événements</h2>
-                    <p class="text-stone-600 max-w-2xl mx-auto">Restez informés des dernières annonces importantes de l'institut.</p>
-                </div>
-                <div class="relative news-slider-container">
-                    <div class="swiper news-slider">
-                        <div class="swiper-wrapper" id="news-slider-wrapper"></div>
-                        <div class="swiper-pagination"></div>
-                    </div>
-                    </div>
+    <!-- Main Content -->
+    <main>
+      <!-- Hero Section -->
+      <section class="hero-section" id="hero">
+        <div class="hero-inner fade-in-section">
+          <h1 class="hero-title">Bienvenue à l'IFTSAU Oujda</h1>
+          <p class="hero-desc">
+            L'Institut de Formation des Techniciens Spécialisés en Architecture et Urbanisme d'Oujda forme les professionnels de demain, prêts à bâtir la ville de l'avenir.
+          </p>
+          <a href="#about" class="btn-primary text-lg shadow-md">Découvrir l'institut</a>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section class="about-section py-14" id="about">
+        <div class="container max-w-6xl mx-auto px-4 grid gap-11 grid-cols-1 md:grid-cols-2 items-center fade-in-section">
+          <img src="https://placehold.co/590x420" alt="IFTSAU bâtiment" class="about-img w-full h-[260px] md:h-[350px]"/>
+          <div>
+            <h2 class="section-title">A propos de l'Institut</h2>
+            <p class="mb-7 text-lg">Depuis sa création, l'IFTSAU Oujda s'engage à offrir une formation d'excellence dans les domaines de l'architecture et de l'urbanisme, alliant savoir théorique et pratique professionnelle.</p>
+            <div class="stats-grid">
+              <div class="stat-box">
+                <div class="stat-count" data-target="950">0</div>
+                <div class="stat-label">Diplômés</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-count" data-target="22">0</div>
+                <div class="stat-label">Années d'existence</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-count" data-target="18">0</div>
+                <div class="stat-label">Formations</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-count" data-target="37">0</div>
+                <div class="stat-label">Partenariats</div>
+              </div>
             </div>
-        </section>
-        
-    <section id="contact" class="py-20 bg-white anim-fade-up will-change-transform">
-            <div class="container mx-auto px-4 sm:px-6 text-center">
-                <h2 class="section-title inline-block text-4xl font-bold mb-12">Contactez-nous</h2>
-                <div class="flex flex-col lg:flex-row gap-12 text-left">
-                    <div class="lg:w-1/2">
-                        <div class="space-y-6">
-                            <div class="flex items-start space-x-4">
-                                <div class="p-3 rounded-full" style="background-color:var(--color-accent)"><i data-lucide="map-pin" class="h-6 w-6 text-primary"></i></div>
-                                <div><h4 class="font-semibold text-lg">Adresse</h4><p class="text-stone-600">Bd. Sidi Maafa, Cité El Qods, Oujda, Maroc</p></div>
-                            </div>
-                            <div class="flex items-start space-x-4">
-                                <div class="p-3 rounded-full" style="background-color:var(--color-accent)"><i data-lucide="phone" class="h-6 w-6 text-primary"></i></div>
-                                <div><h4 class="font-semibold text-lg">Téléphone</h4><a href="tel:+212536508390" class="text-stone-600 hover:text-primary">05 36 50 83 90</a></div>
-                            </div>
-                            <div class="flex items-start space-x-4">
-                                <div class="p-3 rounded-full" style="background-color:var(--color-accent)"><i data-lucide="mail" class="h-6 w-6 text-primary"></i></div>
-                                <div><h4 class="font-semibold text-lg">Email</h4><a href="mailto:iftsauoujda@gmail.com" class="text-stone-600 hover:text-primary">iftsauoujda@gmail.com</a></div>
-                            </div>
-                            <div class="flex items-start space-x-4">
-                                <div class="p-3 rounded-full" style="background-color:var(--color-accent)"><i data-lucide="facebook" class="h-6 w-6 text-primary"></i></div>
-                                <div><h4 class="font-semibold text-lg">Facebook</h4><a href="https://web.facebook.com/IFTSAUO" target="_blank" rel="noopener noreferrer" class="text-stone-600 hover:text-primary">Suivez-nous sur Facebook</a></div>
-                            </div>
-                            <div class="flex items-start space-x-4">
-                                <div class="p-3 rounded-full" style="background-color:var(--color-accent)"><i data-lucide="instagram" class="h-6 w-6 text-primary"></i></div>
-                                <div><h4 class="font-semibold text-lg">Instagram</h4><a href="https://www.instagram.com/iftsauoujda/" target="_blank" rel="noopener noreferrer" class="text-stone-600 hover:text-primary">Suivez-nous sur Instagram</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="lg:w-1/2 h-80 lg:h-[450px] rounded-lg overflow-hidden shadow-lg">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3281.7068350018326!2d-1.8961400000000002!3d34.662106!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd787d421591a86f%3A0xc567299d8be3a20b!2sIFTSAU%20%3A%20Institut%20de%20Formation%20des%20Techniciens%20Sp%C3%A9cialis%C3%A9s%20en%20Architecture%20et%20en%20Urbanisme_Oujda!5e0!3m2!1sfr!2sma!4v1751919037831!5m2!1sfr!2sma" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-                </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- News Section -->
+      <section class="news-section px-2 py-16 bg-[var(--color-accent)]" id="news">
+        <div class="max-w-6xl mx-auto fade-in-section">
+          <h2 class="section-title">Actualités et Événements</h2>
+          <div class="swiper mySwiper mt-12" id="news-swiper">
+            <div class="swiper-wrapper" id="news-slider-wrapper">
+              <!-- News cards injected by JS -->
             </div>
-        </section>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next text-[var(--color-primary)]"></div>
+            <div class="swiper-button-prev text-[var(--color-primary)]"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section class="contact-section py-16" id="contact">
+        <div class="container max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 px-4 fade-in-section">
+          <div class="contact-details flex flex-col gap-7">
+            <h2 class="section-title mb-5">Contact & Accès</h2>
+            <div class="contact-item">
+              <svg data-lucide="map-pin" class="w-6 h-6 text-[var(--color-primary)]"></svg>
+              12, Rue de l’Urbanisme, Oujda, Maroc
+            </div>
+            <div class="contact-item">
+              <svg data-lucide="phone" class="w-6 h-6 text-[var(--color-primary)]"></svg>
+              05 36 41 46 47
+            </div>
+            <div class="contact-item">
+              <svg data-lucide="mail" class="w-6 h-6 text-[var(--color-primary)]"></svg>
+              contact@iftsau-oujda.ma
+            </div>
+            <div class="contact-item">
+              <svg data-lucide="clock" class="w-6 h-6 text-[var(--color-primary)]"></svg>
+              Lundi - Vendredi: 08h30-16h30
+            </div>
+          </div>
+          <div>
+            <iframe title="IFTSAU Oujda Map" src="https://www.openstreetmap.org/export/embed.html?bbox=-1.917,34.670,-1.910,34.675&amp;layer=mapnik" class="w-full h-[300px] md:h-[350px] rounded-lg shadow" frameborder="0"></iframe>
+          </div>
+        </div>
+      </section>
     </main>
 
-    <div id="news-modal" class="modal-overlay fixed inset-0 z-[60] bg-black bg-opacity-60 flex items-center justify-center p-4">
-        <div class="modal-content bg-white w-full max-w-2xl max-h-[90vh] rounded-lg shadow-2xl flex flex-col">
-            <div class="flex justify-between items-center p-4 border-b">
-                <h3 id="modal-title" class="text-xl font-bold text-primary">Titre de l'actualité</h3>
-                <button id="modal-close" class="text-stone-500 hover:text-primary"><i data-lucide="x" class="h-6 w-6"></i></button>
-            </div>
-            <div id="modal-body" class="p-6 overflow-y-auto">
-            </div>
-        </div>
-    </div>
-    
-    <div id="concours-modal" class="modal-overlay fixed inset-0 z-[70] bg-black bg-opacity-70 flex items-center justify-center p-4">
-        <div class="modal-content bg-white w-11/12 md:w-full md:max-w-3xl max-h-[95vh] rounded-lg shadow-2xl flex flex-col">
-            <div class="flex justify-between items-center p-4 border-b">
-                <h3 class="text-xl sm:text-2xl font-bold text-primary">Résultats Finaux du Concours</h3>
-                <button id="concours-modal-close" class="text-stone-500 hover:text-primary"><i data-lucide="x" class="h-8 w-8"></i></button>
-            </div>
-            <div class="p-4 sm:p-6 overflow-y-auto text-left">
-                <div class="flex flex-col md:flex-row gap-6 items-center mb-6">
-                    <img src="concours.jpg" alt="Logo Concours IFTSUACGC" class="w-32 sm:w-48 h-auto object-contain">
-                    <div>
-                        <h4 class="text-xl font-semibold mb-2">Concours d'accès 2025-2026</h4>
-                        <p class="text-stone-600">Les résultats finaux du concours d'accès aux IFTSAU (liste principale et listes d'attente) sont maintenant disponibles.</p>
-                        <p class="text-stone-600 mt-2">Félicitations à tous les admis !</p>
-                    </div>
-                </div>
-                <div class="mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a href="https://iftsau.matnuhpv.gov.ma/subscribe/" target="_blank" rel="noopener noreferrer" class="btn-primary font-bold py-3 px-6 rounded-md inline-flex items-center w-full sm:w-auto justify-center">
-                        <i data-lucide="award" class="mr-2 h-5 w-5"></i> Consulter les résultats
-                    </a>
-                </div>
-                 <p class="text-center text-sm text-stone-500 mt-4">Les candidats admis sont priés de suivre les instructions pour finaliser leur inscription.</p>
-            </div>
-        </div>
+    <!-- News Modal -->
+    <div id="news-modal" class="modal items-center justify-center">
+      <div class="modal-content max-w-[550px] max-h-[88vh] overflow-auto">
+        <button class="modal-close" aria-label="Fermer">&times;</button>
+        <div class="modal-title"></div>
+        <div class="modal-desc"></div>
+        <div class="news-modal-gallery pb-4"></div>
+      </div>
     </div>
 
+    <!-- Concours Modal -->
+    <div id="concours-modal" class="modal items-center justify-center">
+      <div class="modal-content max-w-[425px]">
+        <button class="modal-close" aria-label="Fermer">&times;</button>
+        <div class="modal-title mb-4">Résultats du Concours</div>
+        <div class="modal-desc">
+          La publication des résultats du concours 2025-2026 est prévue le 27 juillet.<br/>
+          Merci pour votre patience.
+        </div>
+      </div>
+    </div>
 
-    <footer style="background-color:var(--color-primary)">
-       <div class="container mx-auto px-6 py-8 text-center text-stone-200">
-           <p>© <span id="year"></span> IFTSAU Oujda. Tous droits réservés.</p>
-       </div>
+    <!-- Footer -->
+    <footer class="site-footer text-base font-medium">
+      &copy; <span id="footer-year"></span> IFTSAU Oujda. Tous droits réservés.
     </footer>
-    
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/lucide@0.258.0/dist/umd/lucide.min.js"></script>
-        <script>
-        (function(){
-            const preloader = document.getElementById('preloader');
-            if(!preloader) return;
-            // New markup uses .progress-ring-circle and #preloader-percentage
-            const circle = document.querySelector('.progress-ring-circle');
-            const pct = document.getElementById('preloader-percentage');
-            const duration = parseInt(getComputedStyle(preloader).getPropertyValue('--preloader-duration')) || 3000;
 
-            if(!circle){
-                // Fallback: hide preloader quickly
-                if(pct) pct.textContent = '100%';
-                preloader.setAttribute('aria-hidden','true');
-                return;
+    <!-- Swiper.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Lucide Icons CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/lucide@0.322.0/dist/umd/lucide.min.js"></script>
+    <!-- JS Functionality -->
+    <script>
+      // Preloader animation
+      document.addEventListener("DOMContentLoaded", function () {
+        const preloader = document.getElementById("preloader");
+        const ring = document.getElementById("progress-ring");
+        const percent = document.getElementById("preloader-percentage");
+        const circle = ring;
+        const radius = circle.r.baseVal.value;
+        const circumference = 2 * Math.PI * radius;
+        let value = 0;
+        ring.style.strokeDasharray = \`\${circumference}\`;
+        ring.style.strokeDashoffset = \`\${circumference}\`;
+
+        function setProgress(pct) {
+          const offset = circumference - (pct / 100) * circumference;
+          ring.style.strokeDashoffset = offset;
+          percent.textContent = Math.round(pct) + "%";
+        }
+
+        let current = 0;
+        const duration = 3000; // 3s
+        const interval = 33;
+        const steps = duration / interval;
+        const increment = 100 / steps;
+        const progressInterval = setInterval(() => {
+          current += increment;
+          if (current >= 100) {
+            current = 100;
+            clearInterval(progressInterval);
+            setTimeout(() => {
+              preloader.classList.add("hide");
+              setTimeout(() => preloader.style.display = "none", 550);
+            }, 420);
+          }
+          setProgress(current);
+        }, interval);
+      });
+
+      // Responsive mobile nav
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+      mobileMenuBtn && mobileMenuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("shown");
+      });
+      document.addEventListener("click", (e) => {
+        if (
+          mobileMenu &&
+          !mobileMenu.contains(e.target) &&
+          !mobileMenuBtn.contains(e.target)
+        ) mobileMenu.classList.remove("shown");
+      });
+
+      // Modal logic (News + Concours)
+      function openModal(modal) {
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+      function closeModal(modal) {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+      document.querySelectorAll(".modal-close").forEach(btn =>
+        btn.addEventListener("click", function () {
+          closeModal(this.closest(".modal"));
+        })
+      );
+      document.querySelectorAll("#open-concours-btn, #mobile-concours-btn").forEach(btn => {
+        btn && btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          openModal(document.getElementById("concours-modal"));
+        });
+      });
+      [ "news-modal", "concours-modal" ].forEach(id => {
+        const modal = document.getElementById(id);
+        modal.addEventListener("click", function(e) {
+          if (e.target === modal) closeModal(modal);
+        });
+      });
+
+      // News Data and Swiper Carousel
+      const newsData = [
+        {
+          title: "Rencontre pédagogique & ateliers",
+          date: "2025-09-20",
+          category: "Éducation",
+          cardImage: "https://placehold.co/600x320",
+          description: "Les étudiants et enseignants ont échangé lors d'ateliers interactifs sur l’urbanisme moderne.",
+          full_description:
+            "Durant cette journée, plusieurs intervenants spécialisés ont partagé leurs expériences et approfondi les thématiques liées à l’architecture durable et à l'intégration urbaine.",
+          images: [
+            "https://placehold.co/1200x800",
+            "https://placehold.co/1200x800/6a7ca4/fff?text=Atelier"
+          ]
+        },
+        {
+          title: "Avis d'inscription 2025-2026",
+          date: "2025-09-10",
+          category: "Annonce",
+          cardImage: "https://placehold.co/600x320/aea29a/fff?text=Inscription",
+          description: "Ouverture des inscriptions pour la rentrée prochaine. Procédures et documents à télécharger.",
+          full_description:
+            "Déposez votre dossier avant le 3 octobre via notre portail ou à l’accueil. Toutes les informations et formulaires sont disponibles dans la rubrique 'Scolarité'.",
+          images: [
+            "https://placehold.co/1200x800/ccbeaf/fff?text=Inscription"
+          ]
+        },
+        {
+          title: "Visite de terrain à Saïdia",
+          date: "2025-08-15",
+          category: "Sortie",
+          cardImage: "https://placehold.co/600x320/76955e/fff?text=Sortie",
+          description: "Sortie sur le terrain à Saïdia pour une étude pratique avec les étudiants de 2ème année.",
+          full_description:
+            "Les élèves ont pu mettre en application leurs connaissances sur le terrain, encadrés par des professionnels de la région de l’Oriental.",
+          images: [
+            "https://placehold.co/1200x800/577244/fff?text=Saïdia+1",
+            "https://placehold.co/1200x800/94ad66/fff?text=Saïdia+2",
+            "https://placehold.co/1200x800",
+          ]
+        },
+        {
+          title: "Événement: Journée Portes Ouvertes",
+          date: "2025-05-30",
+          category: "Événement",
+          cardImage: "https://placehold.co/600x320/ebc86e/fff?text=JPO",
+          description: "Nos portes ouvertes permettent aux futurs étudiants de découvrir l'institut et ses formations.",
+          full_description:
+            "Des visites guidées, des présentations sur les programmes, ainsi qu'un échange avec les membres du corps enseignant ont marqué la journée.",
+          images: [
+            "https://placehold.co/1200x800/ebc86e/fff?text=JPO"
+          ]
+        },
+        {
+          title: "Projet Lauréat: Réaménagement Urbain",
+          date: "2025-04-10",
+          category: "Projet",
+          cardImage: "https://placehold.co/600x320/987a44/fff?text=Lauréat",
+          description: "Un groupe d’étudiants a été récompensé pour le projet de réaménagement d’une place publique.",
+          full_description:
+            "Ce projet a remporté un prix lors du Forum National d’Urbanisme grâce à son innovation, son impact social et écologique.",
+          images: [
+            "https://placehold.co/1200x800/987a44/fff?text=Projet+Lauréat"
+          ]
+        }
+      ];
+
+      // Inject news cards
+      function createNewsCards() {
+        const wrapper = document.getElementById("news-slider-wrapper");
+        wrapper.innerHTML = "";
+        newsData.forEach((item, i) => {
+          const div = document.createElement("div");
+          div.className = "swiper-slide py-3";
+          div.innerHTML = \`
+            <div class="news-card flex flex-col h-full">
+              <img src="\${item.cardImage}" alt="Illustration \${item.title}" class="news-card-thumb" />
+              <div class="news-card-content flex flex-col flex-1">
+                <div class="news-meta">
+                  <span>\${item.category}</span>
+                  <span class="text-xs text-gray-400">•</span>
+                  <span>\${item.date}</span>
+                </div>
+                <div class="news-title">\${item.title}</div>
+                <div class="news-desc">\${item.description}</div>
+                <button data-news-index="\${i}" class="btn-primary mt-1 self-start text-sm px-6 py-2 news-readmore-btn">Lire la suite</button>
+              </div>
+            </div>
+          \`;
+          wrapper.appendChild(div);
+        });
+      }
+
+      function setupNewsModal() {
+        document.querySelectorAll(".news-readmore-btn").forEach(btn =>
+          btn.addEventListener("click", function () {
+            const idx = parseInt(btn.dataset.newsIndex, 10);
+            const news = newsData[idx];
+            const modal = document.getElementById("news-modal");
+            modal.querySelector('.modal-title').innerText = news.title;
+            modal.querySelector('.modal-desc').innerHTML = news.full_description;
+            // Gallery
+            const galleryDiv = modal.querySelector('.news-modal-gallery');
+            if (news.images && news.images.length > 0) {
+              if (news.images.length > 1) {
+                galleryDiv.innerHTML = \`
+                  <div class="swiper gallery-swiper">
+                    <div class="swiper-wrapper">
+                      \${news.images
+                        .map(
+                          img =>
+                            \`<div class="swiper-slide"><img src="\${img}" alt="Image - \${news.title}" class="rounded-lg w-full h-[260px] object-cover" /></div>\`
+                        )
+                        .join("")}
+                    </div>
+                    <div class="swiper-pagination"></div>
+                  </div>
+                \`;
+                // Init Swiper for modal gallery
+                if (typeof Swiper !== "undefined" && window.gallerySwiper) {
+                  window.gallerySwiper.destroy();
+                }
+                setTimeout(() => {
+                  window.gallerySwiper = new Swiper(
+                    modal.querySelector(".gallery-swiper"),
+                    {
+                      slidesPerView: 1,
+                      spaceBetween: 7,
+                      pagination: { el: ".gallery-swiper .swiper-pagination", clickable: true },
+                    }
+                  );
+                }, 100);
+              } else {
+                galleryDiv.innerHTML = \`
+                  <img src="\${news.images[0]}" alt="Image - \${news.title}" class="rounded-lg w-full h-[250px] object-cover mb-1" />
+                \`;
+              }
+            } else {
+              galleryDiv.innerHTML = "";
             }
+            openModal(modal);
+            setTimeout(() => lucide && lucide.createIcons(), 120);
+          })
+        );
+      }
 
-            // Use r attribute when available
-            const r = circle.getAttribute('r') || circle.getAttribute('data-r') || '68';
-            const radius = Number(r);
-            const circumference = 2 * Math.PI * radius;
-            circle.style.strokeDasharray = `${circumference}`;
-            circle.style.strokeDashoffset = circumference;
+      function initNewsSwiper() {
+        new Swiper("#news-swiper", {
+          slidesPerView: 1,
+          spaceBetween: 22,
+          loop: true,
+          autoplay: { delay: 3600, disableOnInteraction: false },
+          pagination: { el: ".swiper-pagination", clickable: true },
+          navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev"
+          },
+          breakpoints: {
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          }
+        });
+      }
 
-            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if(reduce){
-                circle.style.strokeDashoffset = '0';
-                if(pct) pct.textContent = '100%';
-                setTimeout(()=> preloader.setAttribute('aria-hidden','true'), 180);
-                return;
+      // Animated Stat Counters
+      function animateStats () {
+        const counters = document.querySelectorAll('.stat-count');
+        counters.forEach(counter => {
+          counter.innerText = "0";
+          let start = 0, end = parseInt(counter.dataset.target,10);
+          let duration = 1550, stepTime = Math.abs(Math.floor(duration / end));
+          function run() {
+            start += 1;
+            counter.innerText = start;
+            if (start < end) setTimeout(run, stepTime);
+            else counter.innerText = end;
+          }
+          run();
+        });
+      }
+      function setupStatsOnScroll () {
+        let started = false;
+        const box = document.querySelector('.about-section');
+        if (!box) return;
+        const observer = new IntersectionObserver(entries => {
+          if (entries[0].isIntersecting && !started) {
+            animateStats();
+            started = true;
+          }
+        }, { threshold: 0.38 });
+        observer.observe(box);
+      }
+
+      // Fade-in on scroll
+      function setupFadeInSections() {
+        const fadeElems = document.querySelectorAll('.fade-in-section');
+        const observer = new IntersectionObserver(function(entries, observer){
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible');
+              observer.unobserve(e.target);
             }
+          });
+        }, { threshold: 0.17 });
+        fadeElems.forEach(el => observer.observe(el));
+      }
 
-            const start = performance.now();
-            function animate(now){
-                const t = Math.min(1, (now - start) / duration);
-                const progress = t; // 0..1
-                const offset = Math.round(circumference * (1 - progress));
-                circle.style.strokeDashoffset = offset;
-                if(pct) pct.textContent = Math.round(progress * 100) + '%';
-                if(t < 1) requestAnimationFrame(animate);
-                else setTimeout(()=> preloader.setAttribute('aria-hidden','true'), 220);
-            }
-            requestAnimationFrame(animate);
-        })();
-        </script>
-            <script>
-            // Reveal sections with a small stagger for a polished feel
-            document.addEventListener('DOMContentLoaded', function(){
-                const els = document.querySelectorAll('.anim-fade-up');
-                els.forEach((el, i) => {
-                    setTimeout(()=> el.classList.add('anim-in'), i * 120);
-                });
-            });
-            </script>
-    <script src="src/custom.js"></script>
-</body>
+      // Footer year
+      document.getElementById('footer-year').innerText = new Date().getFullYear();
+
+      // DOMContentLoaded event for main flows
+      document.addEventListener("DOMContentLoaded", function () {
+        // News
+        createNewsCards();
+        initNewsSwiper();
+        setTimeout(setupNewsModal, 532); // let cards load
+        // Stats
+        setupStatsOnScroll();
+        // Animations
+        setupFadeInSections();
+        // Lucide icons initial render
+        if (window.lucide) lucide.createIcons();
+      });
+
+      // Support for hot content: recalc icons when news/quotes modal opens
+      document.addEventListener("lucideCreate", function(){
+        if (window.lucide) lucide.createIcons();
+      });
+      // Fallback Lucide after dynamic loads
+      setTimeout(() => { if (window.lucide) lucide.createIcons(); }, 1600);
+
+    </script>
+  </body>
 </html>
