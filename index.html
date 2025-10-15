@@ -38,10 +38,8 @@
         #concours-modal .modal-content { transform: translateY(-50px); opacity: 0; transition: transform 0.4s ease-out, opacity 0.4s ease-out; }
         #concours-modal.active .modal-content { transform: translateY(0); opacity: 1; }
 
-        /* --- Nouvelles animations --- */
-        @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+        /* --- Animations --- */
         @keyframes slide-in-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        
         .animate-on-scroll { opacity: 0; will-change: transform, opacity; }
         .animate-on-scroll.is-visible { animation: slide-in-up 0.8s ease-out forwards; }
     </style>
@@ -56,36 +54,23 @@
 </head>
 <body class="text-stone-800">
 
-    <div id="preloader" aria-hidden="false" style="--preloader-duration:2500ms;">
-        <div class="preloader-backdrop" role="status" aria-live="polite">
-            <div class="preloader-circle">
-                <svg class="progress-ring" width="110" height="110" viewBox="0 0 120 120" aria-hidden="true">
-                    <defs>
-                        <linearGradient id="ringGrad" x1="0%" x2="100%" y1="0%" y2="0%">
-                            <stop offset="0%" stop-color="#ab7f59" stop-opacity="0.95" />
-                            <stop offset="100%" stop-color="#8a6a49" stop-opacity="0.95" />
-                        </linearGradient>
-                    </defs>
-                    <circle class="progress-ring__bg" cx="60" cy="60" r="50" fill="transparent" stroke="rgba(0,0,0,0.04)" stroke-width="6"></circle>
-                    <circle class="progress-ring__circle" id="progress-circle" cx="60" cy="60" r="50" fill="transparent" stroke="url(#ringGrad)" stroke-width="6" stroke-linecap="round" transform="rotate(-90 60 60)"></circle>
-                </svg>
-                <img src="logo-iftsau.png" alt="IFTSAU Oujda" class="preloader-logo" width="78" height="78">
+    <div id="preloader" style="--preloader-duration:2500ms;">
+        <div style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--color-bg);z-index:99999;transition:opacity .6s ease .2s,visibility .6s ease .2s"
+            data-preloader>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:18px">
+                <div style="position:relative;width:120px;height:120px;display:flex;align-items:center;justify-content:center">
+                    <svg style="position:absolute;left:0;top:0;width:120px;height:120px" viewBox="0 0 120 120">
+                        <defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ab7f59"/><stop offset="100%" stop-color="#8a6a49"/></linearGradient></defs>
+                        <circle cx="60" cy="60" r="50" fill="transparent" stroke="rgba(0,0,0,0.04)" stroke-width="6"/>
+                        <circle id="progress-circle" cx="60" cy="60" r="50" fill="transparent" stroke="url(#ringGrad)" stroke-width="6" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+                    </svg>
+                    <img src="logo-iftsau.png" alt="IFTSAU Oujda" style="position:relative;z-index:2" width="78" height="78">
+                </div>
+                <div id="preloader-percent" style="font-family:Inter,system-ui;color:var(--color-text);font-weight:700">0%</div>
             </div>
-            <div class="preloader-percent" id="preloader-percent">0%</div>
         </div>
     </div>
-    <style>
-        #preloader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--color-bg);z-index:99999;transition:opacity .6s ease .2s,visibility .6s ease .2s}
-        #preloader[aria-hidden="true"]{opacity:0;visibility:hidden;pointer-events:none}
-        .preloader-backdrop{display:flex;flex-direction:column;align-items:center;gap:14px;padding:18px}
-        .preloader-circle{position:relative;width:120px;height:120px;display:flex;align-items:center;justify-content:center}
-        .progress-ring{position:absolute;left:0;top:0;width:120px;height:120px}
-        .preloader-logo{position:relative;z-index:2}
-        .preloader-percent{font-family:Inter,system-ui,Segoe UI,Arial;color:var(--color-text,#4a4238);font-weight:700}
-        .progress-ring__circle{transition:stroke-dashoffset .15s linear}
-        @media (prefers-reduced-motion: reduce){.progress-ring__circle{transition:none}}
-    </style>
-
+    
     <header id="header" class="bg-white/80 backdrop-blur-sm shadow-md sticky top-0 z-50 transition-all duration-300 py-2">
         <div class="container mx-auto px-4 sm:px-6 flex justify-between items-center">
             <a href="index.html" class="flex-shrink-0 flex items-center space-x-3"><img src="logo-iftsau.png" alt="Logo IFTSAU Oujda" class="h-12 w-auto"><span class="text-xl font-bold tracking-tight hidden sm:block" style="color:var(--color-text)">IFTSAU Oujda</span></a>
@@ -137,12 +122,10 @@
                 <div class="text-left flex flex-col md:flex-row items-center gap-12">
                     <div class="md:w-1/2"><img src="photo.png" alt="Photo de l'Institut IFTSAU Oujda" loading="lazy" decoding="async" class="rounded-lg shadow-xl w-full h-full object-cover"/></div>
                     <div class="md:w-1/2">
-                        <p class="text-stone-600 text-lg mb-8">L'Institut de Formation des Techniciens Spécialisés en Architecture et en Urbanisme (IFTSAU) d'Oujda est un établissement public sous la tutelle du Ministère de l'Aménagement du Territoire National, de l'Urbanisme, de l'Habitat et de la Politique de la Ville. Depuis 2017, notre institut s'est engagé à former des techniciens hautement qualifiés, capables de répondre aux défis du secteur du BTP, de l'architecture et de l'urbanisme au Maroc.</p>
+                        <p class="text-stone-600 text-lg mb-8">L'Institut de Formation des Techniciens Spécialisés en Architecture et en Urbanisme (IFTSAU) d'Oujda est un établissement public. Depuis 2017, nous formons des techniciens hautement qualifiés pour répondre aux défis du BTP, de l'architecture et de l'urbanisme au Maroc.</p>
                         <div class="grid grid-cols-2 gap-6 text-center">
                             <div class="p-4 rounded-lg" style="background-color:rgba(229,226,175,0.3)"><i data-lucide="award" class="h-8 w-8 text-primary mx-auto mb-2"></i><span class="stat-value text-2xl font-bold text-primary" data-prefix="+ " data-value="200"></span><p class="text-sm text-stone-500">Lauréats depuis 2017</p></div>
                             <div class="p-4 rounded-lg" style="background-color:rgba(229,226,175,0.3)"><i data-lucide="trending-up" class="h-8 w-8 text-primary mx-auto mb-2"></i><span class="stat-value text-2xl font-bold text-primary" data-unit="%" data-value="90"></span><p class="text-sm text-stone-500">Taux de réussite</p></div>
-                            <div class="p-4 rounded-lg" style="background-color:rgba(229,226,175,0.3)"><i data-lucide="briefcase" class="h-8 w-8 text-primary mx-auto mb-2"></i><span class="stat-value text-2xl font-bold text-primary" data-prefix="+ " data-unit="%" data-value="60"></span><p class="text-sm text-stone-500">Intégration au marché</p></div>
-                            <div class="p-4 rounded-lg" style="background-color:rgba(229,226,175,0.3)"><i data-lucide="graduation-cap" class="h-8 w-8 text-primary mx-auto mb-2"></i><span class="stat-value text-2xl font-bold text-primary" data-prefix="+ " data-unit="%" data-value="30"></span><p class="text-sm text-stone-500">Poursuite d'études</p></div>
                         </div>
                     </div>
                 </div>
@@ -156,145 +139,104 @@
                     <p class="text-stone-600 max-w-2xl mx-auto">Restez informés des dernières annonces importantes de l'institut.</p>
                 </div>
                 <div class="relative news-slider-container">
-                    <div class="swiper news-slider">
-                        <div class="swiper-wrapper" id="news-slider-wrapper"></div>
-                        <div class="swiper-pagination"></div>
-                    </div>
+                    <div class="swiper news-slider"><div class="swiper-wrapper" id="news-slider-wrapper"></div><div class="swiper-pagination"></div></div>
                 </div>
             </div>
         </section>
     </main>
 
-    <div id="news-modal" class="modal-overlay fixed inset-0 z-[60] bg-black bg-opacity-60 flex items-center justify-center p-4">
-        <div class="modal-content bg-white w-full max-w-2xl max-h-[90vh] rounded-lg shadow-2xl flex flex-col">
-            <div class="flex justify-between items-center p-4 border-b">
-                <h3 id="modal-title" class="text-xl font-bold text-primary">Titre de l'actualité</h3>
-                <button id="modal-close" class="text-stone-500 hover:text-primary"><i data-lucide="x" class="h-6 w-6"></i></button>
-            </div>
-            <div id="modal-body" class="p-6 overflow-y-auto"></div>
-        </div>
-    </div>
-    
-    <div id="concours-modal" class="modal-overlay fixed inset-0 z-[70] bg-black bg-opacity-70 flex items-center justify-center p-4">
-        <div class="modal-content bg-white w-11/12 md:w-full md:max-w-3xl max-h-[95vh] rounded-lg shadow-2xl flex flex-col">
-            <div class="flex justify-between items-center p-4 border-b">
-                <h3 class="text-xl sm:text-2xl font-bold text-primary">Résultats Finaux du Concours</h3>
-                <button id="concours-modal-close" class="text-stone-500 hover:text-primary"><i data-lucide="x" class="h-8 w-8"></i></button>
-            </div>
-            <div class="p-4 sm:p-6 overflow-y-auto text-left">
-                <div class="flex flex-col md:flex-row gap-6 items-center mb-6">
-                    <img src="concours.jpg" alt="Logo Concours IFTSUACGC" class="w-32 sm:w-48 h-auto object-contain">
-                    <div>
-                        <h4 class="text-xl font-semibold mb-2">Concours d'accès 2025-2026</h4>
-                        <p class="text-stone-600">Les résultats finaux du concours d'accès aux IFTSAU (liste principale et listes d'attente) sont maintenant disponibles.</p>
-                        <p class="text-stone-600 mt-2">Félicitations à tous les admis !</p>
-                    </div>
-                </div>
-                <div class="mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a href="https://iftsau.matnuhpv.gov.ma/subscribe/" target="_blank" rel="noopener noreferrer" class="btn-primary font-bold py-3 px-6 rounded-md inline-flex items-center w-full sm:w-auto justify-center">
-                        <i data-lucide="award" class="mr-2 h-5 w-5"></i> Consulter les résultats
-                    </a>
-                </div>
-                 <p class="text-center text-sm text-stone-500 mt-4">Les candidats admis sont priés de suivre les instructions pour finaliser leur inscription.</p>
-            </div>
-        </div>
-    </div>
+    <div id="news-modal" class="modal-overlay fixed inset-0 z-[60] bg-black bg-opacity-60 flex items-center justify-center p-4"><div class="modal-content bg-white w-full max-w-2xl max-h-[90vh] rounded-lg shadow-2xl flex flex-col"><div class="flex justify-between items-center p-4 border-b"><h3 id="modal-title" class="text-xl font-bold text-primary"></h3><button id="modal-close" class="text-stone-500 hover:text-primary"><i data-lucide="x" class="h-6 w-6"></i></button></div><div id="modal-body" class="p-6 overflow-y-auto"></div></div></div>
+    <div id="concours-modal" class="modal-overlay fixed inset-0 z-[70] bg-black bg-opacity-70 flex items-center justify-center p-4"><div class="modal-content bg-white w-11/12 md:w-full md:max-w-3xl max-h-[95vh] rounded-lg shadow-2xl flex flex-col"><div class="flex justify-between items-center p-4 border-b"><h3 class="text-xl sm:text-2xl font-bold text-primary">Résultats Finaux du Concours</h3><button id="concours-modal-close" class="text-stone-500 hover:text-primary"><i data-lucide="x" class="h-8 w-8"></i></button></div><div class="p-4 sm:p-6 overflow-y-auto text-left"><div class="flex flex-col md:flex-row gap-6 items-center mb-6"><img src="concours.jpg" alt="Logo Concours" class="w-32 sm:w-48 h-auto object-contain"><div><h4 class="text-xl font-semibold mb-2">Concours d'accès 2025-2026</h4><p class="text-stone-600">Les résultats finaux (liste principale et listes d'attente) sont maintenant disponibles.</p></div></div><div class="mt-8 pt-6 border-t flex justify-center"><a href="https://iftsau.matnuhpv.gov.ma/subscribe/" target="_blank" rel="noopener noreferrer" class="btn-primary font-bold py-3 px-6 rounded-md inline-flex items-center justify-center"><i data-lucide="award" class="mr-2 h-5 w-5"></i>Consulter les résultats</a></div></div></div></div>
 
-    <footer id="footer" class="bg-white pt-16 pb-8">
+    <footer id="footer" class="text-stone-200 pt-16 pb-8" style="background-color:var(--color-primary)">
         <div class="container mx-auto px-4 sm:px-6">
+            <div class="mb-12">
+                <a href="index.html" class="flex items-center justify-center space-x-3 mb-4">
+                    <img src="logo-iftsau.png" alt="Logo IFTSAU Oujda" class="h-14 w-auto bg-white p-1 rounded-full">
+                    <span class="text-2xl font-bold text-white">IFTSAU Oujda</span>
+                </a>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10 text-center md:text-left">
-                <!-- A Propos -->
-                <div>
-                    <h5 class="font-bold text-lg mb-4 text-primary">IFTSAU Oujda</h5>
-                    <p class="text-stone-600 text-sm">Institut public de formation des techniciens spécialisés en architecture, urbanisme et BTP, engagé dans l'excellence depuis 2017.</p>
+                <div class="space-y-4">
+                    <h5 class="font-bold text-lg border-b border-stone-200/30 pb-3 mb-4">À Propos</h5>
+                    <p class="text-sm text-stone-300">Institut public formant des techniciens spécialisés en architecture et urbanisme pour bâtir l'avenir du Maroc.</p>
                 </div>
 
-                <!-- Liens Rapides -->
-                <div>
-                    <h5 class="font-bold text-lg mb-4 text-primary">Liens Rapides</h5>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="index.html" class="text-stone-600 hover:text-primary transition-colors">Accueil</a></li>
-                        <li><a href="formation.html" class="text-stone-600 hover:text-primary transition-colors">Formation</a></li>
-                        <li><a href="admission.html" class="text-stone-600 hover:text-primary transition-colors">Admission</a></li>
-                        <li><a href="vie-etudiante.html" class="text-stone-600 hover:text-primary transition-colors">Vie Étudiante</a></li>
-                    </ul>
-                </div>
-
-                <!-- Scolarité -->
-                <div>
-                    <h5 class="font-bold text-lg mb-4 text-primary">Scolarité</h5>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="demande-document.html" class="text-stone-600 hover:text-primary transition-colors">Demande de document</a></li>
-                        <li><a href="emplois-du-temps.html" class="text-stone-600 hover:text-primary transition-colors">Emplois du temps</a></li>
-                        <li><a href="planning.html" class="text-stone-600 hover:text-primary transition-colors">Planning</a></li>
-                        <li><a href="resultats.html" class="text-stone-600 hover:text-primary transition-colors">Resultats</a></li>
-                    </ul>
-                </div>
-
-                <!-- Contact & Réseaux -->
-                <div>
-                    <h5 class="font-bold text-lg mb-4 text-primary">Contact</h5>
+                <div class="space-y-4">
+                    <h5 class="font-bold text-lg border-b border-stone-200/30 pb-3 mb-4">Liens Utiles</h5>
                     <ul class="space-y-3 text-sm">
-                        <li class="flex items-center justify-center md:justify-start space-x-2 text-stone-600"><i data-lucide="map-pin" class="h-4 w-4 text-primary flex-shrink-0"></i><span>Bd. Sidi Maafa, Cité El Qods, Oujda</span></li>
-                        <li class="flex items-center justify-center md:justify-start space-x-2"><i data-lucide="phone" class="h-4 w-4 text-primary flex-shrink-0"></i><a href="tel:0536508390" class="text-stone-600 hover:text-primary transition-colors">05 36 50 83 90</a></li>
-                        <li class="flex items-center justify-center md:justify-start space-x-2"><i data-lucide="mail" class="h-4 w-4 text-primary flex-shrink-0"></i><a href="mailto:iftsauoujda@gmail.com" class="text-stone-600 hover:text-primary transition-colors">iftsauoujda@gmail.com</a></li>
+                        <li><a href="index.html" class="text-stone-300 hover:text-white transition-colors">Accueil</a></li>
+                        <li><a href="formation.html" class="text-stone-300 hover:text-white transition-colors">Formation</a></li>
+                        <li><a href="admission.html" class="text-stone-300 hover:text-white transition-colors">Admission</a></li>
+                        <li><a href="vie-etudiante.html" class="text-stone-300 hover:text-white transition-colors">Vie Étudiante</a></li>
                     </ul>
-                    <div class="flex justify-center md:justify-start space-x-4 mt-6">
-                        <a href="https://web.facebook.com/IFTSAUO" target="_blank" rel="noopener noreferrer" class="text-stone-500 hover:text-primary transition-colors"><i data-lucide="facebook" class="h-6 w-6"></i></a>
-                        <a href="https://www.instagram.com/iftsauoujda/" target="_blank" rel="noopener noreferrer" class="text-stone-500 hover:text-primary transition-colors"><i data-lucide="instagram" class="h-6 w-6"></i></a>
+                </div>
+
+                <div class="space-y-4">
+                    <h5 class="font-bold text-lg border-b border-stone-200/30 pb-3 mb-4">Scolarité</h5>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="demande-document.html" class="text-stone-300 hover:text-white transition-colors">Demande de document</a></li>
+                        <li><a href="emplois-du-temps.html" class="text-stone-300 hover:text-white transition-colors">Emplois du temps</a></li>
+                        <li><a href="planning.html" class="text-stone-300 hover:text-white transition-colors">Planning</a></li>
+                        <li><a href="resultats.html" class="text-stone-300 hover:text-white transition-colors">Resultats</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-4">
+                    <h5 class="font-bold text-lg border-b border-stone-200/30 pb-3 mb-4">Nous Contacter</h5>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-center justify-center md:justify-start space-x-3 text-stone-300"><i data-lucide="map-pin" class="h-4 w-4 flex-shrink-0"></i><span>Bd. Sidi Maafa, Cité El Qods, Oujda</span></li>
+                        <li class="flex items-center justify-center md:justify-start space-x-3"><i data-lucide="phone" class="h-4 w-4 flex-shrink-0"></i><a href="tel:0536508390" class="hover:text-white transition-colors">05 36 50 83 90</a></li>
+                        <li class="flex items-center justify-center md:justify-start space-x-3"><i data-lucide="mail" class="h-4 w-4 flex-shrink-0"></i><a href="mailto:iftsauoujda@gmail.com" class="hover:text-white transition-colors">iftsauoujda@gmail.com</a></li>
+                    </ul>
+                    <div class="flex justify-center md:justify-start space-x-4 pt-4">
+                        <a href="https://web.facebook.com/IFTSAUO" target="_blank" rel="noopener noreferrer" class="text-stone-300 hover:text-white transition-colors"><i data-lucide="facebook" class="h-6 w-6"></i></a>
+                        <a href="https://www.instagram.com/iftsauoujda/" target="_blank" rel="noopener noreferrer" class="text-stone-300 hover:text-white transition-colors"><i data-lucide="instagram" class="h-6 w-6"></i></a>
                     </div>
                 </div>
             </div>
 
-            <!-- Carte -->
-            <div class="h-64 rounded-lg overflow-hidden shadow-md border border-stone-200 mb-10">
+            <div class="h-64 rounded-lg overflow-hidden shadow-md border-2 border-stone-200/20 mb-10">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3281.7068350018326!2d-1.8961400000000002!3d34.662106!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd787d421591a86f%3A0xc567299d8be3a20b!2sIFTSAU%20%3A%20Institut%20de%20Formation%20des%20Techniciens%20Sp%C3%A9cialis%C3%A9s%20en%20Architecture%20et%20en%20Urbanisme_Oujda!5e0!3m2!1sfr!2sma!4v1751919037831!5m2!1sfr!2sma" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
 
-            <div class="border-t border-stone-200 pt-6 text-center text-sm text-stone-500">
-                <p>&copy; <span id="year"></span> IFTSAU Oujda. Tous droits réservés.</p>
+            <div class="border-t border-stone-200/20 pt-8 text-center text-sm text-stone-300">
+                <p>© <span id="year"></span> IFTSAU Oujda. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
     
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/lucide@0.258.0/dist/umd/lucide.min.js"></script>
-    
     <script>
+        // --- Preloader Script ---
         (function(){
-            const preloader = document.getElementById('preloader');
+            const preloader = document.querySelector('[data-preloader]');
             if(!preloader) return;
             const circle = document.getElementById('progress-circle');
             const pct = document.getElementById('preloader-percent');
-            const duration = parseInt(getComputedStyle(preloader).getPropertyValue('--preloader-duration')) || 2500;
+            const duration = parseInt(preloader.parentElement.style.getPropertyValue('--preloader-duration')) || 2500;
             const r = circle.getAttribute('r');
             const circumference = 2 * Math.PI * Number(r);
             circle.style.strokeDasharray = `${circumference} ${circumference}`;
             circle.style.strokeDashoffset = circumference;
-
-            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if(reduceMotion){
-                circle.style.strokeDashoffset = '0';
-                if(pct) pct.textContent = '100%';
-                setTimeout(()=> preloader.setAttribute('aria-hidden','true'), 200);
-                return;
-            }
-
             let start = null;
             function animate(now){
                 if (!start) start = now;
                 const progress = Math.min(1, (now - start) / duration);
-                const offset = circumference * (1 - progress);
-                circle.style.strokeDashoffset = offset;
+                circle.style.strokeDashoffset = circumference * (1 - progress);
                 if(pct) pct.textContent = Math.floor(progress * 100) + '%';
                 if(progress < 1) requestAnimationFrame(animate);
-                else setTimeout(()=> preloader.setAttribute('aria-hidden','true'), 250);
+                else setTimeout(()=> preloader.setAttribute('hidden','true'), 250);
             }
-            requestAnimationFrame(animate);
+            if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+                 setTimeout(()=> preloader.setAttribute('hidden','true'), 200);
+            } else {
+                requestAnimationFrame(animate);
+            }
         })();
-    </script>
-    
-    <script>
+        // --- Scroll Animation Script ---
         document.addEventListener('DOMContentLoaded', function(){
             const animatedEls = document.querySelectorAll('.animate-on-scroll');
             if (animatedEls.length > 0) {
@@ -310,7 +252,6 @@
             }
         });
     </script>
-
     <script src="src/custom.js"></script>
 </body>
 </html>
