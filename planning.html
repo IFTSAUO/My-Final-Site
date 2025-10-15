@@ -8,11 +8,80 @@
     <link href="style.css" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/lucide@0.258.0/dist/umd/lucide.min.js"></script>
     <style>
-        :root{--color-bg:#F2F0E6;--color-text:#4a4238;--color-primary:#986A44;}
-        body{font-family:'Inter',sans-serif;background-color:var(--color-bg);color:var(--color-text);}
+        :root{
+            --color-bg:#F2F0E6;
+            --color-text:#4a4238;
+            --color-primary:#986A44;
+            --color-primary-light: #AD8B6D;
+            --color-primary-dark: #7A5536;
+        }
+        body{
+            font-family:'Inter',sans-serif;
+            background-color:var(--color-bg);
+            color:var(--color-text);
+        }
         .nav-link:hover{color:var(--color-primary);}
-        @keyframes fade-in-up { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in-up { animation: fade-in-up 0.6s ease-out forwards; }
+
+        /* Keyframes pour l'animation d'apparition */
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fade-in-up 0.7s ease-out forwards;
+        }
+
+        /* Style des cartes d'événement */
+        .event-card {
+            background-color: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Effet de lueur au survol */
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 0%, var(--color-primary-light), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease-out;
+            transform: translateY(-50%) scale(1.5);
+        }
+
+        .event-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .event-card:hover::before {
+            opacity: 0.15;
+        }
+
+        /* Style du conteneur d'icône */
+        .icon-container {
+            background-image: linear-gradient(135deg, var(--color-primary-light), var(--color-primary-dark));
+            transition: transform 0.3s ease;
+        }
+        
+        .event-card:hover .icon-container {
+            transform: scale(1.05) rotate(-5deg);
+        }
+        
+        .icon-container i {
+            transition: transform 0.3s ease;
+        }
+        
+        .event-card:hover .icon-container i {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body class="text-stone-800">
@@ -39,17 +108,7 @@
             <button id="mobile-menu-button" class="md:hidden"><i data-lucide="menu" class="h-6 w-6 text-stone-700"></i></button>
         </div>
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-200">
-            <a href="index.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Accueil</a>
-            <a href="formation.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Formation</a>
-            <a href="admission.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Admission</a>
-            <span class="block py-3 px-6 text-stone-400 text-sm font-semibold">Scolarité</span>
-            <a href="demande-document.html" class="block py-2 px-10 text-stone-600 hover:bg-stone-50 hover:text-primary">Demande de document</a>
-            <a href="emplois-du-temps.html" class="block py-2 px-10 text-stone-600 hover:bg-stone-50 hover:text-primary">Emplois du temps</a>
-            <a href="planning.html" class="block py-2 px-10 text-primary bg-stone-50 hover:text-primary">Planning</a>
-            <a href="resultats.html" class="block py-2 px-10 text-stone-600 hover:bg-stone-50 hover:text-primary">Resultats</a>
-            <a href="vie-etudiante.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Vie Étudiante</a>
-            <a href="contact.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Contact</a>
-        </div>
+             </div>
     </header>
 
     <main class="py-20 sm:py-28">
@@ -58,98 +117,92 @@
             <div class="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
                 <h1 class="text-3xl sm:text-4xl font-bold mb-4" style="color:var(--color-primary);">Planning des Contrôles et Examens</h1>
                 <p class="text-lg text-stone-600">Année de Formation 2025-2026</p>
-                <p class="text-sm text-stone-500 mt-2">(1ère et 2ème Années)</p>
             </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
 
-            <div class="max-w-3xl mx-auto bg-white p-6 sm:p-10 rounded-2xl shadow-lg">
-                <div class="space-y-8">
-
-                    <div class="flex items-start space-x-4 animate-fade-in-up" style="animation-delay: 100ms;">
-                        <div class="flex-shrink-0 w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center border border-stone-200">
-                            <i data-lucide="file-pen-line" class="h-6 w-6 text-primary"></i>
-                        </div>
-                        <div>
-                            <p class="font-bold text-stone-800 text-lg">Du 17 au 25 Novembre 2025</p>
-                            <p class="text-stone-600 mt-1">Contrôles et / ou travaux évaluatifs.</p>
-                        </div>
+                <div class="event-card rounded-2xl p-6 flex items-center space-x-6 animate-fade-in-up" style="animation-delay: 100ms;">
+                    <div class="icon-container flex-shrink-0 w-20 h-20 rounded-xl shadow-lg flex items-center justify-center">
+                        <i data-lucide="file-pen-line" class="h-10 w-10 text-white"></i>
                     </div>
-                    
-                    <div class="flex items-start space-x-4 animate-fade-in-up" style="animation-delay: 200ms;">
-                        <div class="flex-shrink-0 w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center border border-stone-200">
-                            <i data-lucide="umbrella" class="h-6 w-6 text-primary"></i>
-                        </div>
-                        <div>
-                            <p class="font-bold text-stone-800 text-lg">Du 07 au 14 Décembre 2025</p>
-                            <p class="text-stone-600 mt-1">Vacances.</p>
-                        </div>
+                    <div>
+                        <p class="font-bold text-stone-800 text-lg">17 - 25 Nov. 2025</p>
+                        <p class="text-stone-600 mt-1">Contrôles et travaux évaluatifs</p>
                     </div>
-
-                    <div class="flex items-start space-x-4 animate-fade-in-up" style="animation-delay: 300ms;">
-                        <div class="flex-shrink-0 w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center border border-stone-200">
-                            <i data-lucide="calendar-check" class="h-6 w-6 text-primary"></i>
-                        </div>
-                        <div>
-                            <p class="font-bold text-stone-800 text-lg">Du 05 au 09 Janvier 2026</p>
-                            <p class="text-stone-600 mt-1">Examens de fin du semestre.</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start space-x-4 animate-fade-in-up" style="animation-delay: 400ms;">
-                        <div class="flex-shrink-0 w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center border border-stone-200">
-                            <i data-lucide="bell" class="h-6 w-6 text-primary"></i>
-                        </div>
-                        <div>
-                            <p class="font-bold text-stone-800 text-lg">15 Janvier 2026</p>
-                            <p class="text-stone-600 mt-1">Dernier délai de remises des notes.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-start space-x-4 animate-fade-in-up" style="animation-delay: 500ms;">
-                        <div class="flex-shrink-0 w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center border border-stone-200">
-                            <i data-lucide="umbrella" class="h-6 w-6 text-primary"></i>
-                        </div>
-                        <div>
-                            <p class="font-bold text-stone-800 text-lg">Du 25 Janvier au 01 Février 2026</p>
-                            <p class="text-stone-600 mt-1">Vacances.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-start space-x-4 animate-fade-in-up" style="animation-delay: 600ms;">
-                        <div class="flex-shrink-0 w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center border border-stone-200">
-                            <i data-lucide="calendar-check-2" class="h-6 w-6 text-primary"></i>
-                        </div>
-                        <div>
-                            <p class="font-bold text-stone-800 text-lg">Du 02 au 06 Février 2026</p>
-                            <p class="text-stone-600 mt-1">Examens de rattrapages.</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start space-x-4 animate-fade-in-up" style="animation-delay: 700ms;">
-                        <div class="flex-shrink-0 w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center border border-stone-200">
-                            <i data-lucide="graduation-cap" class="h-6 w-6 text-primary"></i>
-                        </div>
-                        <div>
-                            <p class="font-bold text-stone-800 text-lg">09 Février 2026</p>
-                            <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
-                               <p class="text-stone-600 mt-1">Soutenances des rapports de stage.</p>
-                               <span class="text-xs font-semibold bg-primary/10 text-primary px-2 py-1 rounded-full whitespace-nowrap">2ème Année Uniquement</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-start space-x-4 animate-fade-in-up" style="animation-delay: 800ms;">
-                        <div class="flex-shrink-0 w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center border border-stone-200">
-                            <i data-lucide="bell" class="h-6 w-6 text-primary"></i>
-                        </div>
-                        <div>
-                            <p class="font-bold text-stone-800 text-lg">10 Février 2026</p>
-                            <p class="text-stone-600 mt-1">Dernier délai de remise des notes de rattrapage.</p>
-                        </div>
-                    </div>
-
                 </div>
-            </div>
+                
+                <div class="event-card rounded-2xl p-6 flex items-center space-x-6 animate-fade-in-up" style="animation-delay: 200ms;">
+                    <div class="icon-container flex-shrink-0 w-20 h-20 rounded-xl shadow-lg flex items-center justify-center">
+                         <i data-lucide="coconut" class="h-10 w-10 text-white"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-stone-800 text-lg">07 - 14 Déc. 2025</p>
+                        <p class="text-stone-600 mt-1">Vacances</p>
+                    </div>
+                </div>
 
+                <div class="event-card rounded-2xl p-6 flex items-center space-x-6 animate-fade-in-up" style="animation-delay: 300ms;">
+                    <div class="icon-container flex-shrink-0 w-20 h-20 rounded-xl shadow-lg flex items-center justify-center">
+                        <i data-lucide="calendar-check" class="h-10 w-10 text-white"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-stone-800 text-lg">05 - 09 Jan. 2026</p>
+                        <p class="text-stone-600 mt-1">Examens de fin du semestre</p>
+                    </div>
+                </div>
+
+                <div class="event-card rounded-2xl p-6 flex items-center space-x-6 animate-fade-in-up" style="animation-delay: 400ms;">
+                    <div class="icon-container flex-shrink-0 w-20 h-20 rounded-xl shadow-lg flex items-center justify-center">
+                        <i data-lucide="bell-plus" class="h-10 w-10 text-white"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-stone-800 text-lg">15 Janvier 2026</p>
+                        <p class="text-stone-600 mt-1">Dernier délai de remise des notes</p>
+                    </div>
+                </div>
+
+                <div class="event-card rounded-2xl p-6 flex items-center space-x-6 animate-fade-in-up" style="animation-delay: 500ms;">
+                    <div class="icon-container flex-shrink-0 w-20 h-20 rounded-xl shadow-lg flex items-center justify-center">
+                        <i data-lucide="plane-takeoff" class="h-10 w-10 text-white"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-stone-800 text-lg">25 Jan. - 01 Fév. 2026</p>
+                        <p class="text-stone-600 mt-1">Vacances</p>
+                    </div>
+                </div>
+
+                <div class="event-card rounded-2xl p-6 flex items-center space-x-6 animate-fade-in-up" style="animation-delay: 600ms;">
+                    <div class="icon-container flex-shrink-0 w-20 h-20 rounded-xl shadow-lg flex items-center justify-center">
+                        <i data-lucide="calendar-check-2" class="h-10 w-10 text-white"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-stone-800 text-lg">02 - 06 Fév. 2026</p>
+                        <p class="text-stone-600 mt-1">Examens de rattrapages</p>
+                    </div>
+                </div>
+                
+                <div class="event-card rounded-2xl p-6 flex items-start space-x-6 animate-fade-in-up md:col-span-2" style="animation-delay: 700ms;">
+                    <div class="icon-container flex-shrink-0 w-20 h-20 rounded-xl shadow-lg flex items-center justify-center">
+                        <i data-lucide="graduation-cap" class="h-10 w-10 text-white"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <p class="font-bold text-stone-800 text-lg">09 Février 2026</p>
+                        <p class="text-stone-600 mt-1">Soutenances des rapports de stage</p>
+                        <p class="text-xs font-semibold bg-primary/10 text-primary px-2 py-1 rounded-full inline-block mt-2">2ème Année Uniquement</p>
+                    </div>
+                </div>
+                
+                <div class="event-card rounded-2xl p-6 flex items-center space-x-6 animate-fade-in-up md:col-span-2" style="animation-delay: 800ms;">
+                    <div class="icon-container flex-shrink-0 w-20 h-20 rounded-xl shadow-lg flex items-center justify-center">
+                        <i data-lucide="bell-ring" class="h-10 w-10 text-white"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-stone-800 text-lg">10 Février 2026</p>
+                        <p class="text-stone-600 mt-1">Dernier délai de remise des notes de rattrapage</p>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </main>
 
@@ -160,6 +213,5 @@
     </footer>
     
     <script src="src/custom.js"></script>
-
 </body>
 </html>
