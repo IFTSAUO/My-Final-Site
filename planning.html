@@ -11,6 +11,8 @@
         :root{--color-bg:#F2F0E6;--color-text:#4a4238;--color-primary:#986A44;}
         body{font-family:'Inter',sans-serif;background-color:var(--color-bg);color:var(--color-text);}
         .nav-link:hover{color:var(--color-primary);}
+        @keyframes fade-in-up { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in-up { animation: fade-in-up 0.6s ease-out forwards; }
     </style>
 </head>
 <body class="text-stone-800">
@@ -52,16 +54,102 @@
 
     <main class="py-20 sm:py-28">
         <div class="container mx-auto px-4 sm:px-6">
-            <div class="max-w-2xl mx-auto text-center">
-                <div class="bg-white p-8 sm:p-12 rounded-lg shadow-lg flex flex-col items-center">
-                    <i data-lucide="calendar-days" class="h-16 w-16 text-primary opacity-50 mb-6"></i>
-                    <h1 class="text-2xl sm:text-3xl font-bold text-primary mb-4">Bientôt disponible</h1>
-                    <p class="text-stone-600 text-base sm:text-lg">
-                        Le planning général des examens et des événements pour l'année académique 2025-2026 sera affiché ici prochainement.
-                    </p>
-                    <p class="text-stone-500 text-sm mt-2">Nous vous remercions de votre compréhension.</p>
+            
+            <div class="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
+                <h1 class="text-3xl sm:text-4xl font-bold mb-4" style="color:var(--color-primary);">Planning des Contrôles et Examens</h1>
+                <p class="text-lg text-stone-600">Année de Formation 2025-2026</p>
+                <p class="text-sm text-stone-500 mt-2">(1ère et 2ème Années)</p>
+            </div>
+
+            <div class="max-w-3xl mx-auto bg-white p-6 sm:p-10 rounded-2xl shadow-lg">
+                <div class="space-y-8">
+
+                    <div class="flex items-start space-x-4 animate-fade-in-up" style="animation-delay: 100ms;">
+                        <div class="flex-shrink-0 w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center border border-stone-200">
+                            <i data-lucide="file-pen-line" class="h-6 w-6 text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-stone-800 text-lg">Du 17 au 25 Novembre 2025</p>
+                            <p class="text-stone-600 mt-1">Contrôles et / ou travaux évaluatifs.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4 animate-fade-in-up" style="animation-delay: 200ms;">
+                        <div class="flex-shrink-0 w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center border border-stone-200">
+                            <i data-lucide="umbrella" class="h-6 w-6 text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-stone-800 text-lg">Du 07 au 14 Décembre 2025</p>
+                            <p class="text-stone-600 mt-1">Vacances.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4 animate-fade-in-up" style="animation-delay: 300ms;">
+                        <div class="flex-shrink-0 w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center border border-stone-200">
+                            <i data-lucide="calendar-check" class="h-6 w-6 text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-stone-800 text-lg">Du 05 au 09 Janvier 2026</p>
+                            <p class="text-stone-600 mt-1">Examens de fin du semestre.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4 animate-fade-in-up" style="animation-delay: 400ms;">
+                        <div class="flex-shrink-0 w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center border border-stone-200">
+                            <i data-lucide="bell" class="h-6 w-6 text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-stone-800 text-lg">15 Janvier 2026</p>
+                            <p class="text-stone-600 mt-1">Dernier délai de remises des notes.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4 animate-fade-in-up" style="animation-delay: 500ms;">
+                        <div class="flex-shrink-0 w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center border border-stone-200">
+                            <i data-lucide="umbrella" class="h-6 w-6 text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-stone-800 text-lg">Du 25 Janvier au 01 Février 2026</p>
+                            <p class="text-stone-600 mt-1">Vacances.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4 animate-fade-in-up" style="animation-delay: 600ms;">
+                        <div class="flex-shrink-0 w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center border border-stone-200">
+                            <i data-lucide="calendar-check-2" class="h-6 w-6 text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-stone-800 text-lg">Du 02 au 06 Février 2026</p>
+                            <p class="text-stone-600 mt-1">Examens de rattrapages.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4 animate-fade-in-up" style="animation-delay: 700ms;">
+                        <div class="flex-shrink-0 w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center border border-stone-200">
+                            <i data-lucide="graduation-cap" class="h-6 w-6 text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-stone-800 text-lg">09 Février 2026</p>
+                            <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
+                               <p class="text-stone-600 mt-1">Soutenances des rapports de stage.</p>
+                               <span class="text-xs font-semibold bg-primary/10 text-primary px-2 py-1 rounded-full whitespace-nowrap">2ème Année Uniquement</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4 animate-fade-in-up" style="animation-delay: 800ms;">
+                        <div class="flex-shrink-0 w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center border border-stone-200">
+                            <i data-lucide="bell" class="h-6 w-6 text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-stone-800 text-lg">10 Février 2026</p>
+                            <p class="text-stone-600 mt-1">Dernier délai de remise des notes de rattrapage.</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
+
         </div>
     </main>
 
@@ -72,8 +160,6 @@
     </footer>
     
     <script src="src/custom.js"></script>
-    <script>
-        lucide.createIcons();
-    </script>
+
 </body>
 </html>
