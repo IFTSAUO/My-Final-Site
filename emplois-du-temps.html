@@ -8,103 +8,47 @@
     
     <link href="style.css" rel="stylesheet">
 
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/lucide@0.258.0/dist/umd/lucide.min.js"></script>
     <style>
-        :root {
-            --color-bg: #F2F0E6;
-            --color-text: #4a4238;
-            --color-primary: #986A44;
-            --color-primary-light: #b99a7e;
-            --color-accent: #E6E2AF;
-            --color-accent-light: #f3f1d7;
-            
-            /* Palette de couleurs pour les matières */
-            --course-color-1: rgba(230, 226, 175, 0.3); /* Accent transparent */
-            --course-border-1: rgba(230, 226, 175, 0.9);
-            --course-color-2: rgba(152, 106, 68, 0.2); /* Primary transparent */
-            --course-border-2: rgba(152, 106, 68, 0.8);
-            --course-color-3: rgba(173, 216, 230, 0.4); /* Light Blue */
-            --course-border-3: rgba(173, 216, 230, 1);
-            --course-color-4: rgba(211, 211, 211, 0.4); /* Light Grey */
-            --course-border-4: rgba(169, 169, 169, 1);
-            --course-color-5: rgba(255, 228, 196, 0.5); /* Bisque */
-            --course-border-5: rgba(255, 228, 196, 1);
-            --course-color-6: rgba(144, 238, 144, 0.4); /* Light Green */
-            --course-border-6: rgba(144, 238, 144, 1);
+        :root{--color-bg:#F2F0E6;--color-text:#4a4238;--color-primary:#986A44; --color-accent:#E6E2AF;}
+        body{font-family:'Inter',sans-serif;background-color:var(--color-bg);color:var(--color-text);}
+        .nav-link:hover{color:var(--color-primary);}
+        .btn-primary{background-color:var(--color-primary);color:white;transition: all 0.3s ease;}
+        .btn-primary:hover{background-color:#7a5536; transform: translateY(-3px);}
+        .course-cell {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e7e5e4;
+            border-right: 1px solid #e7e5e4;
+            min-height: 110px;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
         }
-
-        body { font-family: 'Inter', sans-serif; background-color: var(--color-bg); color: var(--color-text); }
-        .nav-link:hover { color: var(--color-primary); }
-        .btn-primary { background-color: var(--color-primary); color: white; transition: all 0.3s ease; }
-        .btn-primary:hover { background-color: #7a5536; transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        
-        /* --- Styles pour le nouveau tableau --- */
-        .schedule-grid {
-            display: grid;
-            grid-template-columns: 80px repeat(5, 1fr);
-            grid-template-rows: 60px repeat(19, 40px); /* 8h30 -> 18h00 */
-            gap: 2px;
-            opacity: 0;
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        .grid-header, .time-slot {
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: sticky;
-            background-color: var(--color-accent-light);
-            color: var(--color-text);
-        }
-        .grid-header { top: 80px; /* hauteur du header principal */ z-index: 20; font-size: 0.9rem; text-transform: uppercase; }
-        .time-slot { left: 0; z-index: 10; font-size: 0.75rem; background-color: #F8F6EC; border-right: 2px solid var(--color-bg); }
-
-        .course-block {
-            padding: 8px;
-            border-radius: 8px;
-            background-color: var(--course-color-1);
-            border-left: 4px solid var(--course-border-1);
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        .course-cell:last-child { border-right: 0; }
+        .accordion-content {
+            max-height: 0;
             overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            padding: 0 1rem;
         }
-        .course-block:hover { transform: scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.1); z-index: 30; }
-        .course-block .course-name { font-weight: 600; font-size: 0.85rem; color: var(--color-text); }
-        .course-block .course-info { font-size: 0.75rem; color: #5e5448; display: flex; align-items: center; gap: 4px; margin-top: 4px; }
-        .course-block .course-info i { width: 14px; height: 14px; }
-
-        /* --- Styles améliorés pour l'accordéon (mobile) --- */
-        .accordion-item.active .accordion-content { max-height: 1500px; }
+        .accordion-item.active .accordion-content {
+            max-height: 1500px;
+            transition: max-height 0.5s ease-in;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
         .accordion-header i { transition: transform 0.3s ease; }
         .accordion-item.active .accordion-header i { transform: rotate(180deg); }
-
-        .tab-btn.active { background-color: var(--color-primary); color: white; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .tab-btn.active {
+            background-color: var(--color-primary);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+        }
         .text-primary { color: var(--color-primary); }
-
-        /* --- Assigner les couleurs aux matières --- */
-        [data-course="common"] { background-color: var(--course-color-1); border-left-color: var(--course-border-1); }
-        [data-course="tech"] { background-color: var(--course-color-2); border-left-color: var(--course-border-2); }
-        [data-course="archi"] { background-color: var(--course-color-3); border-left-color: var(--course-border-3); }
-        [data-course="urbanism"] { background-color: var(--course-color-4); border-left-color: var(--course-border-4); }
-        [data-course="practical"] { background-color: var(--course-color-5); border-left-color: var(--course-border-5); }
-        [data-course="management"] { background-color: var(--course-color-6); border-left-color: var(--course-border-6); }
-
-        /* Pour cacher le scrollbar horizontal si jamais il apparaît */
-        .table-container { overflow-x: auto; -ms-overflow-style: none; scrollbar-width: none; }
-        .table-container::-webkit-scrollbar { display: none; }
-
     </style>
 </head>
 <body class="text-stone-800">
 
-    <header id="header" class="bg-white/80 backdrop-blur-sm shadow-md sticky top-0 z-40">
+    <header id="header" class="bg-white/80 backdrop-blur-sm shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
             <a href="index.html" class="flex-shrink-0 flex items-center space-x-2 sm:space-x-3"><img src="logo-iftsau.png" alt="Logo IFTSAU Oujda" class="h-10 sm:h-12 w-auto"><span class="text-base sm:text-xl font-bold tracking-tight" style="color:var(--color-text)">IFTSAU Oujda</span></a>
             <nav class="hidden md:flex items-center space-x-4 lg:space-x-6">
@@ -142,150 +86,226 @@
     <main class="py-16 sm:py-24">
         <div class="container mx-auto px-4 sm:px-6">
             <div class="max-w-7xl mx-auto text-center">
-                <div class="flex items-center justify-center gap-3 mb-10">
-                    <i data-lucide="calendar-days" class="w-10 h-10 text-primary"></i>
-                    <h1 class="text-3xl sm:text-4xl font-bold text-primary">Emplois du Temps</h1>
-                </div>
+                <h1 class="text-3xl sm:text-4xl font-bold text-primary mb-10">Emplois du Temps</h1>
 
                 <div class="mb-10 flex justify-center bg-stone-200/50 p-2 rounded-lg max-w-sm mx-auto">
-                    <button id="btn-annee1" class="tab-btn flex-1 py-2 px-4 rounded-md font-semibold transition-all duration-300 active flex items-center justify-center gap-2"><i data-lucide="graduation-cap" class="w-5 h-5"></i>1ère Année</button>
-                    <button id="btn-annee2" class="tab-btn flex-1 py-2 px-4 rounded-md font-semibold transition-all duration-300 flex items-center justify-center gap-2"><i data-lucide="award" class="w-5 h-5"></i>2ème Année</button>
+                    <button id="btn-annee1" class="tab-btn flex-1 py-2 px-4 rounded-md font-semibold transition-all duration-300 active">1ère Année</button>
+                    <button id="btn-annee2" class="tab-btn flex-1 py-2 px-4 rounded-md font-semibold transition-all duration-300">2ème Année</button>
                 </div>
-
+                
                 <div id="edt-annee1">
-                    <div class="text-center mb-8">
-                        <h2 class="text-2xl font-bold text-stone-700 mb-2">Technicien Spécialisé en Urbanisme et Architecture - 1ère Année</h2>
-                        <p class="text-stone-600 text-lg">Année Académique 2025-2026</p>
-                    </div>
-
-                    <div class="hidden lg:block bg-white rounded-lg shadow-lg p-4 table-container">
-                        <div class="schedule-grid min-w-[1000px]">
-                            <div class="time-slot"></div>
-                            <div class="grid-header">Lundi</div>
-                            <div class="grid-header">Mardi</div>
-                            <div class="grid-header">Mercredi</div>
-                            <div class="grid-header">Jeudi</div>
-                            <div class="grid-header">Vendredi</div>
-
-                            <div class="time-slot" style="grid-row: 2;">8h30</div>
-                            <div class="time-slot" style="grid-row: 3;">9h00</div>
-                            <div class="time-slot" style="grid-row: 4;">9h30</div>
-                            <div class="time-slot" style="grid-row: 5;">10h00</div>
-                            <div class="time-slot" style="grid-row: 6;">10h30</div>
-                            <div class="time-slot" style="grid-row: 7;">11h00</div>
-                            <div class="time-slot" style="grid-row: 8;">11h30</div>
-                            <div class="time-slot" style="grid-row: 9;">12h00</div>
-                            <div class="time-slot" style="grid-row: 10;">12h30</div>
-                            <div class="time-slot" style="grid-row: 11;">13h00</div>
-                            <div class="time-slot" style="grid-row: 12;">13h30</div>
-                            <div class="time-slot" style="grid-row: 13;">14h00</div>
-                            <div class="time-slot" style="grid-row: 14;">14h30</div>
-                            <div class="time-slot" style="grid-row: 15;">15h00</div>
-                            <div class="time-slot" style="grid-row: 16;">15h30</div>
-                            <div class="time-slot" style="grid-row: 17;">16h00</div>
-                            <div class="time-slot" style="grid-row: 18;">16h30</div>
-                            <div class="time-slot" style="grid-row: 19;">17h00</div>
-                            <div class="time-slot" style="grid-row: 20;">17h30</div>
+                    <h2 class="text-2xl font-bold text-stone-700 mb-2">1ère Année</h2>
+                    <p class="text-stone-600 text-lg mb-8">Année Académique 2025-2026 (Mise à jour)</p>
+                    
+                    <div class="hidden lg:block bg-white rounded-lg shadow-lg overflow-x-auto">
+                        <div class="grid grid-cols-[auto,repeat(5,1fr)] min-w-[900px]">
+                            <div class="sticky top-0 z-10 bg-stone-100"></div>
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">09h00-10h30</div>
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">10h30-12h00</div>
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">12h00-13h30</div>
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">13h30-15h00</div>
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">15h00-16h30</div>
                             
-                            <div class="course-block" data-course="common" style="grid-column: 2; grid-row: 3 / span 3;"><span class="course-name">Français Technique</span><span class="course-info"><i data-lucide="user"></i>M. Hajji</span></div>
-                            <div class="course-block" data-course="tech" style="grid-column: 2; grid-row: 6 / span 3;"><span class="course-name">Métré des corps de travaux</span><span class="course-info"><i data-lucide="user"></i>M. Alla</span></div>
-                            <div class="course-block" data-course="management" style="grid-column: 2; grid-row: 9 / span 3;"><span class="course-name">Métier et Formation</span><span class="course-info"><i data-lucide="user"></i>M. Benaicha</span></div>
-                            <div class="course-block" data-course="tech" style="grid-column: 2; grid-row: 12 / span 3;"><span class="course-name">Résistance des matériaux</span><span class="course-info"><i data-lucide="user"></i>M. Benhadou</span></div>
-                            
-                            <div class="course-block" data-course="practical" style="grid-column: 3; grid-row: 3 / span 3;"><span class="course-name">CAO-DAO <span class="text-primary font-bold">(Gr1)</span></span><span class="course-name mt-1">Art plastique <span class="text-primary font-bold">(Gr2)</span></span><span class="course-info"><i data-lucide="users"></i>Bouslham / Sarhdaoui</span></div>
-                            <div class="course-block" data-course="urbanism" style="grid-column: 3; grid-row: 6 / span 3;"><span class="course-name">Théorie et pratiques d'urbanisme</span><span class="course-info"><i data-lucide="user"></i>M. Abdeljalil</span></div>
-                            <div class="course-block" data-course="tech" style="grid-column: 3; grid-row: 9 / span 3;"><span class="course-name">Cartographie et photogrammétrie</span><span class="course-info"><i data-lucide="user"></i>Mme Baye</span></div>
-                            <div class="course-block" data-course="management" style="grid-column: 3; grid-row: 12 / span 3;"><span class="course-name">Instruction de dossiers</span><span class="course-info"><i data-lucide="user"></i>Mme Benhamou</span></div>
-                            
-                            <div class="course-block" data-course="practical" style="grid-column: 4; grid-row: 3 / span 3;"><span class="course-name">CAO-DAO <span class="text-primary font-bold">(Gr2)</span></span><span class="course-name mt-1">Art plastique <span class="text-primary font-bold">(Gr1)</span></span><span class="course-info"><i data-lucide="users"></i>Bouslham / Sarhdaoui</span></div>
-                            <div class="course-block" data-course="tech" style="grid-column: 4; grid-row: 6 / span 3;"><span class="course-name">Matériaux de construction</span><span class="course-info"><i data-lucide="user"></i>M. Rahou</span></div>
-                            <div class="course-block" data-course="common" style="grid-column: 4; grid-row: 9 / span 3;"><span class="course-name">Droit administratif</span><span class="course-info"><i data-lucide="user"></i>M. Kherraji</span></div>
-                            
-                            <div class="course-block" data-course="urbanism" style="grid-column: 5; grid-row: 3 / span 3;"><span class="course-name">Voirie urbaine</span><span class="course-info"><i data-lucide="user"></i>M. Rahou</span></div>
-                            <div class="course-block" data-course="common" style="grid-column: 5; grid-row: 6 / span 3;"><span class="course-name">Statistique appliquée</span><span class="course-info"><i data-lucide="user"></i>M. El Hamouti</span></div>
-                            <div class="course-block" data-course="archi" style="grid-column: 5; grid-row: 9 / span 3;"><span class="course-name">His. et théorie de l'architecture</span><span class="course-info"><i data-lucide="user"></i>M. Amri</span></div>
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Lundi</div>
+                            <div class="course-cell"><p class="font-semibold">Français Technique</p><span class="text-xs text-stone-500">M. Hajji</span></div>
+                            <div class="course-cell"><p class="font-semibold">Métré des corps de travaux</p><span class="text-xs text-stone-500">M. Alla</span></div>
+                            <div class="course-cell"><p class="font-semibold">Résistance des matériaux (RDM)<br>(12h30-14h)</p><span class="text-xs text-stone-500">M. Benhadou</span></div>
+                            <div class="course-cell"></div>
+                            <div class="course-cell"></div>
 
-                            <div class="course-block" data-course="archi" style="grid-column: 6; grid-row: 2 / span 3;"><span class="course-name">Géométrie descriptive</span><span class="course-info"><i data-lucide="user"></i>M. Kodad</span></div>
-                            <div class="course-block" data-course="practical" style="grid-column: 6; grid-row: 5 / span 3;"><span class="course-name">Bureautique <span class="text-primary font-bold">(Gr1)</span></span><span class="course-name mt-1">Dessin d'archi. <span class="text-primary font-bold">(Gr2)</span></span><span class="course-info"><i data-lucide="users"></i>Elhilali / Berrabeh</span></div>
-                            <div class="course-block" data-course="practical" style="grid-column: 6; grid-row: 8 / span 3;"><span class="course-name">Bureautique <span class="text-primary font-bold">(Gr2)</span></span><span class="course-name mt-1">Dessin d'archi. <span class="text-primary font-bold">(Gr1)</span></span><span class="course-info"><i data-lucide="users"></i>Elhilali / Berrabeh</span></div>
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Mardi</div>
+                            <div class="course-cell"><p class="font-semibold">CAO-DAO <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">Mme Bouslham</span><hr class="my-1"><p class="font-semibold">Art plastique <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Sarhdaoui</span></div>
+                            <div class="course-cell"><p class="font-semibold">Théorie et pratiques d'urbanisme</p><span class="text-xs text-stone-500">M. Abdeljalil</span></div>
+                            <div class="course-cell"><p class="font-semibold">Cartographie et photogrammétrie</p><span class="text-xs text-stone-500">Mme Baye</span></div>
+                            <div class="course-cell"><p class="font-semibold">Bureautique et gestion de base de données <span class="text-primary font-bold">Gr2</span></p><hr class="my-1"><p class="font-semibold">Dessin d'architecture <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Elhilali / Mme Berrabeh</span></div>
+                            <div class="course-cell"></div>
 
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Mercredi</div>
+                            <div class="course-cell"><p class="font-semibold">CAO-DAO <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">Mme Bouslham</span><hr class="my-1"><p class="font-semibold">Art plastique <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Sarhdaoui</span></div>
+                            <div class="course-cell"><p class="font-semibold">Matériaux de construction</p><span class="text-xs text-stone-500">M. Rahou</span></div>
+                            <div class="course-cell"><p class="font-semibold">Droit administratif</p><span class="text-xs text-stone-500">M. Kherraji</span></div>
+                            <div class="course-cell"></div>
+                            <div class="course-cell"></div>
+
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Jeudi</div>
+                            <div class="course-cell"><p class="font-semibold">Voirie urbaine</p><span class="text-xs text-stone-500">M. Rahou</span></div>
+                            <div class="course-cell"><p class="font-semibold">Statistique appliquée</p><span class="text-xs text-stone-500">M. El Hamouti</span></div>
+                            <div class="course-cell"><p class="font-semibold">His. et théorie de l'architecture</p><span class="text-xs text-stone-500">M. Amri</span></div>
+                            <div class="course-cell"><p class="font-semibold">Instruction de dossiers d'autorisation de construire ou de lotir</p><span class="text-xs text-stone-500">Mme Benhamou</span></div>
+                            <div class="course-cell"></div>
+
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider" style="border-bottom: none;">Vendredi</div>
+                            <div class="course-cell" style="border-bottom: none;"><p class="font-semibold">Géométrie descriptive<br>(8h30-10h)</p><span class="text-xs text-stone-500">M. Kodad</span></div>
+                            <div class="course-cell" style="border-bottom: none;"><p class="font-semibold">Métier et Formation<br>(10h-11h30)</p><span class="text-xs text-stone-500">M. Benaicha</span></div>
+                            <div class="course-cell" style="border-bottom: none;"><p class="font-semibold">Bureautique et gestion de base de données <span class="text-primary font-bold">Gr1</span> (11h30-13h)</p><hr class="my-1"><p class="font-semibold">Dessin d'architecture <span class="text-primary font-bold">Gr2</span> (11h30-13h)</p><span class="text-xs text-stone-500">M. Elhilali / Mme Berrabeh</span></div>
+                            <div class="course-cell" style="border-bottom: none;"></div>
+                            <div class="course-cell" style="border-bottom: none;"></div>
                         </div>
                     </div>
                     
-                    <div class="lg:hidden space-y-3 text-left">
+                    <div class="lg:hidden space-y-2 text-left">
                         <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
                             <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Lundi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
                             <div class="accordion-content">
                                 <div class="divide-y divide-stone-200">
-                                    <div class="py-3 px-4"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">Français Technique</p><p class="text-sm text-stone-500">M. Hajji</p></div>
-                                    <div class="py-3 px-4"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Métré des corps de travaux</p><p class="text-sm text-stone-500">M. Alla</p></div>
-                                    <div class="py-3 px-4"><p class="font-bold text-primary">12:00 - 13:30</p><p class="font-semibold text-stone-700">Métier et Formation</p><p class="text-sm text-stone-500">M. Benaicha</p></div>
-                                    <div class="py-3 px-4"><p class="font-bold text-primary">13:30 - 15:00</p><p class="font-semibold text-stone-700">Résistance des matériaux (RDM)</p><p class="text-sm text-stone-500">M. Benhadou</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">Français Technique</p><p class="text-sm text-stone-500">M. Hajji</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Métré des corps de travaux</p><p class="text-sm text-stone-500">M. Alla</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">12:30 - 14:00</p><p class="font-semibold text-stone-700">Résistance des matériaux (RDM)</p><p class="text-sm text-stone-500">M. Benhadou</p></div>
                                 </div>
                             </div>
                         </div>
-                         </div>
+                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Mardi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
+                            <div class="accordion-content">
+                                <div class="divide-y divide-stone-200">
+                                    <div class="py-3"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">CAO-DAO <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">Mme Bouslham</p><hr class="my-2"><p class="font-semibold text-stone-700">Art plastique <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">M. Sarhdaoui</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Théorie et pratiques d'urbanisme</p><p class="text-sm text-stone-500">M. Abdeljalil</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">12:00 - 13:30</p><p class="font-semibold text-stone-700">Cartographie et photogrammétrie</p><p class="text-sm text-stone-500">Mme Baye</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">13:30 - 15:00</p><p class="font-semibold text-stone-700">Bureautique et gestion de base de données <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">M. Elhilali</p><hr class="my-2"><p class="font-semibold text-stone-700">Dessin d'architecture <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">Mme Berrabeh</p></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Mercredi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
+                            <div class="accordion-content">
+                                <div class="divide-y divide-stone-200">
+                                    <div class="py-3"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">CAO-DAO <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">Mme Bouslham</p><hr class="my-2"><p class="font-semibold text-stone-700">Art plastique <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">M. Sarhdaoui</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Matériaux de construction</p><p class="text-sm text-stone-500">M. Rahou</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">12:00 - 13:30</p><p class="font-semibold text-stone-700">Droit administratif</p><p class="text-sm text-stone-500">M. Kherraji</p></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Jeudi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
+                            <div class="accordion-content">
+                                <div class="divide-y divide-stone-200">
+                                    <div class="py-3"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">Voirie urbaine</p><p class="text-sm text-stone-500">M. Rahou</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Statistique appliquée</p><p class="text-sm text-stone-500">M. El Hamouti</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">12:00 - 13:30</p><p class="font-semibold text-stone-700">His. et théorie de l'architecture</p><p class="text-sm text-stone-500">M. Amri</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">13:30 - 15:00</p><p class="font-semibold text-stone-700">Instruction de dossiers d'autorisation de construire ou de lotir</p><p class="text-sm text-stone-500">Mme Benhamou</p></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Vendredi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
+                            <div class="accordion-content">
+                                <div class="divide-y divide-stone-200">
+                                    <div class="py-3"><p class="font-bold text-primary">08:30 - 10:00</p><p class="font-semibold text-stone-700">Géométrie descriptive</p><p class="text-sm text-stone-500">M. Kodad</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">10:00 - 11:30</p><p class="font-semibold text-stone-700">Métier et Formation</p><p class="text-sm text-stone-500">M. Benaicha</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">11:30 - 13:00</p><p class="font-semibold text-stone-700">Bureautique et gestion de base de données <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">M. Elhilali</p><hr class="my-2"><p class="font-semibold text-stone-700">Dessin d'architecture <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">Mme Berrabeh</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <a href="files/Emploi _1ere_année.pdf" download class="btn-primary mt-8 inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold whitespace-nowrap">
                         <i data-lucide="download" class="mr-2 h-5 w-5"></i> Télécharger (PDF)
                     </a>
                 </div>
-                
                 <div id="edt-annee2" class="hidden">
-                    <div class="text-center mb-8">
-                        <h2 class="text-2xl font-bold text-stone-700 mb-2">Technicien Spécialisé en Urbanisme et Architecture - 2ème Année</h2>
-                        <p class="text-stone-600 text-lg">Année Académique 2025-2026 (Modifié le 03/10/2025)</p>
-                    </div>
-
-                    <div class="hidden lg:block bg-white rounded-lg shadow-lg p-4 table-container">
-                        <div class="schedule-grid min-w-[1000px]">
-                            <div class="time-slot"></div>
-                            <div class="grid-header">Lundi</div>
-                            <div class="grid-header">Mardi</div>
-                            <div class="grid-header">Mercredi</div>
-                            <div class="grid-header">Jeudi</div>
-                            <div class="grid-header">Vendredi</div>
-
-                            <div class="time-slot" style="grid-row: 2;">8h30</div><div class="time-slot" style="grid-row: 3;">9h00</div><div class="time-slot" style="grid-row: 4;">9h30</div><div class="time-slot" style="grid-row: 5;">10h00</div><div class="time-slot" style="grid-row: 6;">10h30</div><div class="time-slot" style="grid-row: 7;">11h00</div><div class="time-slot" style="grid-row: 8;">11h30</div><div class="time-slot" style="grid-row: 9;">12h00</div><div class="time-slot" style="grid-row: 10;">12h30</div><div class="time-slot" style="grid-row: 11;">13h00</div><div class="time-slot" style="grid-row: 12;">13h30</div><div class="time-slot" style="grid-row: 13;">14h00</div><div class="time-slot" style="grid-row: 14;">14h30</div><div class="time-slot" style="grid-row: 15;">15h00</div><div class="time-slot" style="grid-row: 16;">15h30</div><div class="time-slot" style="grid-row: 17;">16h00</div><div class="time-slot" style="grid-row: 18;">16h30</div><div class="time-slot" style="grid-row: 19;">17h00</div><div class="time-slot" style="grid-row: 20;">17h30</div>
+                    <h2 class="text-2xl font-bold text-stone-700 mb-2">2ème Année</h2>
+                    <p class="text-stone-600 text-lg mb-8">Année Académique 2025-2026 (Modifié le 03/10/2025)</p>
+                    
+                    <div class="hidden lg:block bg-white rounded-lg shadow-lg overflow-x-auto">
+                        <div class="grid grid-cols-[auto,repeat(5,1fr)] min-w-[900px]">
+                            <div class="sticky top-0 z-10 bg-stone-100"></div>
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">09h00-10h30</div>
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">10h30-12h00</div>
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">12h00-13h30</div>
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">13h30-15h00</div>
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">15h00-16h30</div>
                             
-                            <div class="course-block" data-course="tech" style="grid-column: 2; grid-row: 3 / span 3;"><span class="course-name">Métré approfondi</span><span class="course-info"><i data-lucide="user"></i>M. Alla</span></div>
-                            <div class="course-block" data-course="management" style="grid-column: 2; grid-row: 6 / span 3;"><span class="course-name">Tech. recherche d'emploi</span><span class="course-info"><i data-lucide="user"></i>M. Hajji</span></div>
-                            <div class="course-block" data-course="archi" style="grid-column: 2; grid-row: 9 / span 3;"><span class="course-name">Projet d'archi. <span class="text-primary font-bold">(Gr2)</span></span><span class="course-name mt-1">Art plastique <span class="text-primary font-bold">(Gr1)</span></span><span class="course-info"><i data-lucide="users"></i>Berrabeh / Sarhdaoui</span></div>
-                            <div class="course-block" data-course="archi" style="grid-column: 2; grid-row: 12 / span 4;"><span class="course-name">Projet d'archi. <span class="text-primary font-bold">(Gr1)</span></span><span class="course-name mt-1">Art plastique <span class="text-primary font-bold">(Gr2)</span></span><span class="course-info"><i data-lucide="users"></i>Berrabeh / Sarhdaoui</span></div>
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Lundi</div>
+                            <div class="course-cell"><p class="font-semibold">Métré approfondi des ouvrages</p><span class="text-xs text-stone-500">M. Alla</span></div>
+                            <div class="course-cell"><p class="font-semibold">Techniques et recherche d'emploi</p><span class="text-xs text-stone-500">M. Hajji</span></div>
+                            <div class="course-cell"><p class="font-semibold">Projet d'archi. <span class="text-primary font-bold">Gr2</span></p><hr class="my-1"><p class="font-semibold">Art plastique <span class="text-primary font-bold">Gr1</span> (12h30-14h)</p><span class="text-xs text-stone-500">Mme Berrabeh / M. Sarhdaoui</span></div>
+                            <div class="course-cell"><p class="font-semibold">Projet d'archi. <span class="text-primary font-bold">Gr1</span></p><hr class="my-1"><p class="font-semibold">Art plastique <span class="text-primary font-bold">Gr2</span> (14h-15h30)</p><span class="text-xs text-stone-500">Mme Berrabeh / M. Sarhdaoui</span></div>
+                            <div class="course-cell"></div>
 
-                            <div class="course-block" data-course="urbanism" style="grid-column: 3; grid-row: 3 / span 3;"><span class="course-name">Projets d'urbanisme</span><span class="course-info"><i data-lucide="user"></i>M. Abdeljalil</span></div>
-                            <div class="course-block" data-course="tech" style="grid-column: 3; grid-row: 6 / span 3;"><span class="course-name">Topographie</span><span class="course-info"><i data-lucide="user"></i>Mme Baye</span></div>
-                            <div class="course-block" data-course="practical" style="grid-column: 3; grid-row: 9 / span 3;"><span class="course-name">Modélisation topo. <span class="text-primary font-bold">(Gr1)</span></span><span class="course-info"><i data-lucide="user"></i>Mme Bensadoun</span></div>
-                            <div class="course-block" data-course="practical" style="grid-column: 3; grid-row: 15 / span 3;"><span class="course-name">SIG <span class="text-primary font-bold">(Gr1)</span></span><span class="course-name mt-1">Infographie 3D <span class="text-primary font-bold">(Gr2)</span></span><span class="course-info"><i data-lucide="users"></i>Amrani / Sadouqi</span></div>
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Mardi</div>
+                            <div class="course-cell"><p class="font-semibold">Projets d'urbanisme</p><span class="text-xs text-stone-500">M. Abdeljalil</span></div>
+                            <div class="course-cell"><p class="font-semibold">Topographie</p><span class="text-xs text-stone-500">Mme Baye</span></div>
+                            <div class="course-cell"><p class="font-semibold">Modélisation topographique <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">Mme Bensadoun</span></div>
+                            <div class="course-cell"></div>
+                            <div class="course-cell"><p class="font-semibold">SIG <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Amrani</span><hr class="my-1"><p class="font-semibold">Infographie 3D <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Sadouqi</span></div>
+                            
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Mercredi</div>
+                            <div class="course-cell"><p class="font-semibold">Procédés techniques de construction</p><span class="text-xs text-stone-500">M. Rahou</span></div>
+                            <div class="course-cell"><p class="font-semibold">Efficacité énergétique</p><span class="text-xs text-stone-500">Mme Bouslham</span></div>
+                            <div class="course-cell"><p class="font-semibold">Modélisation topographique <span class="text-primary font-bold">Gr2</span></p><hr class="my-1"><p class="font-semibold">CAO-DAO <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">Mme Bensadoun / M. Abdeljalil Y.</span></div>
+                            <div class="course-cell"><p class="font-semibold">CAO-DAO <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Abdeljalil Younes</span></div>
+                            <div class="course-cell"></div>
 
-                            <div class="course-block" data-course="tech" style="grid-column: 4; grid-row: 3 / span 3;"><span class="course-name">Procédés tech. de construction</span><span class="course-info"><i data-lucide="user"></i>M. Rahou</span></div>
-                            <div class="course-block" data-course="tech" style="grid-column: 4; grid-row: 6 / span 3;"><span class="course-name">Efficacité énergétique</span><span class="course-info"><i data-lucide="user"></i>Mme Bouslham</span></div>
-                            <div class="course-block" data-course="practical" style="grid-column: 4; grid-row: 9 / span 3;"><span class="course-name">Modélisation topo. <span class="text-primary font-bold">(Gr2)</span></span><span class="course-name mt-1">CAO-DAO <span class="text-primary font-bold">(Gr1)</span></span><span class="course-info"><i data-lucide="users"></i>Bensadoun / Abdeljalil Y.</span></div>
-                            <div class="course-block" data-course="practical" style="grid-column: 4; grid-row: 12 / span 3;"><span class="course-name">CAO-DAO <span class="text-primary font-bold">(Gr2)</span></span><span class="course-info"><i data-lucide="user"></i>M. Abdeljalil Younes</span></div>
-
-                            <div class="course-block" data-course="management" style="grid-column: 5; grid-row: 3 / span 3;"><span class="course-name">Management de projets</span><span class="course-info"><i data-lucide="user"></i>M. El Hamouti</span></div>
-                            <div class="course-block" data-course="urbanism" style="grid-column: 5; grid-row: 6 / span 3;"><span class="course-name">Assainissement et réseaux</span><span class="course-info"><i data-lucide="user"></i>M. Rahou</span></div>
-                            <div class="course-block" data-course="common" style="grid-column: 5; grid-row: 9 / span 3;"><span class="course-name">Contrôle des infractions</span><span class="course-info"><i data-lucide="user"></i>M. Chouitar</span></div>
-                            <div class="course-block" data-course="management" style="grid-column: 5; grid-row: 12 / span 3;"><span class="course-name">Organisation et suivi chantier</span><span class="course-info"><i data-lucide="user"></i>Mme Mimouni</span></div>
-                            <div class="course-block" data-course="practical" style="grid-column: 5; grid-row: 15 / span 3;"><span class="course-name">SIG <span class="text-primary font-bold">(Gr2)</span></span><span class="course-name mt-1">Infographie 3D <span class="text-primary font-bold">(Gr1)</span></span><span class="course-info"><i data-lucide="users"></i>Amrani / Sadouqi</span></div>
-
-                            <div class="course-block" data-course="tech" style="grid-column: 6; grid-row: 2 / span 6;"><span class="course-name">Béton armé</span><span class="course-info"><i data-lucide="user"></i>Mme Mimouni</span></div>
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Jeudi</div>
+                            <div class="course-cell"><p class="font-semibold">Management de projets</p><span class="text-xs text-stone-500">M. El Hamouti</span></div>
+                            <div class="course-cell"><p class="font-semibold">Assainissement et réseaux divers</p><span class="text-xs text-stone-500">M. Rahou</span></div>
+                            <div class="course-cell"><p class="font-semibold">Contrôle des infractions</p><span class="text-xs text-stone-500">M. Chouitar</span></div>
+                            <div class="course-cell"><p class="font-semibold">Organisation et suivi du chantier</p><span class="text-xs text-stone-500">Mme Mimouni</span></div>
+                            <div class="course-cell"><p class="font-semibold">SIG <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Amrani</span><hr class="my-1"><p class="font-semibold">Infographie 3D <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Sadouqi</span></div>
+                            
+                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider" style="border-bottom: none;">Vendredi</div>
+                            <div class="course-cell col-span-2" style="border-bottom: none;"><p class="font-semibold">Béton armé (8h30-11h30)</p><span class="text-xs text-stone-500">Mme Mimouni</span></div>
+                            <div class="course-cell" style="border-bottom: none;"></div>
+                            <div class="course-cell" style="border-bottom: none;"></div>
+                            <div class="course-cell" style="border-bottom: none;"></div>
                         </div>
                     </div>
                     
-                    <div class="lg:hidden space-y-3 text-left">
-                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="lg:hidden space-y-2 text-left">
+                         <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
                             <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Lundi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
                             <div class="accordion-content">
                                 <div class="divide-y divide-stone-200">
-                                    <div class="py-3 px-4"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">Métré approfondi des ouvrages</p><p class="text-sm text-stone-500">M. Alla</p></div>
-                                    <div class="py-3 px-4"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Techniques et recherche d'emploi</p><p class="text-sm text-stone-500">M. Hajji</p></div>
-                                    <div class="py-3 px-4"><p class="font-bold text-primary">12:00 - 14:00</p><p class="font-semibold text-stone-700">Projet d'architecture <span class="text-primary font-bold">Gr2</span> / Art plastique <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">Mme Berrabeh / M. Sarhdaoui</p></div>
-                                    <div class="py-3 px-4"><p class="font-bold text-primary">13:30 - 15:30</p><p class="font-semibold text-stone-700">Projet d'architecture <span class="text-primary font-bold">Gr1</span> / Art plastique <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">Mme Berrabeh / M. Sarhdaoui</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">Métré approfondi des ouvrages</p><p class="text-sm text-stone-500">M. Alla</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Techniques et recherche d'emploi</p><p class="text-sm text-stone-500">M. Hajji</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">12:00 - 13:30</p><p class="font-semibold text-stone-700">Projet d'architecture <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">Mme Berrabeh</p><hr class="my-2"><p class="font-semibold text-stone-700">Art plastique <span class="text-primary font-bold">Gr1</span> (12h30-14h)</p><p class="text-sm text-stone-500">M. Sarhdaoui</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">13:30 - 15:30</p><p class="font-semibold text-stone-700">Projet d'architecture <span class="text-primary font-bold">Gr1</span> (13h30-15h)</p><p class="text-sm text-stone-500">Mme Berrabeh</p><hr class="my-2"><p class="font-semibold text-stone-700">Art plastique <span class="text-primary font-bold">Gr2</span> (14h-15h30)</p><p class="text-sm text-stone-500">M. Sarhdaoui</p></div>
                                 </div>
                             </div>
                         </div>
+                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Mardi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
+                            <div class="accordion-content">
+                                <div class="divide-y divide-stone-200">
+                                    <div class="py-3"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">Projets d'urbanisme</p><p class="text-sm text-stone-500">M. Abdeljalil</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Topographie</p><p class="text-sm text-stone-500">Mme Baye</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">12:00 - 13:30</p><p class="font-semibold text-stone-700">Modélisation topographique <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">Mme Bensadoun</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">15:00 - 16:30</p><p class="font-semibold text-stone-700">SIG <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">M. Amrani</p><hr class="my-2"><p class="font-semibold text-stone-700">Infographie 3D <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">M. Sadouqi</p></div>
+                                </div>
+                            </div>
                         </div>
+                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Mercredi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
+                            <div class="accordion-content">
+                                <div class="divide-y divide-stone-200">
+                                    <div class="py-3"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">Procédés techniques de construction</p><p class="text-sm text-stone-500">M. Rahou</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Efficacité énergétique</p><p class="text-sm text-stone-500">Mme Bouslham</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">12:00 - 13:30</p><p class="font-semibold text-stone-700">Modélisation topographique <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">Mme Bensadoun</p><hr class="my-2"><p class="font-semibold text-stone-700">CAO-DAO <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">M. Abdeljalil Y.</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">13:30 - 15:00</p><p class="font-semibold text-stone-700">CAO-DAO <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">M. Abdeljalil Younes</p></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Jeudi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
+                            <div class="accordion-content">
+                                <div class="divide-y divide-stone-200">
+                                    <div class="py-3"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">Management de projets</p><p class="text-sm text-stone-500">M. El Hamouti</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Assainissement et réseaux divers</p><p class="text-sm text-stone-500">M. Rahou</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">12:00 - 13:30</p><p class="font-semibold text-stone-700">Contrôle des infractions</p><p class="text-sm text-stone-500">M. Chouitar</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">13:30 - 15:00</p><p class="font-semibold text-stone-700">Organisation et suivi du chantier</p><p class="text-sm text-stone-500">Mme Mimouni</p></div>
+                                    <div class="py-3"><p class="font-bold text-primary">15:00 - 16:30</p><p class="font-semibold text-stone-700">SIG <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">M. Amrani</p><hr class="my-2"><p class="font-semibold text-stone-700">Infographie 3D <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">M. Sadouqi</p></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Vendredi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
+                            <div class="accordion-content">
+                                <div class="divide-y divide-stone-200">
+                                    <div class="py-3"><p class="font-bold text-primary">08:30 - 11:30</p><p class="font-semibold text-stone-700">Béton armé</p><p class="text-sm text-stone-500">Mme Mimouni</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <a href="files/Emploi_2eme_année.pdf" download class="btn-primary mt-8 inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold whitespace-nowrap">
                         <i data-lucide="download" class="mr-2 h-5 w-5"></i> Télécharger (PDF)
@@ -303,7 +323,6 @@
     
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        lucide.createIcons();
         
         const mobileMenuButton = document.getElementById("mobile-menu-button");
         const mobileMenu = document.getElementById("mobile-menu");
@@ -316,6 +335,8 @@
         const yearSpan = document.getElementById("year");
         if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
         
+        lucide.createIcons();
+
         // --- Logique des Onglets (Tabs) ---
         const btnAnnee1 = document.getElementById('btn-annee1');
         const btnAnnee2 = document.getElementById('btn-annee2');
@@ -323,15 +344,15 @@
         const edtAnnee2 = document.getElementById('edt-annee2');
 
         function showAnnee1() {
-            edtAnnee1.style.display = 'block';
-            edtAnnee2.style.display = 'none';
+            edtAnnee1.classList.remove('hidden');
+            edtAnnee2.classList.add('hidden');
             btnAnnee1.classList.add('active');
             btnAnnee2.classList.remove('active');
         }
 
         function showAnnee2() {
-            edtAnnee1.style.display = 'none';
-            edtAnnee2.style.display = 'block';
+            edtAnnee1.classList.add('hidden');
+            edtAnnee2.classList.remove('hidden');
             btnAnnee1.classList.remove('active');
             btnAnnee2.classList.add('active');
         }
@@ -339,25 +360,30 @@
         btnAnnee1.addEventListener('click', showAnnee1);
         btnAnnee2.addEventListener('click', showAnnee2);
         
-        showAnnee1(); // Afficher la 1ère année par défaut
+        showAnnee1();
 
         // --- Logique pour l'Accordéon ---
-        const accordionItems = document.querySelectorAll('.accordion-item');
-        if (accordionItems.length > 0) {
-            accordionItems.forEach(item => {
-                const header = item.querySelector('.accordion-header');
-                header.addEventListener('click', () => {
-                    // Ferme tous les autres accordéons
-                    document.querySelectorAll('.accordion-item.active').forEach(activeItem => {
-                        if (activeItem !== item) {
-                            activeItem.classList.remove('active');
+        function setupAccordion(containerId) {
+            const accordionItems = document.querySelectorAll(`#${containerId} .accordion-item`);
+            if (accordionItems.length > 0) {
+                accordionItems.forEach(item => {
+                    const header = item.querySelector('.accordion-header');
+                    header.addEventListener('click', () => {
+                        const currentlyActive = item.classList.contains('active');
+                        accordionItems.forEach(otherItem => {
+                            otherItem.classList.remove('active');
+                        });
+                        if (!currentlyActive) {
+                            item.classList.add('active');
                         }
                     });
-                    // Ouvre ou ferme l'accordéon cliqué
-                    item.classList.toggle('active');
                 });
-            });
+            }
         }
+        
+        setupAccordion('edt-annee1');
+        setupAccordion('edt-annee2');
+
     });
     </script>
 </body>
