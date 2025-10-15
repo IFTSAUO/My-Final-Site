@@ -192,29 +192,25 @@
                     <div class="timetable-grid">
                         <div class="grid-cell day-header">Jours</div>
                         <script>
-                            let headers1 = '';
+                            let headersHtml = '';
                             for (let i = 0; i < 19; i++) {
                                 const totalMinutes = 8 * 60 + 30 + i * 30;
                                 const hour = Math.floor(totalMinutes / 60);
                                 const minute = totalMinutes % 60;
-                                const nextTotalMinutes = totalMinutes + 30;
-                                const nextHour = Math.floor(nextTotalMinutes / 60);
-                                const nextMinute = nextTotalMinutes % 60;
                                 const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-                                const nextTime = `${String(nextHour).padStart(2, '0')}:${String(nextMinute).padStart(2, '0')}`;
                                 const type = (minute === 0) ? 'major' : 'minor';
-                                headers1 += `<div class="grid-cell time-header ${type}" style="grid-column: ${i + 2};">${time}-${nextTime}</div>`;
+                                headersHtml += `<div class="grid-cell time-header ${type}" style="grid-column: ${i + 2};">${time}</div>`;
                             }
-                            document.write(headers1);
+                            document.write(headersHtml);
                         </script>
                         <div class="grid-cell day-label" style="grid-row: 2;">Lundi</div><div class="grid-cell day-label" style="grid-row: 3;">Mardi</div><div class="grid-cell day-label" style="grid-row: 4;">Mercredi</div><div class="grid-cell day-label" style="grid-row: 5;">Jeudi</div><div class="grid-cell day-label" style="grid-row: 6;">Vendredi</div>
                         <script>
-                            let cells1 = '';
+                            let cellsHtml = '';
                             for(let r=2; r<=6; r++) for(let c=2; c<=20; c++) {
                                 const isMajorLine = ((c-2) % 2 !== 0);
-                                cells1 += `<div class="grid-cell ${isMajorLine ? 'major-line' : ''}" style="grid-row: ${r}; grid-column: ${c}; z-index:0;"></div>`;
+                                cellsHtml += `<div class="grid-cell ${isMajorLine ? 'major-line' : ''}" style="grid-row: ${r}; grid-column: ${c}; z-index:0;"></div>`;
                             }
-                            document.write(cells1);
+                            document.write(cellsHtml);
                         </script>
 
                         <div class="course-block color-1" style="grid-row: 2; grid-column: 3 / 6;" data-time="09:00 - 10:30"><i data-lucide="book-open"></i><strong>Français Technique</strong><small>M. Hajji</small></div>
@@ -261,9 +257,9 @@
                     </div>
                     <div class="timetable-grid">
                         <div class="grid-cell day-header">Jours</div>
-                        <script>document.write(headers1);</script>
+                        <script>document.write(headersHtml);</script>
                         <div class="grid-cell day-label" style="grid-row: 2;">Lundi</div><div class="grid-cell day-label" style="grid-row: 3;">Mardi</div><div class="grid-cell day-label" style="grid-row: 4;">Mercredi</div><div class="grid-cell day-label" style="grid-row: 5;">Jeudi</div><div class="grid-cell day-label" style="grid-row: 6;">Vendredi</div>
-                        <script>document.write(cells1);</script>
+                        <script>document.write(cellsHtml);</script>
                         
                         <div class="course-block color-1" style="grid-row: 2; grid-column: 3 / 6;" data-time="09:00 - 10:30"><i data-lucide="ruler"></i><strong>Métré approfondi</strong><small>M. Alla</small></div>
                         <div class="course-block color-2" style="grid-row: 2; grid-column: 6 / 9;" data-time="10:30 - 12:00"><i data-lucide="briefcase"></i><strong>Recherche d'emploi</strong><small>M. Hajji</small></div>
