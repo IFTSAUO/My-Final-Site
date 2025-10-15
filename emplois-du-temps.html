@@ -64,7 +64,6 @@
             border-right: 1px solid var(--color-border);
             text-align: center;
         }
-        /* Style for major vertical lines */
         .grid-cell.major-line {
             border-right: 2px solid var(--color-border-major);
         }
@@ -168,11 +167,6 @@
         .color-3 { background: linear-gradient(135deg, #6e8b7d, #42584c); }
         .color-4 { background: linear-gradient(135deg, #b0976d, #8d734a); }
         .color-5 { background: linear-gradient(135deg, #8a7e72, #5c5248); }
-
-        /* --- Mobile Responsive List View --- */
-        @media (max-width: 1023px) {
-           /* Mobile styles remain unchanged */
-        }
     </style>
 </head>
 <body class="text-stone-800">
@@ -198,36 +192,29 @@
                     <div class="timetable-grid">
                         <div class="grid-cell day-header">Jours</div>
                         <script>
-                            let headers = '';
+                            let headers1 = '';
                             for (let i = 0; i < 19; i++) {
-                                const hour = Math.floor(i / 2) + 8;
-                                const minute = (i % 2) * 30;
-                                const nextMinute = ((i + 1) % 2) * 30;
-                                const nextHour = (nextMinute === 0) ? hour + 1 : hour;
-                                
+                                const totalMinutes = 8 * 60 + 30 + i * 30;
+                                const hour = Math.floor(totalMinutes / 60);
+                                const minute = totalMinutes % 60;
+                                const nextTotalMinutes = totalMinutes + 30;
+                                const nextHour = Math.floor(nextTotalMinutes / 60);
+                                const nextMinute = nextTotalMinutes % 60;
                                 const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
                                 const nextTime = `${String(nextHour).padStart(2, '0')}:${String(nextMinute).padStart(2, '0')}`;
-                                
                                 const type = (minute === 0) ? 'major' : 'minor';
-                                headers += `<div class="grid-cell time-header ${type}" style="grid-column: ${i + 2};">${time}-${nextTime}</div>`;
+                                headers1 += `<div class="grid-cell time-header ${type}" style="grid-column: ${i + 2};">${time}-${nextTime}</div>`;
                             }
-                            document.write(headers);
+                            document.write(headers1);
                         </script>
-                        
-                        <div class="grid-cell day-label" style="grid-row: 2;">Lundi</div>
-                        <div class="grid-cell day-label" style="grid-row: 3;">Mardi</div>
-                        <div class="grid-cell day-label" style="grid-row: 4;">Mercredi</div>
-                        <div class="grid-cell day-label" style="grid-row: 5;">Jeudi</div>
-                        <div class="grid-cell day-label" style="grid-row: 6;">Vendredi</div>
+                        <div class="grid-cell day-label" style="grid-row: 2;">Lundi</div><div class="grid-cell day-label" style="grid-row: 3;">Mardi</div><div class="grid-cell day-label" style="grid-row: 4;">Mercredi</div><div class="grid-cell day-label" style="grid-row: 5;">Jeudi</div><div class="grid-cell day-label" style="grid-row: 6;">Vendredi</div>
                         <script>
-                            let cells = '';
-                            for(let r=2; r<=6; r++) {
-                                for(let c=2; c<=20; c++) {
-                                    const isMajorLine = ((c-1) % 2 === 0);
-                                    cells += `<div class="grid-cell ${isMajorLine ? 'major-line' : ''}" style="grid-row: ${r}; grid-column: ${c}; z-index:0;"></div>`;
-                                }
+                            let cells1 = '';
+                            for(let r=2; r<=6; r++) for(let c=2; c<=20; c++) {
+                                const isMajorLine = ((c-2) % 2 !== 0);
+                                cells1 += `<div class="grid-cell ${isMajorLine ? 'major-line' : ''}" style="grid-row: ${r}; grid-column: ${c}; z-index:0;"></div>`;
                             }
-                            document.write(cells);
+                            document.write(cells1);
                         </script>
 
                         <div class="course-block color-1" style="grid-row: 2; grid-column: 3 / 6;" data-time="09:00 - 10:30"><i data-lucide="book-open"></i><strong>Français Technique</strong><small>M. Hajji</small></div>
@@ -264,22 +251,98 @@
                             <div class="course-block color-5" data-time="11:30 - 13:00"><i data-lucide="drafting-compass"></i><strong>Dessin d'architecture</strong><small>Mme Berrabeh</small><span class="group-badge">Gr2</span></div>
                         </div>
                     </div>
-                     <a href="files/Emploi _1ere_année.pdf" download class="btn-primary mt-8 inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold whitespace-nowrap">
-                        <i data-lucide="download" class="mr-2 h-5 w-5"></i> Télécharger (PDF)
-                    </a>
+                     <a href="files/Emploi _1ere_année.pdf" download class="btn-primary mt-8 inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold whitespace-nowrap"><i data-lucide="download" class="mr-2 h-5 w-5"></i> Télécharger (PDF)</a>
                 </div>
 
                 <div id="edt-annee2" class="hidden timetable-container">
+                    <div class="text-center mb-8">
+                         <h2 class="text-2xl font-bold text-stone-700 mb-1">2ème Année</h2>
+                        <p class="text-stone-600">Année Académique 2025-2026 (Modifié le 03/10/2025)</p>
                     </div>
+                    <div class="timetable-grid">
+                        <div class="grid-cell day-header">Jours</div>
+                        <script>document.write(headers1);</script>
+                        <div class="grid-cell day-label" style="grid-row: 2;">Lundi</div><div class="grid-cell day-label" style="grid-row: 3;">Mardi</div><div class="grid-cell day-label" style="grid-row: 4;">Mercredi</div><div class="grid-cell day-label" style="grid-row: 5;">Jeudi</div><div class="grid-cell day-label" style="grid-row: 6;">Vendredi</div>
+                        <script>document.write(cells1);</script>
+                        
+                        <div class="course-block color-1" style="grid-row: 2; grid-column: 3 / 6;" data-time="09:00 - 10:30"><i data-lucide="ruler"></i><strong>Métré approfondi</strong><small>M. Alla</small></div>
+                        <div class="course-block color-2" style="grid-row: 2; grid-column: 6 / 9;" data-time="10:30 - 12:00"><i data-lucide="briefcase"></i><strong>Recherche d'emploi</strong><small>M. Hajji</small></div>
+                        <div class="course-block color-3" style="grid-row: 2; grid-column: 9 / 12;" data-time="12:00 - 13:30"><i data-lucide="drafting-compass"></i><strong>Projet d'archi.</strong><small>Mme Berrabeh</small><span class="group-badge">Gr2</span></div>
+                        <div class="course-block color-4" style="grid-row: 2; grid-column: 10 / 13;" data-time="12:30 - 14:00"><i data-lucide="palette"></i><strong>Art plastique</strong><small>M. Sarhdaoui</small><span class="group-badge">Gr1</span></div>
+                        <div class="course-block color-3" style="grid-row: 2; grid-column: 12 / 15;" data-time="13:30 - 15:00"><i data-lucide="drafting-compass"></i><strong>Projet d'archi.</strong><small>Mme Berrabeh</small><span class="group-badge">Gr1</span></div>
+                        <div class="course-block color-4" style="grid-row: 2; grid-column: 13 / 16;" data-time="14:00 - 15:30"><i data-lucide="palette"></i><strong>Art plastique</strong><small>M. Sarhdaoui</small><span class="group-badge">Gr2</span></div>
+
+                        <div class="course-block color-5" style="grid-row: 3; grid-column: 3 / 6;" data-time="09:00 - 10:30"><i data-lucide="building-2"></i><strong>Projets d'urbanisme</strong><small>M. Abdeljalil</small></div>
+                        <div class="course-block color-1" style="grid-row: 3; grid-column: 6 / 9;" data-time="10:30 - 12:00"><i data-lucide="mountain"></i><strong>Topographie</strong><small>Mme Baye</small></div>
+                        <div class="course-block color-2" style="grid-row: 3; grid-column: 9 / 12;" data-time="12:00 - 13:30"><i data-lucide="move-3d"></i><strong>Modélisation topo.</strong><small>Mme Bensadoun</small><span class="group-badge">Gr1</span></div>
+                        <div class="parallel-session-container" style="--grid-row: 3; --grid-column: 15 / 18;">
+                            <div class="course-block color-3" data-time="15:00 - 16:30"><i data-lucide="globe-2"></i><strong>SIG</strong><small>M. Amrani</small><span class="group-badge">Gr1</span></div>
+                            <div class="course-block color-4" data-time="15:00 - 16:30"><i data-lucide="box"></i><strong>Infographie 3D</strong><small>M. Sadouqi</small><span class="group-badge">Gr2</span></div>
+                        </div>
+                        
+                        <div class="course-block color-1" style="grid-row: 4; grid-column: 3 / 6;" data-time="09:00 - 10:30"><i data-lucide="construction"></i><strong>Procédés de construction</strong><small>M. Rahou</small></div>
+                        <div class="course-block color-2" style="grid-row: 4; grid-column: 6 / 9;" data-time="10:30 - 12:00"><i data-lucide="leaf"></i><strong>Efficacité énergétique</strong><small>Mme Bouslham</small></div>
+                        <div class="parallel-session-container" style="--grid-row: 4; --grid-column: 9 / 12;">
+                             <div class="course-block color-4" data-time="12:00 - 13:30"><i data-lucide="computer"></i><strong>CAO-DAO</strong><small>M. Abdeljalil Y.</small><span class="group-badge">Gr1</span></div>
+                             <div class="course-block color-3" data-time="12:00 - 13:30"><i data-lucide="move-3d"></i><strong>Modélisation topo.</strong><small>Mme Bensadoun</small><span class="group-badge">Gr2</span></div>
+                        </div>
+                        <div class="course-block color-5" style="grid-row: 4; grid-column: 12 / 15;" data-time="13:30 - 15:00"><i data-lucide="computer"></i><strong>CAO-DAO</strong><small>M. Abdeljalil Y.</small><span class="group-badge">Gr2</span></div>
+
+                        <div class="course-block color-2" style="grid-row: 5; grid-column: 3 / 6;" data-time="09:00 - 10:30"><i data-lucide="clipboard-list"></i><strong>Management de projets</strong><small>M. El Hamouti</small></div>
+                        <div class="course-block color-3" style="grid-row: 5; grid-column: 6 / 9;" data-time="10:30 - 12:00"><i data-lucide="shower-head"></i><strong>Assainissement</strong><small>M. Rahou</small></div>
+                        <div class="course-block color-4" style="grid-row: 5; grid-column: 9 / 12;" data-time="12:00 - 13:30"><i data-lucide="siren"></i><strong>Contrôle des infractions</strong><small>M. Chouitar</small></div>
+                        <div class="course-block color-5" style="grid-row: 5; grid-column: 12 / 15;" data-time="13:30 - 15:00"><i data-lucide="calendar-check"></i><strong>Suivi du chantier</strong><small>Mme Mimouni</small></div>
+                        <div class="parallel-session-container" style="--grid-row: 5; --grid-column: 15 / 18;">
+                            <div class="course-block color-2" data-time="15:00 - 16:30"><i data-lucide="box"></i><strong>Infographie 3D</strong><small>M. Sadouqi</small><span class="group-badge">Gr1</span></div>
+                            <div class="course-block color-1" data-time="15:00 - 16:30"><i data-lucide="globe-2"></i><strong>SIG</strong><small>M. Amrani</small><span class="group-badge">Gr2</span></div>
+                        </div>
+
+                        <div class="course-block color-3" style="grid-row: 6; grid-column: 2 / 8;" data-time="08:30 - 11:30"><i data-lucide="braces"></i><strong>Béton armé</strong><small>Mme Mimouni</small></div>
+                    </div>
+                     <a href="files/Emploi_2eme_année.pdf" download class="btn-primary mt-8 inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold whitespace-nowrap"><i data-lucide="download" class="mr-2 h-5 w-5"></i> Télécharger (PDF)</a>
+                </div>
             </div>
         </div>
     </main>
 
     <footer style="background-color: var(--color-primary);" class="mt-12 sm:mt-20">
-       </footer>
+       <div class="container mx-auto px-6 py-8 text-center text-stone-200">
+           <p>&copy; <span id="year">2025</span> IFTSAU Oujda. Tous droits réservés.</p>
+       </div>
+    </footer>
     
     <script>
-        // Script content remains unchanged
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener("click", () => {
+                mobileMenu.classList.toggle("hidden");
+            });
+        }
+        const yearSpan = document.getElementById("year");
+        if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
+        lucide.createIcons();
+        const btnAnnee1 = document.getElementById('btn-annee1');
+        const btnAnnee2 = document.getElementById('btn-annee2');
+        const edtAnnee1 = document.getElementById('edt-annee1');
+        const edtAnnee2 = document.getElementById('edt-annee2');
+        function showAnnee1() {
+            edtAnnee1.classList.remove('hidden');
+            edtAnnee2.classList.add('hidden');
+            btnAnnee1.classList.add('active');
+            btnAnnee2.classList.remove('active');
+        }
+        function showAnnee2() {
+            edtAnnee1.classList.add('hidden');
+            edtAnnee2.classList.remove('hidden');
+            btnAnnee1.classList.remove('active');
+            btnAnnee2.classList.add('active');
+        }
+        btnAnnee1.addEventListener('click', showAnnee1);
+        btnAnnee2.addEventListener('click', showAnnee2);
+        showAnnee1();
+    });
     </script>
 </body>
 </html>
