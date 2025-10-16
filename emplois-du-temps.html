@@ -7,43 +7,336 @@
     <link rel="icon" type="image/png" href="logo-iftsau.png">
     
     <link href="style.css" rel="stylesheet">
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/lucide@0.378.0/dist/umd/lucide.min.js"></script>
 
-    <script defer src="https://cdn.jsdelivr.net/npm/lucide@0.258.0/dist/umd/lucide.min.js"></script>
     <style>
-        :root{--color-bg:#F2F0E6;--color-text:#4a4238;--color-primary:#986A44; --color-accent:#E6E2AF;}
-        body{font-family:'Inter',sans-serif;background-color:var(--color-bg);color:var(--color-text);}
-        .nav-link:hover{color:var(--color-primary);}
-        .btn-primary{background-color:var(--color-primary);color:white;transition: all 0.3s ease;}
-        .btn-primary:hover{background-color:#7a5536; transform: translateY(-3px);}
-        .course-cell {
-            padding: 0.75rem;
-            border-bottom: 1px solid #e7e5e4;
-            border-right: 1px solid #e7e5e4;
-            min-height: 110px;
-            font-size: 0.875rem;
-            line-height: 1.25rem;
+        /*----------------------------------------------------------------*/
+        /* 1. VARIABLES & BASE                       */
+        /*----------------------------------------------------------------*/
+        :root {
+            --color-bg: #F8F7F4;
+            --color-text: #4a4238;
+            --color-primary: #986A44;
+            --color-primary-light: #f3eee8;
+            --color-accent: #E6E2AF;
+            --border-color: #e7e5e4;
+            --grid-header-bg: #FDFDFC;
+            --grid-time-col-width: 80px;
+            --grid-border: 1px solid var(--border-color);
+            font-family: 'Inter', sans-serif;
         }
-        .course-cell:last-child { border-right: 0; }
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out;
-            padding: 0 1rem;
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
         }
-        .accordion-item.active .accordion-content {
-            max-height: 1500px;
-            transition: max-height 0.5s ease-in;
-            padding-top: 1rem;
-            padding-bottom: 1rem;
+
+        /*----------------------------------------------------------------*/
+        /* 2. UI CONTROLS                            */
+        /*----------------------------------------------------------------*/
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            background-color: #edebe4;
+            padding: 0.5rem;
+            border-radius: 0.75rem;
+            max-width: 24rem;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .accordion-header i { transition: transform 0.3s ease; }
-        .accordion-item.active .accordion-header i { transform: rotate(180deg); }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            color: var(--color-text);
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
         .tab-btn.active {
             background-color: var(--color-primary);
             color: white;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px -2px rgba(152, 106, 68, 0.4);
+            transform: translateY(-2px);
         }
-        .text-primary { color: var(--color-primary); }
+
+        .view-toggle {
+            display: none; /* Hidden by default, shown on mobile */
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .view-toggle button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: 2px solid transparent;
+            border-radius: 999px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: #edebe4;
+        }
+
+        .view-toggle button.active {
+            background-color: var(--color-primary-light);
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        /*----------------------------------------------------------------*/
+        /* 3. TIMETABLE GRID                         */
+        /*----------------------------------------------------------------*/
+        .timetable-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 2.5rem;
+            border: var(--grid-border);
+            border-radius: 0.75rem;
+            background: white;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+        }
+
+        .timetable-grid {
+            display: grid;
+            grid-template-columns: var(--grid-time-col-width) repeat(5, 1fr);
+            min-width: 900px;
+        }
+
+        /* Headers & Time Column */
+        .grid-header, .time-label {
+            position: sticky;
+            background-color: var(--grid-header-bg);
+            font-weight: 600;
+            z-index: 10;
+        }
+
+        .grid-header {
+            top: 0;
+            text-align: center;
+            padding: 1rem 0.5rem;
+            border-bottom: var(--grid-border);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.875rem;
+        }
+        
+        .time-label {
+            left: 0;
+            grid-column: 1 / 2;
+            text-align: center;
+            padding: 0.5rem;
+            font-family: 'ui-monospace', 'Courier New', monospace;
+            color: var(--color-text);
+            font-size: 0.8rem;
+            border-right: var(--grid-border);
+            user-select: none;
+        }
+
+        /* Grid Structure */
+        .grid-cell-bg {
+            grid-column: 2 / -1;
+            border-bottom: 1px dotted var(--border-color);
+        }
+        .grid-cell-bg.full-hour {
+             border-bottom: var(--grid-border);
+        }
+        .grid-column-bg {
+             border-right: var(--grid-border);
+        }
+        .grid-column-bg:last-child {
+            border-right: none;
+        }
+
+        /*----------------------------------------------------------------*/
+        /* 4. COURSE CELL STYLING                    */
+        /*----------------------------------------------------------------*/
+        .course-cell {
+            position: relative;
+            padding: 0.5rem 0.75rem;
+            margin: 2px;
+            border-radius: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            color: white;
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+
+        .course-cell:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 20px -4px rgba(0,0,0,0.2);
+            z-index: 20;
+        }
+        
+        .course-cell .icon {
+            margin-right: 0.4rem;
+            flex-shrink: 0;
+        }
+
+        .course-cell .subject {
+            font-weight: 700;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .course-cell .teacher {
+            opacity: 0.85;
+            margin-top: auto; /* Pushes teacher to the bottom */
+            padding-top: 0.25rem;
+        }
+
+        .course-cell .group {
+            position: absolute;
+            top: 5px;
+            right: 8px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 2px 6px;
+            border-radius: 99px;
+        }
+
+        /* Split Cell for Parallel Courses */
+        .split-cell {
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr;
+            gap: 2px;
+        }
+        
+        .split-cell > .course-cell {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            border-radius: 0;
+        }
+        .split-cell > .course-cell:first-child { border-radius: 0.5rem 0 0 0.5rem; }
+        .split-cell > .course-cell:last-child { border-radius: 0 0.5rem 0.5rem 0; }
+        .split-cell > .course-cell:hover { transform: none; box-shadow: none; }
+
+
+        /*----------------------------------------------------------------*/
+        /* 5. CARD VIEW (MOBILE)                     */
+        /*----------------------------------------------------------------*/
+        .cards-view {
+            display: none; /* Initially hidden */
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+        
+        .day-card {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+        
+        .day-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .day-card .course-card {
+            display: flex;
+            padding: 1rem 0;
+            gap: 1rem;
+        }
+
+        .day-card .course-card:not(:last-child) {
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .course-card .time {
+            flex-basis: 80px;
+            flex-shrink: 0;
+            font-weight: 600;
+            font-family: 'ui-monospace', 'Courier New', monospace;
+        }
+
+        .course-card .details {
+            flex-grow: 1;
+        }
+        
+        .course-card .subject {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .course-card .subject .icon {
+            margin-right: 0.5rem;
+        }
+
+        .course-card .teacher {
+            color: #57534e;
+        }
+        
+        .course-card .group {
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-top: 0.25rem;
+        }
+        
+        /*----------------------------------------------------------------*/
+        /* 6. CURRENT TIME INDICATOR                 */
+        /*----------------------------------------------------------------*/
+        .current-time-indicator {
+            position: absolute;
+            left: var(--grid-time-col-width);
+            right: 0;
+            height: 2px;
+            background-color: #f87171;
+            z-index: 30;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+
+        .current-time-indicator::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: -4px;
+            width: 10px;
+            height: 10px;
+            background: #f87171;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #f87171;
+        }
+
+
+        /*----------------------------------------------------------------*/
+        /* 7. RESPONSIVE & UTILS                      */
+        /*----------------------------------------------------------------*/
+        .hidden { display: none !important; }
+
+        @media (max-width: 768px) {
+            .view-toggle { display: flex; justify-content: center; }
+            .split-cell { 
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+            .split-cell > .course-cell:first-child { border-radius: 0.5rem 0.5rem 0 0; }
+            .split-cell > .course-cell:last-child { border-radius: 0 0 0.5rem 0.5rem; }
+        }
+
     </style>
 </head>
 <body class="text-stone-800">
@@ -52,265 +345,49 @@
         <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
             <a href="index.html" class="flex-shrink-0 flex items-center space-x-2 sm:space-x-3"><img src="logo-iftsau.png" alt="Logo IFTSAU Oujda" class="h-10 sm:h-12 w-auto"><span class="text-base sm:text-xl font-bold tracking-tight" style="color:var(--color-text)">IFTSAU Oujda</span></a>
             <nav class="hidden md:flex items-center space-x-4 lg:space-x-6">
-                <a href="index.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Accueil</a>
-                <a href="formation.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Formation</a>
-                <a href="admission.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Admission</a>
+                <a href="index.html" class="font-medium text-stone-600 hover:text-primary">Accueil</a>
+                <a href="formation.html" class="font-medium text-stone-600 hover:text-primary">Formation</a>
+                <a href="admission.html" class="font-medium text-stone-600 hover:text-primary">Admission</a>
                 <div class="relative group">
-                    <button class="nav-link font-medium text-primary whitespace-nowrap flex items-center">Scolarité<i data-lucide="chevron-down" class="w-4 h-4 ml-1"></i></button>
+                    <button class="font-medium text-primary flex items-center">Scolarité<i data-lucide="chevron-down" class="w-4 h-4 ml-1"></i></button>
                     <div class="absolute top-full -left-4 w-48 bg-white shadow-lg rounded-md mt-2 py-1 opacity-0 group-hover:opacity-100 transition-all duration-300 invisible group-hover:visible z-20">
-                        <a href="demande-document.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Demande de document</a>
-                        <a href="emplois-du-temps.html" class="block px-4 py-2 text-sm text-primary bg-stone-50 hover:text-primary">Emplois du temps</a>
-                        <a href="planning.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Planning</a>
-                        <a href="resultats.html" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Resultats</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Demande de document</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-primary bg-stone-50">Emplois du temps</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Planning</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-stone-700 hover:bg-stone-100 hover:text-primary">Resultats</a>
                     </div>
                 </div>
-                <a href="vie-etudiante.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Vie Étudiante</a>
-                <a href="contact.html" class="nav-link font-medium text-stone-600 whitespace-nowrap">Contact</a>
+                <a href="#" class="font-medium text-stone-600 hover:text-primary">Vie Étudiante</a>
+                <a href="#" class="font-medium text-stone-600 hover:text-primary">Contact</a>
             </nav>
             <button id="mobile-menu-button" class="md:hidden"><i data-lucide="menu" class="h-6 w-6 text-stone-700"></i></button>
         </div>
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-200">
-            <a href="index.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Accueil</a>
-            <a href="formation.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Formation</a>
-            <a href="admission.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Admission</a>
-            <span class="block py-3 px-6 text-stone-400 text-sm font-semibold">Scolarité</span>
-            <a href="demande-document.html" class="block py-2 px-10 text-stone-600 hover:bg-stone-50 hover:text-primary">Demande de document</a>
-            <a href="emplois-du-temps.html" class="block py-2 px-10 text-primary bg-stone-50 hover:text-primary">Emplois du temps</a>
-            <a href="planning.html" class="block py-2 px-10 text-stone-600 hover:bg-stone-50 hover:text-primary">Planning</a>
-            <a href="resultats.html" class="block py-2 px-10 text-stone-600 hover:bg-stone-50 hover:text-primary">Resultats</a>
-            <a href="vie-etudiante.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Vie Étudiante</a>
-            <a href="contact.html" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Contact</a>
-        </div>
+             </div>
     </header>
 
-    <main class="py-16 sm:py-24">
+    <main class="py-12 sm:py-20">
         <div class="container mx-auto px-4 sm:px-6">
             <div class="max-w-7xl mx-auto text-center">
-                <h1 class="text-3xl sm:text-4xl font-bold text-primary mb-10">Emplois du Temps</h1>
+                <h1 class="text-3xl sm:text-4xl font-bold mb-10" style="color: var(--color-primary);">Emplois du Temps</h1>
 
-                <div class="mb-10 flex justify-center bg-stone-200/50 p-2 rounded-lg max-w-sm mx-auto">
-                    <button id="btn-annee1" class="tab-btn flex-1 py-2 px-4 rounded-md font-semibold transition-all duration-300 active">1ère Année</button>
-                    <button id="btn-annee2" class="tab-btn flex-1 py-2 px-4 rounded-md font-semibold transition-all duration-300">2ème Année</button>
+                <div class="tabs-container">
+                    <button id="btn-annee1" class="tab-btn active">1ère Année</button>
+                    <button id="btn-annee2" class="tab-btn">2ème Année</button>
                 </div>
+
+                <div class="view-toggle">
+                    <button id="view-grid-btn" class="active">
+                        <i data-lucide="layout-grid" class="w-5 h-5"></i> Grille
+                    </button>
+                    <button id="view-list-btn">
+                        <i data-lucide="list" class="w-5 h-5"></i> Liste
+                    </button>
+                </div>
+
+                <div id="timetable-annee1"></div>
+                <div id="timetable-annee2" class="hidden"></div>
                 
-                <div id="edt-annee1">
-                    <h2 class="text-2xl font-bold text-stone-700 mb-2">1ère Année</h2>
-                    <p class="text-stone-600 text-lg mb-8">Année Académique 2025-2026 (Mise à jour)</p>
-                    
-                    <div class="hidden lg:block bg-white rounded-lg shadow-lg overflow-x-auto">
-                        <div class="grid grid-cols-[auto,repeat(5,1fr)] min-w-[900px]">
-                            <div class="sticky top-0 z-10 bg-stone-100"></div>
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">09h00-10h30</div>
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">10h30-12h00</div>
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">12h00-13h30</div>
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">13h30-15h00</div>
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">15h00-16h30</div>
-                            
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Lundi</div>
-                            <div class="course-cell"><p class="font-semibold">Français Technique</p><span class="text-xs text-stone-500">M. Hajji</span></div>
-                            <div class="course-cell"><p class="font-semibold">Métré des corps de travaux</p><span class="text-xs text-stone-500">M. Alla</span></div>
-                            <div class="course-cell"><p class="font-semibold">Résistance des matériaux (RDM)<br>(12h30-14h)</p><span class="text-xs text-stone-500">M. Benhadou</span></div>
-                            <div class="course-cell"></div>
-                            <div class="course-cell"></div>
-
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Mardi</div>
-                            <div class="course-cell"><p class="font-semibold">CAO-DAO <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">Mme Bouslham</span><hr class="my-1"><p class="font-semibold">Art plastique <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Sarhdaoui</span></div>
-                            <div class="course-cell"><p class="font-semibold">Théorie et pratiques d'urbanisme</p><span class="text-xs text-stone-500">M. Abdeljalil</span></div>
-                            <div class="course-cell"><p class="font-semibold">Cartographie et photogrammétrie</p><span class="text-xs text-stone-500">Mme Baye</span></div>
-                            <div class="course-cell"><p class="font-semibold">Bureautique et gestion de base de données <span class="text-primary font-bold">Gr2</span></p><hr class="my-1"><p class="font-semibold">Dessin d'architecture <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Elhilali / Mme Berrabeh</span></div>
-                            <div class="course-cell"></div>
-
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Mercredi</div>
-                            <div class="course-cell"><p class="font-semibold">CAO-DAO <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">Mme Bouslham</span><hr class="my-1"><p class="font-semibold">Art plastique <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Sarhdaoui</span></div>
-                            <div class="course-cell"><p class="font-semibold">Matériaux de construction</p><span class="text-xs text-stone-500">M. Rahou</span></div>
-                            <div class="course-cell"><p class="font-semibold">Droit administratif</p><span class="text-xs text-stone-500">M. Kherraji</span></div>
-                            <div class="course-cell"></div>
-                            <div class="course-cell"></div>
-
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Jeudi</div>
-                            <div class="course-cell"><p class="font-semibold">Voirie urbaine</p><span class="text-xs text-stone-500">M. Rahou</span></div>
-                            <div class="course-cell"><p class="font-semibold">Statistique appliquée</p><span class="text-xs text-stone-500">M. El Hamouti</span></div>
-                            <div class="course-cell"><p class="font-semibold">His. et théorie de l'architecture</p><span class="text-xs text-stone-500">M. Amri</span></div>
-                            <div class="course-cell"><p class="font-semibold">Instruction de dossiers d'autorisation de construire ou de lotir</p><span class="text-xs text-stone-500">Mme Benhamou</span></div>
-                            <div class="course-cell"></div>
-
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider" style="border-bottom: none;">Vendredi</div>
-                            <div class="course-cell" style="border-bottom: none;"><p class="font-semibold">Géométrie descriptive<br>(8h30-10h)</p><span class="text-xs text-stone-500">M. Kodad</span></div>
-                            <div class="course-cell" style="border-bottom: none;"><p class="font-semibold">Métier et Formation<br>(10h-11h30)</p><span class="text-xs text-stone-500">M. Benaicha</span></div>
-                            <div class="course-cell" style="border-bottom: none;"><p class="font-semibold">Bureautique et gestion de base de données <span class="text-primary font-bold">Gr1</span> (11h30-13h)</p><hr class="my-1"><p class="font-semibold">Dessin d'architecture <span class="text-primary font-bold">Gr2</span> (11h30-13h)</p><span class="text-xs text-stone-500">M. Elhilali / Mme Berrabeh</span></div>
-                            <div class="course-cell" style="border-bottom: none;"></div>
-                            <div class="course-cell" style="border-bottom: none;"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="lg:hidden space-y-2 text-left">
-                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
-                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Lundi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
-                            <div class="accordion-content">
-                                <div class="divide-y divide-stone-200">
-                                    <div class="py-3"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">Français Technique</p><p class="text-sm text-stone-500">M. Hajji</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Métré des corps de travaux</p><p class="text-sm text-stone-500">M. Alla</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">12:30 - 14:00</p><p class="font-semibold text-stone-700">Résistance des matériaux (RDM)</p><p class="text-sm text-stone-500">M. Benhadou</p></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
-                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Mardi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
-                            <div class="accordion-content">
-                                <div class="divide-y divide-stone-200">
-                                    <div class="py-3"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">CAO-DAO <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">Mme Bouslham</p><hr class="my-2"><p class="font-semibold text-stone-700">Art plastique <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">M. Sarhdaoui</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Théorie et pratiques d'urbanisme</p><p class="text-sm text-stone-500">M. Abdeljalil</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">12:00 - 13:30</p><p class="font-semibold text-stone-700">Cartographie et photogrammétrie</p><p class="text-sm text-stone-500">Mme Baye</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">13:30 - 15:00</p><p class="font-semibold text-stone-700">Bureautique et gestion de base de données <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">M. Elhilali</p><hr class="my-2"><p class="font-semibold text-stone-700">Dessin d'architecture <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">Mme Berrabeh</p></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
-                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Mercredi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
-                            <div class="accordion-content">
-                                <div class="divide-y divide-stone-200">
-                                    <div class="py-3"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">CAO-DAO <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">Mme Bouslham</p><hr class="my-2"><p class="font-semibold text-stone-700">Art plastique <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">M. Sarhdaoui</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Matériaux de construction</p><p class="text-sm text-stone-500">M. Rahou</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">12:00 - 13:30</p><p class="font-semibold text-stone-700">Droit administratif</p><p class="text-sm text-stone-500">M. Kherraji</p></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
-                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Jeudi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
-                            <div class="accordion-content">
-                                <div class="divide-y divide-stone-200">
-                                    <div class="py-3"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">Voirie urbaine</p><p class="text-sm text-stone-500">M. Rahou</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Statistique appliquée</p><p class="text-sm text-stone-500">M. El Hamouti</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">12:00 - 13:30</p><p class="font-semibold text-stone-700">His. et théorie de l'architecture</p><p class="text-sm text-stone-500">M. Amri</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">13:30 - 15:00</p><p class="font-semibold text-stone-700">Instruction de dossiers d'autorisation de construire ou de lotir</p><p class="text-sm text-stone-500">Mme Benhamou</p></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
-                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Vendredi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
-                            <div class="accordion-content">
-                                <div class="divide-y divide-stone-200">
-                                    <div class="py-3"><p class="font-bold text-primary">08:30 - 10:00</p><p class="font-semibold text-stone-700">Géométrie descriptive</p><p class="text-sm text-stone-500">M. Kodad</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">10:00 - 11:30</p><p class="font-semibold text-stone-700">Métier et Formation</p><p class="text-sm text-stone-500">M. Benaicha</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">11:30 - 13:00</p><p class="font-semibold text-stone-700">Bureautique et gestion de base de données <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">M. Elhilali</p><hr class="my-2"><p class="font-semibold text-stone-700">Dessin d'architecture <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">Mme Berrabeh</p></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <a href="files/Emploi _1ere_année.pdf" download class="btn-primary mt-8 inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold whitespace-nowrap">
-                        <i data-lucide="download" class="mr-2 h-5 w-5"></i> Télécharger (PDF)
-                    </a>
-                </div>
-                <div id="edt-annee2" class="hidden">
-                    <h2 class="text-2xl font-bold text-stone-700 mb-2">2ème Année</h2>
-                    <p class="text-stone-600 text-lg mb-8">Année Académique 2025-2026 (Modifié le 03/10/2025)</p>
-                    
-                    <div class="hidden lg:block bg-white rounded-lg shadow-lg overflow-x-auto">
-                        <div class="grid grid-cols-[auto,repeat(5,1fr)] min-w-[900px]">
-                            <div class="sticky top-0 z-10 bg-stone-100"></div>
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">09h00-10h30</div>
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">10h30-12h00</div>
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">12h00-13h30</div>
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">13h30-15h00</div>
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky top-0 z-10 font-serif uppercase tracking-wider">15h00-16h30</div>
-                            
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Lundi</div>
-                            <div class="course-cell"><p class="font-semibold">Métré approfondi des ouvrages</p><span class="text-xs text-stone-500">M. Alla</span></div>
-                            <div class="course-cell"><p class="font-semibold">Techniques et recherche d'emploi</p><span class="text-xs text-stone-500">M. Hajji</span></div>
-                            <div class="course-cell"><p class="font-semibold">Projet d'archi. <span class="text-primary font-bold">Gr2</span></p><hr class="my-1"><p class="font-semibold">Art plastique <span class="text-primary font-bold">Gr1</span> (12h30-14h)</p><span class="text-xs text-stone-500">Mme Berrabeh / M. Sarhdaoui</span></div>
-                            <div class="course-cell"><p class="font-semibold">Projet d'archi. <span class="text-primary font-bold">Gr1</span></p><hr class="my-1"><p class="font-semibold">Art plastique <span class="text-primary font-bold">Gr2</span> (14h-15h30)</p><span class="text-xs text-stone-500">Mme Berrabeh / M. Sarhdaoui</span></div>
-                            <div class="course-cell"></div>
-
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Mardi</div>
-                            <div class="course-cell"><p class="font-semibold">Projets d'urbanisme</p><span class="text-xs text-stone-500">M. Abdeljalil</span></div>
-                            <div class="course-cell"><p class="font-semibold">Topographie</p><span class="text-xs text-stone-500">Mme Baye</span></div>
-                            <div class="course-cell"><p class="font-semibold">Modélisation topographique <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">Mme Bensadoun</span></div>
-                            <div class="course-cell"></div>
-                            <div class="course-cell"><p class="font-semibold">SIG <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Amrani</span><hr class="my-1"><p class="font-semibold">Infographie 3D <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Sadouqi</span></div>
-                            
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Mercredi</div>
-                            <div class="course-cell"><p class="font-semibold">Procédés techniques de construction</p><span class="text-xs text-stone-500">M. Rahou</span></div>
-                            <div class="course-cell"><p class="font-semibold">Efficacité énergétique</p><span class="text-xs text-stone-500">Mme Bouslham</span></div>
-                            <div class="course-cell"><p class="font-semibold">Modélisation topographique <span class="text-primary font-bold">Gr2</span></p><hr class="my-1"><p class="font-semibold">CAO-DAO <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">Mme Bensadoun / M. Abdeljalil Y.</span></div>
-                            <div class="course-cell"><p class="font-semibold">CAO-DAO <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Abdeljalil Younes</span></div>
-                            <div class="course-cell"></div>
-
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider">Jeudi</div>
-                            <div class="course-cell"><p class="font-semibold">Management de projets</p><span class="text-xs text-stone-500">M. El Hamouti</span></div>
-                            <div class="course-cell"><p class="font-semibold">Assainissement et réseaux divers</p><span class="text-xs text-stone-500">M. Rahou</span></div>
-                            <div class="course-cell"><p class="font-semibold">Contrôle des infractions</p><span class="text-xs text-stone-500">M. Chouitar</span></div>
-                            <div class="course-cell"><p class="font-semibold">Organisation et suivi du chantier</p><span class="text-xs text-stone-500">Mme Mimouni</span></div>
-                            <div class="course-cell"><p class="font-semibold">SIG <span class="text-primary font-bold">Gr2</span></p><span class="text-xs text-stone-500">M. Amrani</span><hr class="my-1"><p class="font-semibold">Infographie 3D <span class="text-primary font-bold">Gr1</span></p><span class="text-xs text-stone-500">M. Sadouqi</span></div>
-                            
-                            <div class="course-cell text-center font-bold bg-stone-100 sticky left-0 font-serif uppercase tracking-wider" style="border-bottom: none;">Vendredi</div>
-                            <div class="course-cell col-span-2" style="border-bottom: none;"><p class="font-semibold">Béton armé (8h30-11h30)</p><span class="text-xs text-stone-500">Mme Mimouni</span></div>
-                            <div class="course-cell" style="border-bottom: none;"></div>
-                            <div class="course-cell" style="border-bottom: none;"></div>
-                            <div class="course-cell" style="border-bottom: none;"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="lg:hidden space-y-2 text-left">
-                         <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
-                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Lundi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
-                            <div class="accordion-content">
-                                <div class="divide-y divide-stone-200">
-                                    <div class="py-3"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">Métré approfondi des ouvrages</p><p class="text-sm text-stone-500">M. Alla</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Techniques et recherche d'emploi</p><p class="text-sm text-stone-500">M. Hajji</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">12:00 - 13:30</p><p class="font-semibold text-stone-700">Projet d'architecture <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">Mme Berrabeh</p><hr class="my-2"><p class="font-semibold text-stone-700">Art plastique <span class="text-primary font-bold">Gr1</span> (12h30-14h)</p><p class="text-sm text-stone-500">M. Sarhdaoui</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">13:30 - 15:30</p><p class="font-semibold text-stone-700">Projet d'architecture <span class="text-primary font-bold">Gr1</span> (13h30-15h)</p><p class="text-sm text-stone-500">Mme Berrabeh</p><hr class="my-2"><p class="font-semibold text-stone-700">Art plastique <span class="text-primary font-bold">Gr2</span> (14h-15h30)</p><p class="text-sm text-stone-500">M. Sarhdaoui</p></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
-                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Mardi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
-                            <div class="accordion-content">
-                                <div class="divide-y divide-stone-200">
-                                    <div class="py-3"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">Projets d'urbanisme</p><p class="text-sm text-stone-500">M. Abdeljalil</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Topographie</p><p class="text-sm text-stone-500">Mme Baye</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">12:00 - 13:30</p><p class="font-semibold text-stone-700">Modélisation topographique <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">Mme Bensadoun</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">15:00 - 16:30</p><p class="font-semibold text-stone-700">SIG <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">M. Amrani</p><hr class="my-2"><p class="font-semibold text-stone-700">Infographie 3D <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">M. Sadouqi</p></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
-                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Mercredi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
-                            <div class="accordion-content">
-                                <div class="divide-y divide-stone-200">
-                                    <div class="py-3"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">Procédés techniques de construction</p><p class="text-sm text-stone-500">M. Rahou</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Efficacité énergétique</p><p class="text-sm text-stone-500">Mme Bouslham</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">12:00 - 13:30</p><p class="font-semibold text-stone-700">Modélisation topographique <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">Mme Bensadoun</p><hr class="my-2"><p class="font-semibold text-stone-700">CAO-DAO <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">M. Abdeljalil Y.</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">13:30 - 15:00</p><p class="font-semibold text-stone-700">CAO-DAO <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">M. Abdeljalil Younes</p></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
-                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Jeudi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
-                            <div class="accordion-content">
-                                <div class="divide-y divide-stone-200">
-                                    <div class="py-3"><p class="font-bold text-primary">09:00 - 10:30</p><p class="font-semibold text-stone-700">Management de projets</p><p class="text-sm text-stone-500">M. El Hamouti</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">10:30 - 12:00</p><p class="font-semibold text-stone-700">Assainissement et réseaux divers</p><p class="text-sm text-stone-500">M. Rahou</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">12:00 - 13:30</p><p class="font-semibold text-stone-700">Contrôle des infractions</p><p class="text-sm text-stone-500">M. Chouitar</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">13:30 - 15:00</p><p class="font-semibold text-stone-700">Organisation et suivi du chantier</p><p class="text-sm text-stone-500">Mme Mimouni</p></div>
-                                    <div class="py-3"><p class="font-bold text-primary">15:00 - 16:30</p><p class="font-semibold text-stone-700">SIG <span class="text-primary font-bold">Gr2</span></p><p class="text-sm text-stone-500">M. Amrani</p><hr class="my-2"><p class="font-semibold text-stone-700">Infographie 3D <span class="text-primary font-bold">Gr1</span></p><p class="text-sm text-stone-500">M. Sadouqi</p></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item bg-white rounded-lg shadow-md overflow-hidden">
-                            <div class="accordion-header flex justify-between items-center p-4 cursor-pointer"><h3 class="font-bold text-xl text-stone-700 font-serif uppercase tracking-wider">Vendredi</h3><i data-lucide="chevron-down" class="text-stone-700"></i></div>
-                            <div class="accordion-content">
-                                <div class="divide-y divide-stone-200">
-                                    <div class="py-3"><p class="font-bold text-primary">08:30 - 11:30</p><p class="font-semibold text-stone-700">Béton armé</p><p class="text-sm text-stone-500">Mme Mimouni</p></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <a href="files/Emploi_2eme_année.pdf" download class="btn-primary mt-8 inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold whitespace-nowrap">
-                        <i data-lucide="download" class="mr-2 h-5 w-5"></i> Télécharger (PDF)
-                    </a>
-                </div>
             </div>
         </div>
     </main>
@@ -324,65 +401,419 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         
+        // --- 0. INITIALIZE ICONS & UTILS ---
+        lucide.createIcons();
+        document.getElementById("year").textContent = new Date().getFullYear();
+        // Simple mobile menu toggle from original file
         const mobileMenuButton = document.getElementById("mobile-menu-button");
         const mobileMenu = document.getElementById("mobile-menu");
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener("click", () => {
-                mobileMenu.classList.toggle("hidden");
-            });
+        if (mobileMenuButton) mobileMenuButton.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
+
+        // --- 1. DATA & CONFIGURATION ---
+
+        const annee1_data = `
+            Lundi : 
+            09h00-10h30: Français Technique M. Hajji
+            10h30-12h00: Métré des corps de travaux M. Alla
+            12h00-12h30 : Pause
+            12h30-14h: Résistance des matériaux (RDM) M. Benhadou
+
+            Mardi : 
+            09h00-10h30: Gr1 : CAO-DAO Mme. Bouselham , Gr2 : Art plastique M. Sarhdaoui
+            10h30-12h00: Théorie et pratiques d'urbanisme M. Abdeljalil
+            12h00-13h30 : Cartographie et photogrammétrie Mme Baye
+            13h30-15h00: Gr1 : Bureautique et gestion de base de données M. Elhilali , : Gr2 : Dessin d'architecture Mme Berrabeh
+
+            Mercredi : 
+            09h00-10h30 : Gr1 : Art plastique M. Sarhdaoui , Gr2 : CAO-DAO Mme. Bouselham
+            10h30-12h00: Matériaux de construction M. Rahou
+            12h00-13h30 : Droit administratif  M. Kherraji
+
+            Jeudi : 
+            09h00-10h30: Voirie urbaine M. Rahou
+            10h30-12h00: Statistique appliquée M. El Hammouti
+            12h00-13h30 : Histoire et théorie de l'architecture M. Amri
+            13h30-15h00 :  Instruction de dossiers d'autorisation de construire ou de lotir Mme Benhamou
+
+            Vendredi :
+            8h30-10h: Géométrie descriptive M. Kodad
+            10h-11h30: Métier et Formation M. Benaicha
+            11h30-13h: Gr1 : Dessin d'architecture Mme Berrabeh, Gr2 : Bureautique et gestion de base de données M. Elhilali
+        `;
+
+        const annee2_data = `
+            Lundi : 
+            09h00-10h30: Métré approfondi des ouvrages M. Alla
+            10h30-12h00: Techniques et recherche d'emploi M. Hajji
+            12h00-13h00 : Pause
+            13h00-14h30: Gr1 : Art plastique M. Sarhdaoui , Gr2 : Projet d'architecture Mme Berrabeh
+            14h30-16h00 : Gr1 : Projet d'architecture Mme Berrabeh , Gr2 : Art plastique M. Sarhdaoui
+
+            Mardi : 
+            09h00-10h30: Projets d'urbanisme M. Abdeljalil
+            10h30-12h00 : Topographie Mme Baye
+            12h00-13h30 : Gr1 : Modélisation topographique Mme Bensaadoun
+            13h30-15h00: Pause
+            15h00-16h30: Gr1 : SIG M. Amrani , Gr2 : Infographie 3D M. Sadouqi
+
+            Mercredi : 
+            09h00-10h30 : Procédés techniques de construction M. Rahou
+            10h30-12h00: Efficacité énergétique Mme Bouslham
+            12h00-13h30 : Gr1 : CAO-DAO M. Abdeljalil Y., Gr2 : Modélisation topographique Mme Bensaadoun
+            13h30-15h00 :  Gr2 : CAO-DAO M. Abdeljalil Y
+
+            Jeudi : 
+            09h00-10h30: Management de projets M. El Hammouti
+            10h30-12h00: Assainissement et réseaux divers M. Rahou
+            12h00-13h30 : Contrôle des infractions M. Chouitar
+            13h30-15h00 :  Organisation et suivi du chantier Mme Mimouni
+            15h00-16h30 :  Gr1 : Infographie 3D M. Sadouqi , : Gr2 : SIG M. Amrani
+
+            Vendredi :
+            8h30-11h30: Béton armé Mme Mimouni
+        `;
+
+        const subjectStyles = {
+            'DEFAULT': { icon: 'book', color: '#78716c' },
+            'Français Technique': { icon: 'languages', color: '#0ea5e9' },
+            'Métré': { icon: 'ruler', color: '#f97316' },
+            'Résistance des matériaux': { icon: 'building-2', color: '#ef4444' },
+            'CAO-DAO': { icon: 'mouse-pointer-square', color: '#8b5cf6' },
+            'Art plastique': { icon: 'palette', color: '#d946ef' },
+            'Urbanisme': { icon: 'layout-grid', color: '#10b981' },
+            'Cartographie': { icon: 'map', color: '#14b8a6' },
+            'Bureautique': { icon: 'file-spreadsheet', color: '#22c55e' },
+            'Dessin d\'architecture': { icon: 'pencil-ruler', color: '#64748b' },
+            'Matériaux de construction': { icon: 'brick-wall', color: '#a16207' },
+            'Droit': { icon: 'scale', color: '#713f12' },
+            'Voirie urbaine': { icon: 'road', color: '#475569' },
+            'Statistique': { icon: 'bar-chart-2', color: '#6366f1' },
+            'Histoire et théorie de l\'architecture': { icon: 'landmark', color: '#a855f7' },
+            'Instruction de dossiers': { icon: 'folder-check', color: '#0891b2' },
+            'Géométrie descriptive': { icon: 'compass', color: '#3b82f6' },
+            'Métier et Formation': { icon: 'briefcase', color: '#7e22ce' },
+            'Techniques et recherche d\'emploi': { icon: 'search', color: '#059669' },
+            'Projet d\'architecture': { icon: 'drafting-compass', color: '#dc2626' },
+            'Topographie': { icon: 'mountain', color: '#16a34a' },
+            'Modélisation topographique': { icon: 'cuboid', color: '#2563eb' },
+            'SIG': { icon: 'globe-2', color: '#1d4ed8' },
+            'Infographie 3D': { icon: 'box-select', color: '#9333ea' },
+            'Procédés techniques de construction': { icon: 'construction', color: '#ca8a04' },
+            'Efficacité énergétique': { icon: 'bolt', color: '#f59e0b' },
+            'Management de projets': { icon: 'presentation', color: '#4f46e5' },
+            'Assainissement': { icon: 'droplets', color: '#0284c7' },
+            'Contrôle des infractions': { icon: 'siren', color: '#be123c' },
+            'Organisation et suivi du chantier': { icon: 'clipboard-list', color: '#4d7c0f' },
+            'Béton armé': { icon: 'building', color: '#7f1d1d' },
+        };
+
+        const config = {
+            days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"],
+            timeRange: { start: 8, end: 17 }, // 8am to 5pm
+            timeStep: 30 // minutes
+        };
+
+        // --- 2. DATA PARSING LOGIC ---
+
+        function parseTimetable(text) {
+            const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+            const courses = [];
+            let currentDay = '';
+
+            for (const line of lines) {
+                if (config.days.some(day => line.startsWith(day))) {
+                    currentDay = line.replace(':', '').trim();
+                    continue;
+                }
+
+                if (!currentDay || line.toLowerCase().includes('pause')) continue;
+                
+                // Regex to capture time, and the rest of the line
+                const timeMatch = line.match(/^(\d{1,2}h\d{0,2})-(\d{1,2}h\d{0,2})\s*:\s*(.+)/i);
+                if (!timeMatch) continue;
+
+                const [, startTimeStr, endTimeStr, restOfLine] = timeMatch;
+                
+                const parseTime = (t) => t.replace('h', ':').padStart(5, '0');
+                const startTime = parseTime(startTimeStr);
+                const endTime = parseTime(endTimeStr);
+
+                // Handle split courses
+                const parts = restOfLine.split(/, | ,| , /).map(p => p.trim().replace(/^:/, '').trim());
+                
+                for (const part of parts) {
+                    let group = 'Tous';
+                    let description = part;
+
+                    const groupMatch = part.match(/^(Gr\d)\s*:\s*(.+)/i);
+                    if (groupMatch) {
+                        group = groupMatch[1].toUpperCase();
+                        description = groupMatch[2];
+                    }
+
+                    // Extract teacher name (usually last two words starting with M. or Mme.)
+                    const words = description.split(/\s+/);
+                    let teacher = 'N/A';
+                    let subject = description;
+                    
+                    const teacherIndex = words.findIndex(w => w.match(/^(M\.|Mme)/i));
+                    if(teacherIndex > -1){
+                        teacher = words.slice(teacherIndex).join(' ');
+                        subject = words.slice(0, teacherIndex).join(' ');
+                    }
+
+                    courses.push({ day: currentDay, startTime, endTime, subject, teacher, group });
+                }
+            }
+            return courses;
         }
 
-        const yearSpan = document.getElementById("year");
-        if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
-        
-        lucide.createIcons();
+        // --- 3. HTML RENDERING LOGIC ---
 
-        // --- Logique des Onglets (Tabs) ---
+        function getSubjectStyle(subjectName) {
+            const key = Object.keys(subjectStyles).find(k => subjectName.toLowerCase().includes(k.toLowerCase())) || 'DEFAULT';
+            return subjectStyles[key];
+        }
+        
+        function timeToMinutes(time) {
+            const [hours, minutes] = time.split(':').map(Number);
+            return hours * 60 + minutes;
+        }
+
+        function createTimetableHTML(coursesData, year) {
+            return `
+                <div class="timetable-container" id="timetable-container-${year}">
+                    <div class="timetable-wrapper">
+                        ${createGridViewHTML(coursesData)}
+                    </div>
+                    <div class="cards-view">
+                        ${createCardsViewHTML(coursesData)}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function createGridViewHTML(courses) {
+            const { days, timeRange, timeStep } = config;
+            let gridHTML = `<div class="timetable-grid" style="grid-template-rows: auto repeat(${(timeRange.end - timeRange.start) * (60 / timeStep)}, 1fr);">`;
+            
+            // Current Time Indicator
+            gridHTML += '<div class="current-time-indicator"></div>';
+
+            // Headers
+            gridHTML += '<div></div>'; // Top-left empty cell
+            days.forEach(day => gridHTML += `<div class="grid-header">${day}</div>`);
+
+            // Time Labels and Background Cells
+            for (let hour = timeRange.start; hour < timeRange.end; hour++) {
+                for (let minute = 0; minute < 60; minute += timeStep) {
+                    if (minute === 0) {
+                        const time = `${String(hour).padStart(2, '0')}:00`;
+                        gridHTML += `<div class="time-label" style="grid-row: span ${60 / timeStep};">${time}</div>`;
+                    }
+                    let bgCellsHTML = '';
+                    days.forEach((_, i) => {
+                        bgCellsHTML += `<div class="grid-column-bg" style="grid-column: ${i + 2};"></div>`;
+                    });
+                    gridHTML += `<div class="grid-cell-bg ${minute === 0 ? 'full-hour' : ''}">${bgCellsHTML}</div>`;
+                }
+            }
+            
+            // Course Cells
+            const placedCourses = {}; // To handle parallel courses
+
+            courses.forEach(course => {
+                const dayIndex = days.indexOf(course.day);
+                if (dayIndex === -1) return;
+
+                const startMinutes = timeToMinutes(course.startTime);
+                const endMinutes = timeToMinutes(course.endTime);
+                
+                const startRow = Math.floor((startMinutes - timeRange.start * 60) / timeStep) + 2;
+                const endRow = Math.ceil((endMinutes - timeRange.start * 60) / timeStep) + 2;
+                const durationRows = endRow - startRow;
+
+                if (durationRows <= 0) return;
+
+                const gridColumn = dayIndex + 2;
+                const gridRow = `${startRow} / span ${durationRows}`;
+                
+                const style = getSubjectStyle(course.subject);
+                const cellHTML = `
+                    <div class="course-cell" style="background-color: ${style.color}; grid-column: ${gridColumn}; grid-row: ${gridRow};">
+                        <div class="subject">
+                            <i data-lucide="${style.icon}" class="icon w-4 h-4"></i>
+                            <span>${course.subject}</span>
+                        </div>
+                        <div class="teacher">${course.teacher}</div>
+                        ${course.group !== 'Tous' ? `<div class="group">${course.group}</div>` : ''}
+                    </div>
+                `;
+                
+                const key = `${gridColumn}-${startRow}`;
+                if (placedCourses[key]) {
+                    placedCourses[key].push({html: cellHTML, course});
+                } else {
+                    placedCourses[key] = [{html: cellHTML, course}];
+                }
+            });
+            
+            // Combine parallel courses into split cells
+            for (const key in placedCourses) {
+                const items = placedCourses[key];
+                if (items.length > 1) {
+                    const firstCourse = items[0].course;
+                    const dayIndex = days.indexOf(firstCourse.day);
+                    const startMinutes = timeToMinutes(firstCourse.startTime);
+                    const endMinutes = timeToMinutes(firstCourse.endTime);
+                    const startRow = Math.floor((startMinutes - timeRange.start * 60) / timeStep) + 2;
+                    const endRow = Math.ceil((endMinutes - timeRange.start * 60) / timeStep) + 2;
+                    const durationRows = endRow - startRow;
+                    
+                    gridHTML += `
+                        <div class="split-cell" style="grid-column: ${dayIndex + 2}; grid-row: ${startRow} / span ${durationRows};">
+                            ${items.map(item => item.html.replace('course-cell', 'course-cell flex-1')).join('')}
+                        </div>`;
+                } else {
+                    gridHTML += items[0].html;
+                }
+            }
+
+            gridHTML += '</div>';
+            return gridHTML;
+        }
+
+        function createCardsViewHTML(courses) {
+            let cardsHTML = '';
+            config.days.forEach(day => {
+                const dayCourses = courses
+                    .filter(c => c.day === day)
+                    .sort((a, b) => timeToMinutes(a.startTime) - timeToMinutes(b.startTime));
+                
+                if (dayCourses.length === 0) return;
+
+                cardsHTML += `<div class="day-card"><h3>${day}</h3><div class="courses-list">`;
+                dayCourses.forEach(course => {
+                    const style = getSubjectStyle(course.subject);
+                    cardsHTML += `
+                        <div class="course-card">
+                            <div class="time">${course.startTime}<br>${course.endTime}</div>
+                            <div class="details">
+                                <div class="subject" style="color: ${style.color};">
+                                    <i data-lucide="${style.icon}" class="icon w-5 h-5"></i>
+                                    <span>${course.subject}</span>
+                                </div>
+                                <div class="teacher">${course.teacher}</div>
+                                ${course.group !== 'Tous' ? `<div class="group">${course.group}</div>` : ''}
+                            </div>
+                        </div>`;
+                });
+                cardsHTML += `</div></div>`;
+            });
+            return cardsHTML;
+        }
+        
+        // --- 4. EVENT LISTENERS & INITIALIZATION ---
+
+        const annee1Container = document.getElementById('timetable-annee1');
+        const annee2Container = document.getElementById('timetable-annee2');
         const btnAnnee1 = document.getElementById('btn-annee1');
         const btnAnnee2 = document.getElementById('btn-annee2');
-        const edtAnnee1 = document.getElementById('edt-annee1');
-        const edtAnnee2 = document.getElementById('edt-annee2');
+        
+        const viewGridBtn = document.getElementById('view-grid-btn');
+        const viewListBtn = document.getElementById('view-list-btn');
 
         function showAnnee1() {
-            edtAnnee1.classList.remove('hidden');
-            edtAnnee2.classList.add('hidden');
+            annee1Container.classList.remove('hidden');
+            annee2Container.classList.add('hidden');
             btnAnnee1.classList.add('active');
             btnAnnee2.classList.remove('active');
+            updateCurrentTimeIndicator();
         }
 
         function showAnnee2() {
-            edtAnnee1.classList.add('hidden');
-            edtAnnee2.classList.remove('hidden');
+            annee1Container.classList.add('hidden');
+            annee2Container.classList.remove('hidden');
             btnAnnee1.classList.remove('active');
             btnAnnee2.classList.add('active');
+            updateCurrentTimeIndicator();
         }
 
         btnAnnee1.addEventListener('click', showAnnee1);
         btnAnnee2.addEventListener('click', showAnnee2);
         
-        showAnnee1();
+        viewGridBtn.addEventListener('click', () => {
+            document.querySelectorAll('.timetable-wrapper').forEach(el => el.style.display = 'block');
+            document.querySelectorAll('.cards-view').forEach(el => el.style.display = 'none');
+            viewGridBtn.classList.add('active');
+            viewListBtn.classList.remove('active');
+        });
 
-        // --- Logique pour l'Accordéon ---
-        function setupAccordion(containerId) {
-            const accordionItems = document.querySelectorAll(`#${containerId} .accordion-item`);
-            if (accordionItems.length > 0) {
-                accordionItems.forEach(item => {
-                    const header = item.querySelector('.accordion-header');
-                    header.addEventListener('click', () => {
-                        const currentlyActive = item.classList.contains('active');
-                        accordionItems.forEach(otherItem => {
-                            otherItem.classList.remove('active');
-                        });
-                        if (!currentlyActive) {
-                            item.classList.add('active');
-                        }
-                    });
-                });
+        viewListBtn.addEventListener('click', () => {
+            document.querySelectorAll('.timetable-wrapper').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.cards-view').forEach(el => el.style.display = 'flex');
+            viewGridBtn.classList.remove('active');
+            viewListBtn.classList.add('active');
+        });
+
+        function updateCurrentTimeIndicator() {
+            const indicator = document.querySelector('.timetable-container:not(.hidden) .current-time-indicator');
+            if (!indicator) return;
+
+            const now = new Date();
+            const currentDayIndex = now.getDay() - 1; // 0=Mon, 1=Tue...
+            
+            if (currentDayIndex < 0 || currentDayIndex >= config.days.length) {
+                indicator.style.opacity = '0';
+                return;
             }
+
+            const grid = indicator.closest('.timetable-grid');
+            const dayColumn = grid.querySelector(`.grid-header:nth-child(${currentDayIndex + 3})`);
+
+            if (!dayColumn) {
+                indicator.style.opacity = '0';
+                return;
+            }
+            
+            const startOfDayMinutes = config.timeRange.start * 60;
+            const endOfDayMinutes = config.timeRange.end * 60;
+            const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+            if (nowMinutes < startOfDayMinutes || nowMinutes > endOfDayMinutes) {
+                indicator.style.opacity = '0';
+                return;
+            }
+
+            const totalMinutes = (config.timeRange.end - config.timeRange.start) * 60;
+            const minutesFromStart = nowMinutes - startOfDayMinutes;
+            const topPercentage = (minutesFromStart / totalMinutes) * 100;
+
+            const dayLeft = dayColumn.offsetLeft - grid.offsetLeft - config.timeRange.start;
+            const dayWidth = dayColumn.offsetWidth;
+
+            indicator.style.left = `${dayLeft}px`;
+            indicator.style.width = `${dayWidth}px`;
+            indicator.style.top = `${topPercentage}%`;
+            indicator.style.opacity = '1';
+        }
+
+        // --- 5. INITIAL RENDER ---
+        function init() {
+            const courses1 = parseTimetable(annee1_data);
+            const courses2 = parseTimetable(annee2_data);
+            
+            annee1Container.innerHTML = createTimetableHTML(courses1, 1);
+            annee2Container.innerHTML = createTimetableHTML(courses2, 2);
+
+            showAnnee1();
+            lucide.createIcons();
+            
+            setInterval(updateCurrentTimeIndicator, 60000); // Update every minute
+            updateCurrentTimeIndicator();
         }
         
-        setupAccordion('edt-annee1');
-        setupAccordion('edt-annee2');
+        init();
 
     });
     </script>
