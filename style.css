@@ -8,7 +8,6 @@
     --color-primary-dark: #7a5536;
     --font-sans: 'Poppins', sans-serif;
 }
-
 body {
     font-family: var(--font-sans);
     background-color: var(--color-bg);
@@ -49,121 +48,105 @@ body {
    ========================================================================== */
 .timetable-container {
     opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
 }
 .timetable-container.hidden {
+    display: none;
     opacity: 0;
-    transform: translateY(10px);
-    position: absolute; /* Prevent layout shift during transition */
-    width: 100%;
-    left: 0;
-    display: none; /* Will be toggled by JS */
 }
 
 /* ==========================================================================
    Timetable Grid (Desktop & Tablet)
    ========================================================================== */
-.timetable-grid {
-    display: grid;
-    grid-template-columns: 70px repeat(20, 1fr);
-    grid-template-rows: 40px repeat(5, minmax(100px, auto));
-    border: 1px solid #e7e5e4; /* stone-200 */
-    border-radius: 1rem;
-    overflow: hidden;
-    background-color: #fff;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+@media (min-width: 1024px) {
+    .timetable-grid {
+        display: grid;
+        grid-template-columns: 70px repeat(18, 1fr);
+        grid-template-rows: 40px repeat(5, 1fr);
+        border: 1px solid #e7e5e4; /* stone-200 */
+        border-radius: 1rem;
+        overflow: hidden;
+        background-color: #fff;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+    }
+    .timetable-grid .cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #a8a29e; /* stone-400 */
+    }
+    .timetable-grid .day-header,
+    .timetable-grid .time-header {
+        background-color: #fafaf9; /* stone-50 */
+        color: var(--color-primary);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        font-size: 0.75rem;
+        font-weight: 700;
+        border-bottom: 1px solid #e7e5e4;
+    }
+    .day-wrapper {
+        display: contents; /* Allows children to participate in the parent grid */
+    }
+    .timetable-grid .day-cell {
+        background-color: #fafaf9; /* stone-50 */
+        grid-row: var(--day);
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        position: sticky;
+        left: 0;
+        z-index: 5;
+        border-right: 1px solid #e7e5e4;
+        border-bottom: 1px solid #e7e5e4;
+    }
+    .day-wrapper:last-of-type .day-cell {
+        border-bottom: none;
+    }
+    .course-block {
+        grid-column: calc(1 + var(--start)) / calc(1 + var(--end));
+        grid-row: var(--day);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.25rem;
+        padding: 0.5rem;
+        margin: 4px;
+        border-radius: 0.75rem;
+        color: white;
+        font-size: 0.8rem;
+        text-align: center;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+    }
+    .course-block:hover {
+        transform: scale(1.03) rotate(-0.5deg);
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+        z-index: 20;
+    }
+    .course-block i { width: 1.25rem; height: 1.25rem; stroke-width: 2; opacity: 0.8; }
+    .course-block strong { font-weight: 600; font-size: 0.85rem; }
+    .course-block small { font-size: 0.75rem; opacity: 0.8; }
+    .course-block .group-badge {
+        position: absolute;
+        top: 6px;
+        right: 8px;
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 2px 8px;
+        border-radius: 99px;
+        font-size: 0.7rem;
+        font-weight: 700;
+    }
 }
-
-.timetable-grid .cell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: #a8a29e; /* stone-400 */
-}
-.timetable-grid .day-header,
-.timetable-grid .time-header {
-    background-color: #fafaf9; /* stone-50 */
-    color: var(--color-primary);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    font-size: 0.75rem;
-    font-weight: 700;
-    border-bottom: 1px solid #e7e5e4;
-}
-.day-wrapper {
-    display: contents; /* Allows children to participate in the parent grid */
-}
-.timetable-grid .day-cell {
-    background-color: #fafaf9; /* stone-50 */
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
-    position: sticky;
-    left: 0;
-    z-index: 5;
-    border-right: 1px solid #e7e5e4;
-    border-bottom: 1px solid #e7e5e4;
-}
-.day-wrapper:last-of-type .day-cell {
-    border-bottom: none;
-}
-
-
-/* Course Block Styling */
-.course-block {
-    grid-column: calc(1 + var(--start)) / calc(1 + var(--end));
-    grid-row: calc(1 + var(--day));
-    
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.25rem;
-    padding: 0.5rem;
-    margin: 4px;
-    border-radius: 0.75rem;
-    color: white;
-    font-size: 0.8rem;
-    text-align: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    overflow: hidden;
-    position: relative;
-    z-index: 1;
-}
-.course-block:hover {
-    transform: scale(1.03) rotate(-0.5deg);
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
-    z-index: 20;
-}
-
-.course-block i { width: 1.25rem; height: 1.25rem; stroke-width: 2; opacity: 0.8; }
-.course-block strong { font-weight: 600; font-size: 0.85rem; }
-.course-block small { font-size: 0.75rem; opacity: 0.8; }
-
-.course-block .group-badge {
-    position: absolute;
-    top: 6px;
-    right: 8px;
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 2px 8px;
-    border-radius: 99px;
-    font-size: 0.7rem;
-    font-weight: 700;
-}
-
-/* Modern Color Palette for Courses */
-.color-1 { background: linear-gradient(135deg, #a88260, #8a5a30); }
-.color-2 { background: linear-gradient(135deg, #748cab, #4d648d); }
-.color-3 { background: linear-gradient(135deg, #6e8b7d, #42584c); }
-.color-4 { background: linear-gradient(135deg, #b0976d, #8d734a); }
-.color-5 { background: linear-gradient(135deg, #8a7e72, #5c5248); }
 
 /* ==========================================================================
    Responsive Styles (Mobile View)
@@ -173,18 +156,11 @@ body {
         display: flex;
         flex-direction: column;
         gap: 2rem; /* Space between days */
-        border: none;
-        box-shadow: none;
-        background-color: transparent;
     }
-
-    /* Hide desktop grid elements */
     .timetable-grid .time-header, .timetable-grid .day-header, .timetable-grid .day-cell { 
         display: none;
     }
-    
     .day-wrapper {
-        /* This is the crucial fix: override 'display: contents' */
         display: flex; 
         flex-direction: column;
         gap: 0.75rem; /* Space between courses */
@@ -198,33 +174,21 @@ body {
         color: var(--color-primary);
         text-align: left;
     }
-    /* Set day name for each wrapper */
-    .day-wrapper:nth-of-type(1)::before { content: 'Lundi'; }
-    .day-wrapper:nth-of-type(2)::before { content: 'Mardi'; }
-    .day-wrapper:nth-of-type(3)::before { content: 'Mercredi'; }
-    .day-wrapper:nth-of-type(4)::before { content: 'Jeudi'; }
-    .day-wrapper:nth-of-type(5)::before { content: 'Vendredi'; }
-    
     .course-block {
         display: grid;
         grid-template-columns: 40px 1fr;
-        grid-template-rows: auto auto;
         grid-template-areas: 
             "icon title"
             "icon details";
         gap: 0 1rem;
         padding: 1rem;
-        margin: 0;
         text-align: left;
         align-items: center;
-        width: 100%;
         color: var(--color-text);
         background: white;
         box-shadow: 0 2px 8px -2px rgba(0,0,0,0.1);
         border-radius: 0.75rem;
     }
-    .course-block:hover { transform: none; box-shadow: 0 4px 12px -2px rgba(0,0,0,0.1); }
-
     .course-block i {
         grid-area: icon;
         color: var(--color-primary);
@@ -234,7 +198,6 @@ body {
         width: 40px;
         height: 40px;
     }
-
     .course-block strong { 
         grid-area: title;
         font-weight: 600;
@@ -242,14 +205,12 @@ body {
         align-self: end;
     }
     .course-block small {
+        grid-area: details;
         opacity: 1;
         color: #78716c; /* stone-500 */
         font-size: 0.85rem;
-        grid-area: details;
         align-self: start;
     }
-    
-    /* Display time before professor's name */
     .course-block small::before {
         content: attr(data-time);
         display: block;
@@ -257,7 +218,6 @@ body {
         color: var(--color-primary);
         margin-bottom: 2px;
     }
-
     .course-block .group-badge {
         position: absolute;
         top: 0.75rem;
@@ -268,3 +228,12 @@ body {
         font-size: 0.7rem;
     }
 }
+
+/* ==========================================================================
+   Color Palette
+   ========================================================================== */
+.color-1 { background: linear-gradient(135deg, #a88260, #8a5a30); }
+.color-2 { background: linear-gradient(135deg, #748cab, #4d648d); }
+.color-3 { background: linear-gradient(135deg, #6e8b7d, #42584c); }
+.color-4 { background: linear-gradient(135deg, #b0976d, #8d734a); }
+.color-5 { background: linear-gradient(135deg, #8a7e72, #5c5248); }
