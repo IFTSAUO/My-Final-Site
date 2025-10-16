@@ -103,6 +103,7 @@
         }
 
         .timetable-grid {
+            position: relative;
             display: grid;
             grid-template-rows: auto repeat(5, 1fr); /* Header + 5 days */
             min-width: 1800px; /* Force horizontal scroll */
@@ -165,7 +166,6 @@
         .course-cell {
             position: relative;
             padding: 0.5rem 0.75rem;
-            margin: 2px;
             border-radius: 0.5rem;
             display: flex;
             flex-direction: column;
@@ -176,7 +176,7 @@
             line-height: 1.3;
         }
 
-        .course-cell:hover {
+        .grid-item:hover .course-cell {
             transform: translateY(-3px) scale(1.01);
             box-shadow: 0 8px 20px -4px rgba(0,0,0,0.2);
             z-index: 30;
@@ -198,25 +198,13 @@
         }
 
         /* Split Cell for Parallel Courses */
-        .split-cell {
-            padding: 0;
+        .grid-item.split {
             display: grid;
             grid-template-columns: 1fr;
             grid-template-rows: 1fr 1fr;
             gap: 2px;
+            padding: 2px;
         }
-        
-        .split-cell > .course-cell {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            border-radius: 0;
-        }
-        .split-cell > .course-cell:first-child { border-radius: 0.5rem 0.5rem 0 0; }
-        .split-cell > .course-cell:last-child { border-radius: 0 0 0.5rem 0.5rem; }
-        .split-cell > .course-cell:hover { transform: none; box-shadow: none; }
-
 
         /*----------------------------------------------------------------*/
         /* 5. CARD VIEW (MOBILE)                     */
@@ -417,9 +405,6 @@
         };
 
         // --- 2. DATA PARSING LOGIC ---
-        function parseTimetable(text) { /* ... (same as previous correct version) ... */ return courses; }
-        // The parsing function from the previous answer is correct and doesn't need to change.
-        // For brevity, it is omitted here, but it should be included in the final file.
         function parseTimetable(text) {
             const lines = text.split('\n').map(l => l.trim()).filter(l => l);
             const courses = [];
@@ -470,7 +455,6 @@
             return courses;
         }
 
-
         // --- 3. HTML RENDERING LOGIC ---
         function getSubjectStyle(subjectName) {
             const key = Object.keys(subjectStyles).find(k => subjectName.toLowerCase().includes(k.toLowerCase())) || 'DEFAULT';
@@ -492,17 +476,22 @@
                 </div>
             `;
         }
-
+        
+        /************************************************************/
+        /* CORRECTED FUNCTION START                  */
+        /************************************************************/
         function createGridViewHTML(courses) {
             const { days, timeRange, timeStep } = config;
             const totalColumns = ((timeRange.end - timeRange.start) * (60 / timeStep));
             
+            // The main grid container
             let gridHTML = `<div class="timetable-grid" style="grid-template-columns: var(--grid-day-col-width) repeat(${totalColumns}, 1fr);">`;
             
+            // --- A. Static grid elements ---
             gridHTML += '<div class="current-time-indicator"></div>';
             gridHTML += '<div class="top-left-corner"></div>'; // Top-left empty cell
 
-            // Time Headers
+            // Time Headers (top row)
             for (let hour = timeRange.start; hour < timeRange.end; hour++) {
                 for (let minute = 0; minute < 60; minute += timeStep) {
                     const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
@@ -510,7 +499,7 @@
                 }
             }
 
-            // Day labels and background cells
+            // Day labels (left column) and background cells for each day row
             days.forEach((day, dayIndex) => {
                 gridHTML += `<div class="day-label" style="grid-row: ${dayIndex + 2}; grid-column: 1;">${day}</div>`;
                 for(let i = 0; i < totalColumns; i++) {
@@ -519,67 +508,70 @@
                 }
             });
 
+            // --- B. Grouping courses by their exact position ---
             const placedCourses = {};
-
             courses.forEach(course => {
                 const dayIndex = days.indexOf(course.day);
                 if (dayIndex === -1) return;
 
-                const startMinutes = timeToMinutes(course.startTime);
-                const endMinutes = timeToMinutes(course.endTime);
+                const startCol = Math.floor((timeToMinutes(course.startTime) - timeRange.start * 60) / timeStep) + 2;
+                const gridRow = dayIndex + 2;
+                
+                const key = `${gridRow}-${startCol}`; // Unique key for each starting slot
+                if (!placedCourses[key]) {
+                    placedCourses[key] = [];
+                }
+                placedCourses[key].push(course);
+            });
+
+            // --- C. Rendering the grouped courses ---
+            let courseItemsHTML = '';
+            for (const key in placedCourses) {
+                const items = placedCourses[key];
+                const firstCourse = items[0];
+                
+                // Calculate grid position from the first course in the group
+                const dayIndex = days.indexOf(firstCourse.day);
+                const startMinutes = timeToMinutes(firstCourse.startTime);
+                const endMinutes = timeToMinutes(firstCourse.endTime);
                 
                 const startCol = Math.floor((startMinutes - timeRange.start * 60) / timeStep) + 2;
                 const endCol = Math.ceil((endMinutes - timeRange.start * 60) / timeStep) + 2;
                 const durationCols = endCol - startCol;
-
-                if (durationCols <= 0) return;
+                if (durationCols <= 0) continue;
 
                 const gridRow = dayIndex + 2;
                 const gridColumn = `${startCol} / span ${durationCols}`;
                 
-                const style = getSubjectStyle(course.subject);
-                const cellHTML = `
-                    <div class="course-cell" style="background-color: ${style.color}; grid-row: ${gridRow}; grid-column: ${gridColumn};">
-                        <div class="subject"><i data-lucide="${style.icon}" class="icon w-4 h-4"></i><span>${course.subject}</span></div>
-                        <div class="teacher">${course.teacher}</div>
-                        ${course.group !== 'Tous' ? `<div class="group">${course.group}</div>` : ''}
+                let innerHTML = '';
+                items.forEach(course => {
+                    const style = getSubjectStyle(course.subject);
+                    innerHTML += `
+                        <div class="course-cell" style="background-color: ${style.color};">
+                             <div class="subject"><i data-lucide="${style.icon}" class="icon w-4 h-4"></i><span>${course.subject}</span></div>
+                             <div class="teacher">${course.teacher}</div>
+                             ${course.group !== 'Tous' ? `<div class="group">${course.group}</div>` : ''}
+                        </div>
+                    `;
+                });
+
+                const isSplit = items.length > 1 ? 'split' : '';
+                courseItemsHTML += `
+                    <div class="grid-item ${isSplit}" style="grid-row: ${gridRow}; grid-column: ${gridColumn};">
+                        ${innerHTML}
                     </div>
                 `;
-                
-                const key = `${gridRow}-${startCol}`;
-                if (placedCourses[key]) {
-                    placedCourses[key].push({html: cellHTML, course});
-                } else {
-                    placedCourses[key] = [{html: cellHTML, course}];
-                }
-            });
-
-            for (const key in placedCourses) {
-                const items = placedCourses[key];
-                const firstCourse = items[0].course;
-                const dayIndex = days.indexOf(firstCourse.day);
-                const startMinutes = timeToMinutes(firstCourse.startTime);
-                const endMinutes = timeToMinutes(firstCourse.endTime);
-                const startCol = Math.floor((startMinutes - timeRange.start * 60) / timeStep) + 2;
-                const endCol = Math.ceil((endMinutes - timeRange.start * 60) / timeStep) + 2;
-                const durationCols = endCol - startCol;
-
-                if (items.length > 1) {
-                    gridHTML += `
-                        <div class="split-cell" style="grid-row: ${dayIndex + 2}; grid-column: ${startCol} / span ${durationCols};">
-                            ${items.map(item => item.html.replace(/style="[^"]*"/, '')).join('')}
-                        </div>`;
-                } else {
-                    gridHTML += items[0].html;
-                }
             }
 
-            gridHTML += '</div>';
+            // Create a separate container for course items to overlay on the grid
+            gridHTML += `<div class="course-items-container" style="display: contents;">${courseItemsHTML}</div>`;
+            gridHTML += '</div>'; // Close timetable-grid
             return gridHTML;
         }
-
-        // Card View function remains the same as before, it is correct.
-        function createCardsViewHTML(courses) { /* ... */ return cardsHTML; }
+        /************************************************************/
+        /* CORRECTED FUNCTION END                   */
+        /************************************************************/
+        
         function createCardsViewHTML(courses) {
             let cardsHTML = '';
             config.days.forEach(day => {
@@ -634,8 +626,6 @@
         }
         btnAnnee1.addEventListener('click', showAnnee1);
         btnAnnee2.addEventListener('click', showAnnee2);
-        viewGridBtn.addEventListener('click', () => { /* ... */ });
-        viewListBtn.addEventListener('click', () => { /* ... */ });
         viewGridBtn.addEventListener('click', () => {
             document.querySelectorAll('.timetable-wrapper').forEach(el => el.style.display = 'block');
             document.querySelectorAll('.cards-view').forEach(el => el.style.display = 'none');
@@ -649,7 +639,6 @@
             viewGridBtn.classList.remove('active');
             viewListBtn.classList.add('active');
         });
-
 
         function updateCurrentTimeIndicator() {
             const indicator = document.querySelector('.timetable-container:not(.hidden) .current-time-indicator');
