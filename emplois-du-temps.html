@@ -329,11 +329,12 @@
         if (mobileMenuButton) mobileMenuButton.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
 
         // --- 1. DATA & CONFIGURATION ---
-        const annee1_data = `Lundi : 
+        const annee1_data = `
+            Lundi : 
             09h00-10h30: Français Technique M. Hajji
             10h30-12h00: Métré des corps de travaux M. Alla
             12h00-12h30 : Pause
-            12h30-14h: Résistance des matériaux (RDM) M. Benhadou
+            12h30-14h00: Résistance des matériaux (RDM) M. Benhadou
             Mardi : 
             09h00-10h30: Gr1 : CAO-DAO Mme. Bouselham , Gr2 : Art plastique M. Sarhdaoui
             10h30-12h00: Théorie et pratiques d'urbanisme M. Abdeljalil
@@ -349,13 +350,15 @@
             12h00-13h30 : Histoire et théorie de l'architecture M. Amri
             13h30-15h00 :  Instruction de dossiers d'autorisation de construire ou de lotir Mme Benhamou
             Vendredi :
-            8h30-10h: Géométrie descriptive M. Kodad
-            10h-11h30: Métier et Formation M. Benaicha
-            11h30-13h: Gr1 : Dessin d'architecture Mme Berrabeh, Gr2 : Bureautique et gestion de base de données M. Elhilali`;
+            8h30-10h00: Géométrie descriptive M. Kodad
+            10h00-11h30: Métier et Formation M. Benaicha
+            11h30-13h00: Gr1 : Dessin d'architecture Mme Berrabeh, Gr2 : Bureautique et gestion de base de données M. Elhilali
+        `;
 
-        const annee2_data = `Lundi : 
-            09h00-10h30: Métré approfondi des ouvrages M. Alla
-            10h30-12h00: Techniques et recherche d'emploi M. Hajji
+        const annee2_data = `
+            Lundi : 
+            09h00-10h30: Métré des corps de travaux M. Alla
+            10h30-12h00: Français Technique M. Hajji
             12h00-13h00 : Pause
             13h00-14h30: Gr1 : Art plastique M. Sarhdaoui , Gr2 : Projet d'architecture Mme Berrabeh
             14h30-16h00 : Gr1 : Projet d'architecture Mme Berrabeh , Gr2 : Art plastique M. Sarhdaoui
@@ -377,7 +380,8 @@
             13h30-15h00 :  Organisation et suivi du chantier Mme Mimouni
             15h00-16h30 :  Gr1 : Infographie 3D M. Sadouqi , : Gr2 : SIG M. Amrani
             Vendredi :
-            8h30-11h30: Béton armé Mme Mimouni`;
+            8h30-11h30: Béton armé Mme Mimouni
+        `;
 
         const subjectStyles = {
             'DEFAULT': { icon: 'book', color: '#78716c' }, 'Français Technique': { icon: 'languages', color: '#0ea5e9' },
@@ -423,7 +427,7 @@
 
                 const [, startTimeStr, endTimeStr, restOfLine] = timeMatch;
                 
-                const parseTime = (t) => t.replace('h', ':').padStart(5, '0');
+                const parseTime = (t) => t.replace('h', ':').replace(/h00/g, ':00').padStart(5, '0');
                 const startTime = parseTime(startTimeStr);
                 const endTime = parseTime(endTimeStr);
 
