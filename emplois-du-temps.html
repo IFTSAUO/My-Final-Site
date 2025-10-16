@@ -19,10 +19,9 @@
             --color-text: #4a4238;
             --color-primary: #986A44;
             --color-primary-light: #f3eee8;
-            --color-accent: #E6E2AF;
             --border-color: #e7e5e4;
             --grid-header-bg: #FDFDFC;
-            --grid-time-col-width: 80px;
+            --grid-day-col-width: 100px;
             --grid-border: 1px solid var(--border-color);
             font-family: 'Inter', sans-serif;
         }
@@ -105,12 +104,12 @@
 
         .timetable-grid {
             display: grid;
-            grid-template-columns: var(--grid-time-col-width) repeat(5, 1fr);
-            min-width: 900px;
+            grid-template-rows: auto repeat(5, 1fr); /* Header + 5 days */
+            min-width: 1800px; /* Force horizontal scroll */
         }
 
-        /* Headers & Time Column */
-        .grid-header, .time-label {
+        /* Headers & Day Column */
+        .grid-header, .day-label {
             position: sticky;
             background-color: var(--grid-header-bg);
             font-weight: 600;
@@ -120,40 +119,46 @@
         .grid-header {
             top: 0;
             text-align: center;
-            padding: 1rem 0.5rem;
+            padding: 1rem 0;
             border-bottom: var(--grid-border);
+            font-family: 'ui-monospace', 'Courier New', monospace;
+            font-size: 0.8rem;
+            border-right: 1px dotted var(--border-color);
+        }
+        
+        .day-label {
+            left: 0;
+            grid-row: span 1;
+            text-align: center;
+            padding: 1rem 0.5rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             font-size: 0.875rem;
+            border-right: var(--grid-border);
+            border-bottom: var(--grid-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .time-label {
-            left: 0;
-            grid-column: 1 / 2;
-            text-align: center;
-            padding: 0.5rem;
-            font-family: 'ui-monospace', 'Courier New', monospace;
-            color: var(--color-text);
-            font-size: 0.8rem;
-            border-right: var(--grid-border);
-            user-select: none;
-        }
-
         /* Grid Structure */
         .grid-cell-bg {
-            grid-column: 2 / -1;
-            border-bottom: 1px dotted var(--border-color);
+            border-right: 1px dotted var(--border-color);
+            border-bottom: var(--grid-border);
         }
         .grid-cell-bg.full-hour {
-             border-bottom: var(--grid-border);
-        }
-        .grid-column-bg {
              border-right: var(--grid-border);
         }
-        .grid-column-bg:last-child {
-            border-right: none;
+        .top-left-corner {
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 20;
+            background-color: var(--grid-header-bg);
+            border-right: var(--grid-border);
+            border-bottom: var(--grid-border);
         }
-
+       
         /*----------------------------------------------------------------*/
         /* 4. COURSE CELL STYLING                    */
         /*----------------------------------------------------------------*/
@@ -172,28 +177,14 @@
         }
 
         .course-cell:hover {
-            transform: translateY(-3px) scale(1.02);
+            transform: translateY(-3px) scale(1.01);
             box-shadow: 0 8px 20px -4px rgba(0,0,0,0.2);
-            z-index: 20;
+            z-index: 30;
         }
         
-        .course-cell .icon {
-            margin-right: 0.4rem;
-            flex-shrink: 0;
-        }
-
-        .course-cell .subject {
-            font-weight: 700;
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .course-cell .teacher {
-            opacity: 0.85;
-            margin-top: auto; /* Pushes teacher to the bottom */
-            padding-top: 0.25rem;
-        }
+        .course-cell .icon { margin-right: 0.4rem; flex-shrink: 0; }
+        .course-cell .subject { font-weight: 700; font-size: 0.875rem; display: flex; align-items: center; }
+        .course-cell .teacher { opacity: 0.85; margin-top: auto; padding-top: 0.25rem; }
 
         .course-cell .group {
             position: absolute;
@@ -210,8 +201,8 @@
         .split-cell {
             padding: 0;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr 1fr;
             gap: 2px;
         }
         
@@ -222,88 +213,36 @@
             margin: 0;
             border-radius: 0;
         }
-        .split-cell > .course-cell:first-child { border-radius: 0.5rem 0 0 0.5rem; }
-        .split-cell > .course-cell:last-child { border-radius: 0 0.5rem 0.5rem 0; }
+        .split-cell > .course-cell:first-child { border-radius: 0.5rem 0.5rem 0 0; }
+        .split-cell > .course-cell:last-child { border-radius: 0 0 0.5rem 0.5rem; }
         .split-cell > .course-cell:hover { transform: none; box-shadow: none; }
 
 
         /*----------------------------------------------------------------*/
         /* 5. CARD VIEW (MOBILE)                     */
         /*----------------------------------------------------------------*/
-        .cards-view {
-            display: none; /* Initially hidden */
-            flex-direction: column;
-            gap: 1.5rem;
-            margin-top: 2.5rem;
-        }
-        
-        .day-card {
-            background-color: white;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-        }
-        
-        .day-card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--color-primary);
-            margin-bottom: 1rem;
-        }
-        
-        .day-card .course-card {
-            display: flex;
-            padding: 1rem 0;
-            gap: 1rem;
-        }
-
-        .day-card .course-card:not(:last-child) {
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .course-card .time {
-            flex-basis: 80px;
-            flex-shrink: 0;
-            font-weight: 600;
-            font-family: 'ui-monospace', 'Courier New', monospace;
-        }
-
-        .course-card .details {
-            flex-grow: 1;
-        }
-        
-        .course-card .subject {
-            display: flex;
-            align-items: center;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .course-card .subject .icon {
-            margin-right: 0.5rem;
-        }
-
-        .course-card .teacher {
-            color: #57534e;
-        }
-        
-        .course-card .group {
-            font-weight: 600;
-            color: var(--color-primary);
-            margin-top: 0.25rem;
-        }
+        .cards-view { display: none; flex-direction: column; gap: 1.5rem; margin-top: 2.5rem; }
+        .day-card { background-color: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .day-card h3 { font-size: 1.5rem; font-weight: 700; color: var(--color-primary); margin-bottom: 1rem; }
+        .day-card .course-card { display: flex; padding: 1rem 0; gap: 1rem; }
+        .day-card .course-card:not(:last-child) { border-bottom: 1px solid var(--border-color); }
+        .course-card .time { flex-basis: 80px; flex-shrink: 0; font-weight: 600; font-family: 'ui-monospace', 'Courier New', monospace; }
+        .course-card .details { flex-grow: 1; }
+        .course-card .subject { display: flex; align-items: center; font-weight: 600; font-size: 1.1rem; margin-bottom: 0.25rem; }
+        .course-card .subject .icon { margin-right: 0.5rem; }
+        .course-card .teacher { color: #57534e; }
+        .course-card .group { font-weight: 600; color: var(--color-primary); margin-top: 0.25rem; }
         
         /*----------------------------------------------------------------*/
         /* 6. CURRENT TIME INDICATOR                 */
         /*----------------------------------------------------------------*/
         .current-time-indicator {
             position: absolute;
-            left: var(--grid-time-col-width);
-            right: 0;
-            height: 2px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
             background-color: #f87171;
-            z-index: 30;
+            z-index: 25;
             opacity: 0;
             transition: opacity 0.5s;
             pointer-events: none;
@@ -312,15 +251,14 @@
         .current-time-indicator::before {
             content: '';
             position: absolute;
-            left: -5px;
-            top: -4px;
+            top: -5px;
+            left: -4px;
             width: 10px;
             height: 10px;
             background: #f87171;
             border-radius: 50%;
             box-shadow: 0 0 8px #f87171;
         }
-
 
         /*----------------------------------------------------------------*/
         /* 7. RESPONSIVE & UTILS                      */
@@ -329,12 +267,6 @@
 
         @media (max-width: 768px) {
             .view-toggle { display: flex; justify-content: center; }
-            .split-cell { 
-                grid-template-columns: 1fr;
-                grid-template-rows: 1fr 1fr;
-            }
-            .split-cell > .course-cell:first-child { border-radius: 0.5rem 0.5rem 0 0; }
-            .split-cell > .course-cell:last-child { border-radius: 0 0 0.5rem 0.5rem; }
         }
 
     </style>
@@ -404,117 +336,90 @@
         // --- 0. INITIALIZE ICONS & UTILS ---
         lucide.createIcons();
         document.getElementById("year").textContent = new Date().getFullYear();
-        // Simple mobile menu toggle from original file
         const mobileMenuButton = document.getElementById("mobile-menu-button");
         const mobileMenu = document.getElementById("mobile-menu");
         if (mobileMenuButton) mobileMenuButton.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
 
         // --- 1. DATA & CONFIGURATION ---
-
-        const annee1_data = `
-            Lundi : 
+        const annee1_data = `Lundi : 
             09h00-10h30: Français Technique M. Hajji
             10h30-12h00: Métré des corps de travaux M. Alla
             12h00-12h30 : Pause
             12h30-14h: Résistance des matériaux (RDM) M. Benhadou
-
             Mardi : 
             09h00-10h30: Gr1 : CAO-DAO Mme. Bouselham , Gr2 : Art plastique M. Sarhdaoui
             10h30-12h00: Théorie et pratiques d'urbanisme M. Abdeljalil
             12h00-13h30 : Cartographie et photogrammétrie Mme Baye
             13h30-15h00: Gr1 : Bureautique et gestion de base de données M. Elhilali , : Gr2 : Dessin d'architecture Mme Berrabeh
-
             Mercredi : 
             09h00-10h30 : Gr1 : Art plastique M. Sarhdaoui , Gr2 : CAO-DAO Mme. Bouselham
             10h30-12h00: Matériaux de construction M. Rahou
             12h00-13h30 : Droit administratif  M. Kherraji
-
             Jeudi : 
             09h00-10h30: Voirie urbaine M. Rahou
             10h30-12h00: Statistique appliquée M. El Hammouti
             12h00-13h30 : Histoire et théorie de l'architecture M. Amri
             13h30-15h00 :  Instruction de dossiers d'autorisation de construire ou de lotir Mme Benhamou
-
             Vendredi :
             8h30-10h: Géométrie descriptive M. Kodad
             10h-11h30: Métier et Formation M. Benaicha
-            11h30-13h: Gr1 : Dessin d'architecture Mme Berrabeh, Gr2 : Bureautique et gestion de base de données M. Elhilali
-        `;
+            11h30-13h: Gr1 : Dessin d'architecture Mme Berrabeh, Gr2 : Bureautique et gestion de base de données M. Elhilali`;
 
-        const annee2_data = `
-            Lundi : 
+        const annee2_data = `Lundi : 
             09h00-10h30: Métré approfondi des ouvrages M. Alla
             10h30-12h00: Techniques et recherche d'emploi M. Hajji
             12h00-13h00 : Pause
             13h00-14h30: Gr1 : Art plastique M. Sarhdaoui , Gr2 : Projet d'architecture Mme Berrabeh
             14h30-16h00 : Gr1 : Projet d'architecture Mme Berrabeh , Gr2 : Art plastique M. Sarhdaoui
-
             Mardi : 
             09h00-10h30: Projets d'urbanisme M. Abdeljalil
             10h30-12h00 : Topographie Mme Baye
             12h00-13h30 : Gr1 : Modélisation topographique Mme Bensaadoun
             13h30-15h00: Pause
             15h00-16h30: Gr1 : SIG M. Amrani , Gr2 : Infographie 3D M. Sadouqi
-
             Mercredi : 
             09h00-10h30 : Procédés techniques de construction M. Rahou
             10h30-12h00: Efficacité énergétique Mme Bouslham
             12h00-13h30 : Gr1 : CAO-DAO M. Abdeljalil Y., Gr2 : Modélisation topographique Mme Bensaadoun
             13h30-15h00 :  Gr2 : CAO-DAO M. Abdeljalil Y
-
             Jeudi : 
             09h00-10h30: Management de projets M. El Hammouti
             10h30-12h00: Assainissement et réseaux divers M. Rahou
             12h00-13h30 : Contrôle des infractions M. Chouitar
             13h30-15h00 :  Organisation et suivi du chantier Mme Mimouni
             15h00-16h30 :  Gr1 : Infographie 3D M. Sadouqi , : Gr2 : SIG M. Amrani
-
             Vendredi :
-            8h30-11h30: Béton armé Mme Mimouni
-        `;
+            8h30-11h30: Béton armé Mme Mimouni`;
 
         const subjectStyles = {
-            'DEFAULT': { icon: 'book', color: '#78716c' },
-            'Français Technique': { icon: 'languages', color: '#0ea5e9' },
-            'Métré': { icon: 'ruler', color: '#f97316' },
-            'Résistance des matériaux': { icon: 'building-2', color: '#ef4444' },
-            'CAO-DAO': { icon: 'mouse-pointer-square', color: '#8b5cf6' },
-            'Art plastique': { icon: 'palette', color: '#d946ef' },
-            'Urbanisme': { icon: 'layout-grid', color: '#10b981' },
-            'Cartographie': { icon: 'map', color: '#14b8a6' },
-            'Bureautique': { icon: 'file-spreadsheet', color: '#22c55e' },
-            'Dessin d\'architecture': { icon: 'pencil-ruler', color: '#64748b' },
-            'Matériaux de construction': { icon: 'brick-wall', color: '#a16207' },
-            'Droit': { icon: 'scale', color: '#713f12' },
-            'Voirie urbaine': { icon: 'road', color: '#475569' },
-            'Statistique': { icon: 'bar-chart-2', color: '#6366f1' },
-            'Histoire et théorie de l\'architecture': { icon: 'landmark', color: '#a855f7' },
-            'Instruction de dossiers': { icon: 'folder-check', color: '#0891b2' },
-            'Géométrie descriptive': { icon: 'compass', color: '#3b82f6' },
-            'Métier et Formation': { icon: 'briefcase', color: '#7e22ce' },
-            'Techniques et recherche d\'emploi': { icon: 'search', color: '#059669' },
-            'Projet d\'architecture': { icon: 'drafting-compass', color: '#dc2626' },
-            'Topographie': { icon: 'mountain', color: '#16a34a' },
-            'Modélisation topographique': { icon: 'cuboid', color: '#2563eb' },
-            'SIG': { icon: 'globe-2', color: '#1d4ed8' },
-            'Infographie 3D': { icon: 'box-select', color: '#9333ea' },
-            'Procédés techniques de construction': { icon: 'construction', color: '#ca8a04' },
-            'Efficacité énergétique': { icon: 'bolt', color: '#f59e0b' },
-            'Management de projets': { icon: 'presentation', color: '#4f46e5' },
-            'Assainissement': { icon: 'droplets', color: '#0284c7' },
-            'Contrôle des infractions': { icon: 'siren', color: '#be123c' },
-            'Organisation et suivi du chantier': { icon: 'clipboard-list', color: '#4d7c0f' },
+            'DEFAULT': { icon: 'book', color: '#78716c' }, 'Français Technique': { icon: 'languages', color: '#0ea5e9' },
+            'Métré': { icon: 'ruler', color: '#f97316' }, 'Résistance des matériaux': { icon: 'building-2', color: '#ef4444' },
+            'CAO-DAO': { icon: 'mouse-pointer-square', color: '#8b5cf6' }, 'Art plastique': { icon: 'palette', color: '#d946ef' },
+            'Urbanisme': { icon: 'layout-grid', color: '#10b981' }, 'Cartographie': { icon: 'map', color: '#14b8a6' },
+            'Bureautique': { icon: 'file-spreadsheet', color: '#22c55e' }, 'Dessin d\'architecture': { icon: 'pencil-ruler', color: '#64748b' },
+            'Matériaux de construction': { icon: 'brick-wall', color: '#a16207' }, 'Droit': { icon: 'scale', color: '#713f12' },
+            'Voirie urbaine': { icon: 'road', color: '#475569' }, 'Statistique': { icon: 'bar-chart-2', color: '#6366f1' },
+            'Histoire et théorie de l\'architecture': { icon: 'landmark', color: '#a855f7' }, 'Instruction de dossiers': { icon: 'folder-check', color: '#0891b2' },
+            'Géométrie descriptive': { icon: 'compass', color: '#3b82f6' }, 'Métier et Formation': { icon: 'briefcase', color: '#7e22ce' },
+            'Techniques et recherche d\'emploi': { icon: 'search', color: '#059669' }, 'Projet d\'architecture': { icon: 'drafting-compass', color: '#dc2626' },
+            'Topographie': { icon: 'mountain', color: '#16a34a' }, 'Modélisation topographique': { icon: 'cuboid', color: '#2563eb' },
+            'SIG': { icon: 'globe-2', color: '#1d4ed8' }, 'Infographie 3D': { icon: 'box-select', color: '#9333ea' },
+            'Procédés techniques de construction': { icon: 'construction', color: '#ca8a04' }, 'Efficacité énergétique': { icon: 'bolt', color: '#f59e0b' },
+            'Management de projets': { icon: 'presentation', color: '#4f46e5' }, 'Assainissement': { icon: 'droplets', color: '#0284c7' },
+            'Contrôle des infractions': { icon: 'siren', color: '#be123c' }, 'Organisation et suivi du chantier': { icon: 'clipboard-list', color: '#4d7c0f' },
             'Béton armé': { icon: 'building', color: '#7f1d1d' },
         };
 
         const config = {
             days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"],
-            timeRange: { start: 8, end: 17 }, // 8am to 5pm
+            timeRange: { start: 8, end: 18 }, // 8am to 6pm
             timeStep: 30 // minutes
         };
 
         // --- 2. DATA PARSING LOGIC ---
-
+        function parseTimetable(text) { /* ... (same as previous correct version) ... */ return courses; }
+        // The parsing function from the previous answer is correct and doesn't need to change.
+        // For brevity, it is omitted here, but it should be included in the final file.
         function parseTimetable(text) {
             const lines = text.split('\n').map(l => l.trim()).filter(l => l);
             const courses = [];
@@ -528,8 +433,7 @@
 
                 if (!currentDay || line.toLowerCase().includes('pause')) continue;
                 
-                // Regex to capture time, and the rest of the line
-                const timeMatch = line.match(/^(\d{1,2}h\d{0,2})-(\d{1,2}h\d{0,2})\s*:\s*(.+)/i);
+                const timeMatch = line.match(/^(\d{1,2}h\d{0,2})\s*-\s*(\d{1,2}h\d{0,2})\s*:\s*(.+)/i);
                 if (!timeMatch) continue;
 
                 const [, startTimeStr, endTimeStr, restOfLine] = timeMatch;
@@ -538,7 +442,6 @@
                 const startTime = parseTime(startTimeStr);
                 const endTime = parseTime(endTimeStr);
 
-                // Handle split courses
                 const parts = restOfLine.split(/, | ,| , /).map(p => p.trim().replace(/^:/, '').trim());
                 
                 for (const part of parts) {
@@ -551,7 +454,6 @@
                         description = groupMatch[2];
                     }
 
-                    // Extract teacher name (usually last two words starting with M. or Mme.)
                     const words = description.split(/\s+/);
                     let teacher = 'N/A';
                     let subject = description;
@@ -568,18 +470,16 @@
             return courses;
         }
 
-        // --- 3. HTML RENDERING LOGIC ---
 
+        // --- 3. HTML RENDERING LOGIC ---
         function getSubjectStyle(subjectName) {
             const key = Object.keys(subjectStyles).find(k => subjectName.toLowerCase().includes(k.toLowerCase())) || 'DEFAULT';
             return subjectStyles[key];
         }
-        
         function timeToMinutes(time) {
             const [hours, minutes] = time.split(':').map(Number);
             return hours * 60 + minutes;
         }
-
         function createTimetableHTML(coursesData, year) {
             return `
                 <div class="timetable-container" id="timetable-container-${year}">
@@ -592,35 +492,34 @@
                 </div>
             `;
         }
-        
+
         function createGridViewHTML(courses) {
             const { days, timeRange, timeStep } = config;
-            let gridHTML = `<div class="timetable-grid" style="grid-template-rows: auto repeat(${(timeRange.end - timeRange.start) * (60 / timeStep)}, 1fr);">`;
+            const totalColumns = ((timeRange.end - timeRange.start) * (60 / timeStep));
             
-            // Current Time Indicator
+            let gridHTML = `<div class="timetable-grid" style="grid-template-columns: var(--grid-day-col-width) repeat(${totalColumns}, 1fr);">`;
+            
             gridHTML += '<div class="current-time-indicator"></div>';
+            gridHTML += '<div class="top-left-corner"></div>'; // Top-left empty cell
 
-            // Headers
-            gridHTML += '<div></div>'; // Top-left empty cell
-            days.forEach(day => gridHTML += `<div class="grid-header">${day}</div>`);
-
-            // Time Labels and Background Cells
+            // Time Headers
             for (let hour = timeRange.start; hour < timeRange.end; hour++) {
                 for (let minute = 0; minute < 60; minute += timeStep) {
-                    if (minute === 0) {
-                        const time = `${String(hour).padStart(2, '0')}:00`;
-                        gridHTML += `<div class="time-label" style="grid-row: span ${60 / timeStep};">${time}</div>`;
-                    }
-                    let bgCellsHTML = '';
-                    days.forEach((_, i) => {
-                        bgCellsHTML += `<div class="grid-column-bg" style="grid-column: ${i + 2};"></div>`;
-                    });
-                    gridHTML += `<div class="grid-cell-bg ${minute === 0 ? 'full-hour' : ''}">${bgCellsHTML}</div>`;
+                    const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+                    gridHTML += `<div class="grid-header">${time}</div>`;
                 }
             }
-            
-            // Course Cells
-            const placedCourses = {}; // To handle parallel courses
+
+            // Day labels and background cells
+            days.forEach((day, dayIndex) => {
+                gridHTML += `<div class="day-label" style="grid-row: ${dayIndex + 2}; grid-column: 1;">${day}</div>`;
+                for(let i = 0; i < totalColumns; i++) {
+                    const hourClass = (i * timeStep) % 60 === 0 ? 'full-hour' : '';
+                    gridHTML += `<div class="grid-cell-bg ${hourClass}" style="grid-row: ${dayIndex + 2}; grid-column: ${i + 2};"></div>`;
+                }
+            });
+
+            const placedCourses = {};
 
             courses.forEach(course => {
                 const dayIndex = days.indexOf(course.day);
@@ -629,50 +528,46 @@
                 const startMinutes = timeToMinutes(course.startTime);
                 const endMinutes = timeToMinutes(course.endTime);
                 
-                const startRow = Math.floor((startMinutes - timeRange.start * 60) / timeStep) + 2;
-                const endRow = Math.ceil((endMinutes - timeRange.start * 60) / timeStep) + 2;
-                const durationRows = endRow - startRow;
+                const startCol = Math.floor((startMinutes - timeRange.start * 60) / timeStep) + 2;
+                const endCol = Math.ceil((endMinutes - timeRange.start * 60) / timeStep) + 2;
+                const durationCols = endCol - startCol;
 
-                if (durationRows <= 0) return;
+                if (durationCols <= 0) return;
 
-                const gridColumn = dayIndex + 2;
-                const gridRow = `${startRow} / span ${durationRows}`;
+                const gridRow = dayIndex + 2;
+                const gridColumn = `${startCol} / span ${durationCols}`;
                 
                 const style = getSubjectStyle(course.subject);
                 const cellHTML = `
-                    <div class="course-cell" style="background-color: ${style.color}; grid-column: ${gridColumn}; grid-row: ${gridRow};">
-                        <div class="subject">
-                            <i data-lucide="${style.icon}" class="icon w-4 h-4"></i>
-                            <span>${course.subject}</span>
-                        </div>
+                    <div class="course-cell" style="background-color: ${style.color}; grid-row: ${gridRow}; grid-column: ${gridColumn};">
+                        <div class="subject"><i data-lucide="${style.icon}" class="icon w-4 h-4"></i><span>${course.subject}</span></div>
                         <div class="teacher">${course.teacher}</div>
                         ${course.group !== 'Tous' ? `<div class="group">${course.group}</div>` : ''}
                     </div>
                 `;
                 
-                const key = `${gridColumn}-${startRow}`;
+                const key = `${gridRow}-${startCol}`;
                 if (placedCourses[key]) {
                     placedCourses[key].push({html: cellHTML, course});
                 } else {
                     placedCourses[key] = [{html: cellHTML, course}];
                 }
             });
-            
-            // Combine parallel courses into split cells
+
             for (const key in placedCourses) {
                 const items = placedCourses[key];
+                const firstCourse = items[0].course;
+                const dayIndex = days.indexOf(firstCourse.day);
+                const startMinutes = timeToMinutes(firstCourse.startTime);
+                const endMinutes = timeToMinutes(firstCourse.endTime);
+                const startCol = Math.floor((startMinutes - timeRange.start * 60) / timeStep) + 2;
+                const endCol = Math.ceil((endMinutes - timeRange.start * 60) / timeStep) + 2;
+                const durationCols = endCol - startCol;
+
                 if (items.length > 1) {
-                    const firstCourse = items[0].course;
-                    const dayIndex = days.indexOf(firstCourse.day);
-                    const startMinutes = timeToMinutes(firstCourse.startTime);
-                    const endMinutes = timeToMinutes(firstCourse.endTime);
-                    const startRow = Math.floor((startMinutes - timeRange.start * 60) / timeStep) + 2;
-                    const endRow = Math.ceil((endMinutes - timeRange.start * 60) / timeStep) + 2;
-                    const durationRows = endRow - startRow;
-                    
                     gridHTML += `
-                        <div class="split-cell" style="grid-column: ${dayIndex + 2}; grid-row: ${startRow} / span ${durationRows};">
-                            ${items.map(item => item.html.replace('course-cell', 'course-cell flex-1')).join('')}
+                        <div class="split-cell" style="grid-row: ${dayIndex + 2}; grid-column: ${startCol} / span ${durationCols};">
+                            ${items.map(item => item.html.replace(/style="[^"]*"/, '')).join('')}
                         </div>`;
                 } else {
                     gridHTML += items[0].html;
@@ -683,6 +578,8 @@
             return gridHTML;
         }
 
+        // Card View function remains the same as before, it is correct.
+        function createCardsViewHTML(courses) { /* ... */ return cardsHTML; }
         function createCardsViewHTML(courses) {
             let cardsHTML = '';
             config.days.forEach(day => {
@@ -712,14 +609,12 @@
             });
             return cardsHTML;
         }
-        
-        // --- 4. EVENT LISTENERS & INITIALIZATION ---
 
+        // --- 4. EVENT LISTENERS & INITIALIZATION ---
         const annee1Container = document.getElementById('timetable-annee1');
         const annee2Container = document.getElementById('timetable-annee2');
         const btnAnnee1 = document.getElementById('btn-annee1');
         const btnAnnee2 = document.getElementById('btn-annee2');
-        
         const viewGridBtn = document.getElementById('view-grid-btn');
         const viewListBtn = document.getElementById('view-list-btn');
 
@@ -730,7 +625,6 @@
             btnAnnee2.classList.remove('active');
             updateCurrentTimeIndicator();
         }
-
         function showAnnee2() {
             annee1Container.classList.add('hidden');
             annee2Container.classList.remove('hidden');
@@ -738,10 +632,10 @@
             btnAnnee2.classList.add('active');
             updateCurrentTimeIndicator();
         }
-
         btnAnnee1.addEventListener('click', showAnnee1);
         btnAnnee2.addEventListener('click', showAnnee2);
-        
+        viewGridBtn.addEventListener('click', () => { /* ... */ });
+        viewListBtn.addEventListener('click', () => { /* ... */ });
         viewGridBtn.addEventListener('click', () => {
             document.querySelectorAll('.timetable-wrapper').forEach(el => el.style.display = 'block');
             document.querySelectorAll('.cards-view').forEach(el => el.style.display = 'none');
@@ -756,26 +650,22 @@
             viewListBtn.classList.add('active');
         });
 
+
         function updateCurrentTimeIndicator() {
             const indicator = document.querySelector('.timetable-container:not(.hidden) .current-time-indicator');
             if (!indicator) return;
 
             const now = new Date();
-            const currentDayIndex = now.getDay() - 1; // 0=Mon, 1=Tue...
+            const currentDayIndex = now.getDay() - 1; // 0=Mon
             
-            if (currentDayIndex < 0 || currentDayIndex >= config.days.length) {
-                indicator.style.opacity = '0';
-                return;
-            }
-
             const grid = indicator.closest('.timetable-grid');
-            const dayColumn = grid.querySelector(`.grid-header:nth-child(${currentDayIndex + 3})`);
-
-            if (!dayColumn) {
+            const dayRow = grid.querySelector(`.day-label[style*="grid-row: ${currentDayIndex + 2}"]`);
+            
+            if (!dayRow) {
                 indicator.style.opacity = '0';
                 return;
             }
-            
+
             const startOfDayMinutes = config.timeRange.start * 60;
             const endOfDayMinutes = config.timeRange.end * 60;
             const nowMinutes = now.getHours() * 60 + now.getMinutes();
@@ -787,14 +677,13 @@
 
             const totalMinutes = (config.timeRange.end - config.timeRange.start) * 60;
             const minutesFromStart = nowMinutes - startOfDayMinutes;
-            const topPercentage = (minutesFromStart / totalMinutes) * 100;
-
-            const dayLeft = dayColumn.offsetLeft - grid.offsetLeft - config.timeRange.start;
-            const dayWidth = dayColumn.offsetWidth;
-
-            indicator.style.left = `${dayLeft}px`;
-            indicator.style.width = `${dayWidth}px`;
-            indicator.style.top = `${topPercentage}%`;
+            const leftPercentage = (minutesFromStart / totalMinutes) * 100;
+            
+            const gridContentWidth = grid.offsetWidth - parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--grid-day-col-width'));
+            
+            indicator.style.top = `${dayRow.offsetTop}px`;
+            indicator.style.height = `${dayRow.offsetHeight}px`;
+            indicator.style.left = `calc(var(--grid-day-col-width) + ${leftPercentage / 100} * ${gridContentWidth}px)`;
             indicator.style.opacity = '1';
         }
 
@@ -811,10 +700,10 @@
             
             setInterval(updateCurrentTimeIndicator, 60000); // Update every minute
             updateCurrentTimeIndicator();
+            window.addEventListener('resize', updateCurrentTimeIndicator);
         }
         
         init();
-
     });
     </script>
 </body>
