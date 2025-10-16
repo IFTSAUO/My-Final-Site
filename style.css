@@ -44,7 +44,7 @@ body {
 }
 
 /* ==========================================================================
-   Timetable Container
+   Timetable Container & Transitions
    ========================================================================== */
 .timetable-container {
     opacity: 1;
@@ -53,46 +53,119 @@ body {
 .timetable-container.hidden {
     display: none;
     opacity: 0;
+    pointer-events: none;
 }
 
 /* ==========================================================================
-   Timetable Grid (Desktop & Tablet)
+   Mobile-First Styles (Default)
+   ========================================================================== */
+.timetable-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* Space between days */
+}
+.timetable-grid .time-header, .timetable-grid .day-header, .timetable-grid .day-cell { 
+    display: none; /* Hide grid elements on mobile */
+}
+.day-wrapper {
+    display: flex; 
+    flex-direction: column;
+    gap: 0.75rem; /* Space between courses */
+}
+.day-wrapper::before {
+    content: attr(data-day-name);
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    text-align: left;
+}
+.course-block {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    grid-template-areas: 
+        "icon title"
+        "icon details";
+    gap: 0 1rem;
+    padding: 1rem;
+    text-align: left;
+    align-items: center;
+    color: var(--color-text);
+    background: white;
+    box-shadow: 0 2px 8px -2px rgba(0,0,0,0.1);
+    border-radius: 0.75rem;
+}
+.course-block i {
+    grid-area: icon;
+    color: var(--color-primary);
+    background-color: #f5f5f4;
+    border-radius: 99px;
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+}
+.course-block strong { 
+    grid-area: title;
+    font-weight: 600;
+    font-size: 1rem;
+    align-self: end;
+}
+.course-block small {
+    grid-area: details;
+    opacity: 1;
+    color: #78716c; /* stone-500 */
+    font-size: 0.85rem;
+    align-self: start;
+}
+.course-block small::before {
+    content: attr(data-time);
+    display: block;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 2px;
+}
+.course-block .group-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background-color: var(--color-primary);
+    color: white;
+    padding: 3px 8px;
+    font-size: 0.7rem;
+}
+
+/* ==========================================================================
+   Desktop Grid Styles (Applied on larger screens)
    ========================================================================== */
 @media (min-width: 1024px) {
     .timetable-grid {
         display: grid;
         grid-template-columns: 70px repeat(18, 1fr);
         grid-template-rows: 40px repeat(5, 1fr);
-        border: 1px solid #e7e5e4; /* stone-200 */
+        border: 1px solid #e7e5e4;
         border-radius: 1rem;
         overflow: hidden;
         background-color: #fff;
         box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
     }
-    .timetable-grid .cell {
+    .timetable-grid .cell { display: flex; }
+    .timetable-grid .day-header, .timetable-grid .time-header {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.7rem;
-        font-weight: 600;
-        color: #a8a29e; /* stone-400 */
-    }
-    .timetable-grid .day-header,
-    .timetable-grid .time-header {
-        background-color: #fafaf9; /* stone-50 */
+        background-color: #fafaf9;
         color: var(--color-primary);
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        font-size: 0.75rem;
-        font-weight: 700;
+        position: sticky; top: 0; z-index: 10;
+        font-size: 0.75rem; font-weight: 700;
         border-bottom: 1px solid #e7e5e4;
     }
     .day-wrapper {
-        display: contents; /* Allows children to participate in the parent grid */
+        display: contents; /* This is the key for the grid layout */
     }
+    .day-wrapper::before { display: none; } /* Hide mobile day title */
+    
     .timetable-grid .day-cell {
-        background-color: #fafaf9; /* stone-50 */
+        display: flex;
+        background-color: #fafaf9;
         grid-row: var(--day);
         writing-mode: vertical-rl;
         transform: rotate(180deg);
@@ -100,15 +173,12 @@ body {
         font-weight: 700;
         font-size: 0.8rem;
         letter-spacing: 0.1em;
-        position: sticky;
-        left: 0;
-        z-index: 5;
+        position: sticky; left: 0; z-index: 5;
         border-right: 1px solid #e7e5e4;
         border-bottom: 1px solid #e7e5e4;
     }
-    .day-wrapper:last-of-type .day-cell {
-        border-bottom: none;
-    }
+    .day-wrapper:last-of-type .day-cell { border-bottom: none; }
+
     .course-block {
         grid-column: calc(1 + var(--start)) / calc(1 + var(--end));
         grid-row: var(--day);
@@ -119,118 +189,23 @@ body {
         gap: 0.25rem;
         padding: 0.5rem;
         margin: 4px;
-        border-radius: 0.75rem;
         color: white;
         font-size: 0.8rem;
         text-align: center;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
-        overflow: hidden;
-        position: relative;
-        z-index: 1;
+        position: relative; z-index: 1;
     }
     .course-block:hover {
         transform: scale(1.03) rotate(-0.5deg);
         box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
         z-index: 20;
     }
-    .course-block i { width: 1.25rem; height: 1.25rem; stroke-width: 2; opacity: 0.8; }
-    .course-block strong { font-weight: 600; font-size: 0.85rem; }
-    .course-block small { font-size: 0.75rem; opacity: 0.8; }
-    .course-block .group-badge {
-        position: absolute;
-        top: 6px;
-        right: 8px;
-        background-color: rgba(0, 0, 0, 0.2);
-        padding: 2px 8px;
-        border-radius: 99px;
-        font-size: 0.7rem;
-        font-weight: 700;
-    }
+    .course-block small::before { display: none; }
+    .course-block .group-badge { background-color: rgba(0, 0, 0, 0.2); }
 }
 
 /* ==========================================================================
-   Responsive Styles (Mobile View)
-   ========================================================================== */
-@media (max-width: 1023px) {
-    .timetable-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 2rem; /* Space between days */
-    }
-    .timetable-grid .time-header, .timetable-grid .day-header, .timetable-grid .day-cell { 
-        display: none;
-    }
-    .day-wrapper {
-        display: flex; 
-        flex-direction: column;
-        gap: 0.75rem; /* Space between courses */
-    }
-    .day-wrapper::before {
-        content: attr(data-day-name);
-        font-size: 1.25rem;
-        font-weight: 700;
-        padding-bottom: 0.5rem;
-        border-bottom: 2px solid var(--color-primary);
-        color: var(--color-primary);
-        text-align: left;
-    }
-    .course-block {
-        display: grid;
-        grid-template-columns: 40px 1fr;
-        grid-template-areas: 
-            "icon title"
-            "icon details";
-        gap: 0 1rem;
-        padding: 1rem;
-        text-align: left;
-        align-items: center;
-        color: var(--color-text);
-        background: white;
-        box-shadow: 0 2px 8px -2px rgba(0,0,0,0.1);
-        border-radius: 0.75rem;
-    }
-    .course-block i {
-        grid-area: icon;
-        color: var(--color-primary);
-        background-color: #f5f5f4;
-        border-radius: 99px;
-        padding: 8px;
-        width: 40px;
-        height: 40px;
-    }
-    .course-block strong { 
-        grid-area: title;
-        font-weight: 600;
-        font-size: 1rem;
-        align-self: end;
-    }
-    .course-block small {
-        grid-area: details;
-        opacity: 1;
-        color: #78716c; /* stone-500 */
-        font-size: 0.85rem;
-        align-self: start;
-    }
-    .course-block small::before {
-        content: attr(data-time);
-        display: block;
-        font-weight: 600;
-        color: var(--color-primary);
-        margin-bottom: 2px;
-    }
-    .course-block .group-badge {
-        position: absolute;
-        top: 0.75rem;
-        right: 0.75rem;
-        background-color: var(--color-primary);
-        color: white;
-        padding: 3px 8px;
-        font-size: 0.7rem;
-    }
-}
-
-/* ==========================================================================
-   Color Palette
+   Color Palette (Universal)
    ========================================================================== */
 .color-1 { background: linear-gradient(135deg, #a88260, #8a5a30); }
 .color-2 { background: linear-gradient(135deg, #748cab, #4d648d); }
