@@ -38,9 +38,14 @@
         #news-modal .modal-content { transform: scale(0.95); opacity: 0; transition: transform 0.3s ease, opacity 0.3s ease; }
         #news-modal.active .modal-content { transform: scale(1); opacity: 1; }
 
-        .modal-gallery .swiper-button-next, .modal-gallery .swiper-button-prev { color: white; --swiper-navigation-size: 28px; background-color: rgba(0,0,0,0.3); border-radius: 9999px; width: 44px; height: 44px; }
-        .modal-gallery .swiper-button-next:after, .modal-gallery .swiper-button-prev:after { font-size: 20px; }
-
+        .modal-gallery .swiper-button-next, .modal-gallery .swiper-button-prev {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-gallery .swiper-button-next:after, .modal-gallery .swiper-button-prev:after {
+    display: none;
+}
         #concours-modal .modal-content { transform: translateY(-50px); opacity: 0; transition: transform 0.4s ease-out, opacity 0.4s ease-out; }
         #concours-modal.active .modal-content { transform: translateY(0); opacity: 1; }
 

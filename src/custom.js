@@ -48,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const newsSliderWrapper = document.getElementById('news-slider-wrapper');
     if (newsSliderWrapper) {
         const newsData = {
-            // AJOUT DE LA VISITE DE CHANTIER
             'visite-chantier': { 
                 title: "Visite de Chantier pour la 2ème Année", 
                 date: "17 Octobre 2025", 
@@ -58,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 full_description: `Dans le cadre du programme de la matière 'Béton Armé', une visite de chantier a été organisée pour les étudiants de deuxième année. Encadrée par leur professeure, Mme. MIMOUNI Achouaq, cette sortie pédagogique avait pour principal objectif de développer les connaissances des étudiants et de relier efficacement les concepts théoriques vus en cours avec la réalité pratique du terrain.<br><br>Cette immersion a permis aux futurs techniciens d'observer de près les différentes phases d'un projet de construction, de comprendre les défis techniques et de mieux appréhender le rôle et l'application des structures en béton armé. Une expérience essentielle pour leur future carrière.`,
                 images: ["images/chantier1.jpg", "images/chantier2.jpg", "images/chantier3.jpg", "images/chantier4.jpg", "images/chantier5.jpg"]
             },
-            // FIN DE L'AJOUT
             'concours-2025': { 
                 title: "Résultats Finaux du Concours 2025-2026", 
                 date: "29 Septembre 2025", 
@@ -93,7 +91,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const newsModal = document.getElementById('news-modal'); const modalTitle = document.getElementById('modal-title'); const modalBody = document.getElementById('modal-body'); const modalClose = document.getElementById('modal-close'); let modalSwiper = null;
         
-        document.querySelectorAll('.modal-trigger').forEach(button => { button.addEventListener('click', () => { const modalId = button.dataset.modalId; const data = newsData[modalId]; if (data) { modalTitle.textContent = data.title; let contentHTML = `<p class="text-stone-700">${data.full_description || data.description}</p>`; if (data.images && data.images.length > 0) { let galleryHTML = `<div class="swiper modal-gallery relative mb-4 rounded-lg overflow-hidden"><div class="swiper-wrapper">`; data.images.forEach(imgUrl => { galleryHTML += `<div class="swiper-slide"><img src="${imgUrl}" class="w-full h-auto object-contain"></div>`; }); galleryHTML += `</div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div></div>`; contentHTML = galleryHTML + contentHTML; } modalBody.innerHTML = contentHTML; newsModal.classList.add('active'); document.body.style.overflow = 'hidden'; if (typeof lucide !== 'undefined') lucide.createIcons(); if (data.images && data.images.length > 0) { modalSwiper = new Swiper('.modal-gallery', { loop: true, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } }); } } }); });
+        document.querySelectorAll('.modal-trigger').forEach(button => { button.addEventListener('click', () => { const modalId = button.dataset.modalId; const data = newsData[modalId]; if (data) { modalTitle.textContent = data.title; let contentHTML = `<p class="text-stone-700">${data.full_description || data.description}</p>`; if (data.images && data.images.length > 0) { let galleryHTML = `<div class="swiper modal-gallery relative mb-4 rounded-lg overflow-hidden"><div class="swiper-wrapper">`; data.images.forEach(imgUrl => { galleryHTML += `<div class="swiper-slide"><img src="${imgUrl}" class="w-full h-auto object-contain"></div>`; }); 
+        // --- MODIFICATION ICI --- On ajoute des icônes à l'intérieur des boutons de navigation
+        galleryHTML += `</div><div class="swiper-button-next"><i data-lucide="chevron-right" class="h-6 w-6"></i></div><div class="swiper-button-prev"><i data-lucide="chevron-left" class="h-6 w-6"></i></div></div>`; 
+        contentHTML = galleryHTML + contentHTML; } modalBody.innerHTML = contentHTML; newsModal.classList.add('active'); document.body.style.overflow = 'hidden'; if (typeof lucide !== 'undefined') lucide.createIcons(); if (data.images && data.images.length > 0) { modalSwiper = new Swiper('.modal-gallery', { loop: true, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' } }); } } }); });
         
         function closeNewsModal() { if(newsModal) newsModal.classList.remove('active'); document.body.style.overflow = ''; if (modalSwiper) { modalSwiper.destroy(true, true); modalSwiper = null; } };
         if(modalClose) modalClose.addEventListener('click', closeNewsModal);
