@@ -48,7 +48,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const newsSliderWrapper = document.getElementById('news-slider-wrapper');
     if (newsSliderWrapper) {
         const newsData = {
-            // MODIFIÉ : Mise à jour du contenu pour les résultats finaux
+            // AJOUT DE LA VISITE DE CHANTIER
+            'visite-chantier': { 
+                title: "Visite de Chantier pour la 2ème Année", 
+                date: "17 Octobre 2025", 
+                category: "Visite Pédagogique", 
+                cardImage: "images/chantier1.jpg", 
+                description: `Dans le cadre du module 'Béton Armé', les étudiants de 2ème année, encadrés par Mme. MIMOUNI Achouaq, ont effectué une visite de chantier pour lier la théorie à la pratique.`,
+                full_description: `Dans le cadre du programme de la matière 'Béton Armé', une visite de chantier a été organisée pour les étudiants de deuxième année. Encadrée par leur professeure, Mme. MIMOUNI Achouaq, cette sortie pédagogique avait pour principal objectif de développer les connaissances des étudiants et de relier efficacement les concepts théoriques vus en cours avec la réalité pratique du terrain.<br><br>Cette immersion a permis aux futurs techniciens d'observer de près les différentes phases d'un projet de construction, de comprendre les défis techniques et de mieux appréhender le rôle et l'application des structures en béton armé. Une expérience essentielle pour leur future carrière.`,
+                images: ["images/chantier1.jpg", "images/chantier2.jpg", "images/chantier3.jpg", "images/chantier4.jpg", "images/chantier5.jpg"]
+            },
+            // FIN DE L'AJOUT
             'concours-2025': { 
                 title: "Résultats Finaux du Concours 2025-2026", 
                 date: "29 Septembre 2025", 
