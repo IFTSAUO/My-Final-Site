@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
             newsSliderWrapper.innerHTML += cardHTML;
         });
 
-        if (typeof Swiper !== 'undefined') new Swiper('.news-slider', { loop: Object.keys(newsData).length > 2, spaceBetween: 30, slidesPerView: 1, autoplay: { delay: 4000, disableOnInteraction: false }, pagination: { el: '.swiper-pagination', clickable: true }, navigation: false, breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } } });
+        if (typeof Swiper !== 'undefined') new Swiper('.news-slider', { loop: Object.keys(newsData).length > 2, spaceBetween: 30, slidesPerView: 1, autoplay: { delay: 7000, disableOnInteraction: false }, pagination: { el: '.swiper-pagination', clickable: true }, navigation: false, breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } } });
         
         const newsModal = document.getElementById('news-modal'); const modalTitle = document.getElementById('modal-title'); const modalBody = document.getElementById('modal-body'); const modalClose = document.getElementById('modal-close'); let modalSwiper = null;
         
