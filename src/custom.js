@@ -48,6 +48,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const newsSliderWrapper = document.getElementById('news-slider-wrapper');
     if (newsSliderWrapper) {
         const newsData = {
+            // --- NOUVEL ÉVÈNEMENT (DATE CORRIGÉE) ---
+            'visite-medina': { 
+                title: "Visite d'étude de l'ancienne médina d'Oujda", 
+                date: "27 Octobre 2025", // <-- Date corrigée
+                category: "Visite Pédagogique", 
+                cardImage: "images/medina1.jpg", 
+                description: "Les étudiants de 2ème année ont effectué une visite d'étude au cœur de l'ancienne médina d'Oujda pour analyser les composantes architecturales, historiques et urbaines.",
+                full_description: `Dans le cadre de leur programme de formation, les étudiants de deuxième année de l'Institut de Formation des Techniciens Spécialisés en Architecture et en Urbanisme (IFTSAU) d'Oujda ont effectué une visite d'étude approfondie au sein de l'ancienne médina d'Oujda.<br><br>Cette sortie pédagogique, encadrée par M. SARHDAOUI Mohammed, formateur à l'institut, avait pour objectif principal l'analyse des composantes architecturales, historiques et urbaines du cœur historique de la ville.<br><br>La visite a débuté sur la Place Bab Al Gharbi, permettant une analyse détaillée de l'architecture de l'ancienne muraille de la ville, de ses différentes perspectives visuelles et de son environnement urbain.<br><br>Le parcours s'est poursuivi vers plusieurs sites d'intérêt majeur, notamment l'Espace de la mémoire historique et l'École Mérinide, un témoin essentiel de l'architecture de son époque.<br><br>La visite s'est clôturée au Parc Lalla Meryem, où les étudiants ont pu analyser l'aménagement paysager et son intégration dans le tissu historique.<br><br>Cette immersion sur le terrain est fondamentale pour le cursus des futurs techniciens, leur permettant de confronter les acquis théoriques à la réalité du patrimoine bâti.`,
+                images: ["images/medina1.jpg", "images/medina2.jpg", "images/medina3.jpg", "images/medina4.jpg"]
+            },
+            // --- FIN DE L'AJOUT ---
             'visite-chantier': { 
                 title: "Visite de Chantier pour la 2ème Année", 
                 date: "17 Octobre 2025", 
