@@ -303,6 +303,7 @@
             <a href="index.html#contact" class="block py-3 px-6 text-stone-600 hover:bg-stone-50 hover:text-primary">Contact</a>
         </div>
     </header>
+
     <main class="py-12 sm:py-20">
         <div class="container mx-auto px-4 sm:px-6">
             <div class="max-w-7xl mx-auto text-center">
@@ -356,7 +357,7 @@
             09h00-10h30: Gr1 : CAO-DAO Mme. Bouselham , Gr2 : Art plastique M. Sarhdaoui
             10h30-12h00: Théorie et pratiques d'urbanisme M. Abdeljalil
             12h00-13h30 : Cartographie et photogrammétrie Mme Baye
-            13h30-15h00: Gr1 : Bureautique et gestion de base de données M. Elhilali , : Gr2 : Dessin d'architecture Mme Berrabeh
+            13h30-15h00: Gr1 : Bureautique et gestion de base de données M. Elhilali , Gr2 : Dessin d'architecture Mme Berrabeh
             Mercredi : 
             09h00-10h30 : Gr1 : Art plastique M. Sarhdaoui , Gr2 : CAO-DAO Mme. Bouselham
             10h30-12h00: Matériaux de construction M. Rahou
@@ -395,7 +396,7 @@
             10h30-12h00: Assainissement et réseaux divers M. Rahou
             12h00-13h30 : Contrôle des infractions M. Chouitar
             13h30-15h00 :  Organisation et suivi du chantier Mme Mimouni
-            15h00-16h30 :  Gr1 : Infographie 3D M. Sadouqi , : Gr2 : SIG M. Amrani
+            15h00-16h30 :  Gr1 : Infographie 3D M. Sadouqi , Gr2 : SIG M. Amrani
             Vendredi :
             8h30-11h30: Béton armé Mme Mimouni
         `;
@@ -448,7 +449,11 @@
                 const startTime = parseTime(startTimeStr);
                 const endTime = parseTime(endTimeStr);
 
-                const parts = restOfLine.split(/, | ,| , /).map(p => p.trim().replace(/^:/, '').trim());
+                // --- MODIFICATION ICI ---
+                // Remplacement du regex de split complexe par un simple split(',')
+                // Le .map() gère déjà les espaces et les deux-points.
+                const parts = restOfLine.split(',') 
+                                        .map(p => p.trim().replace(/^:/, '').trim());
                 
                 for (const part of parts) {
                     let group = 'Tous';
