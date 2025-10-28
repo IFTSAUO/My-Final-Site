@@ -449,11 +449,8 @@
                 const startTime = parseTime(startTimeStr);
                 const endTime = parseTime(endTimeStr);
 
-                // --- MODIFICATION ICI ---
-                // Remplacement du regex de split complexe par un simple split(',')
-                // Le .map() gère déjà les espaces et les deux-points.
-                const parts = restOfLine.split(',') 
-                                        .map(p => p.trim().replace(/^:/, '').trim());
+                // Cette expression (regex) divise la chaîne par une virgule entourée d'espaces
+                const parts = restOfLine.split(/, | ,| , /).map(p => p.trim().replace(/^:/, '').trim());
                 
                 for (const part of parts) {
                     let group = 'Tous';
