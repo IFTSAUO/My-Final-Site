@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion Espace Étudiant - IFTSAU Oujda</title>
+    <link rel="icon" type="image/png" href="logo-iftsau.png">
+    <link href="style.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/lucide@0.258.0/dist/umd/lucide.min.js"></script>
+    <style>
+        :root{ --color-bg:#F2F0E6; --color-primary:#986A44; --color-text:#4a4238; }
+        body { background-color: var(--color-bg); font-family: 'Inter', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 2.5rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; text-align: center; }
+        .input-group { margin-bottom: 1.5rem; text-align: left; }
+        .input-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--color-text); }
+        .input-group input { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 0.5rem; outline: none; transition: border-color 0.3s; box-sizing: border-box; }
+        .input-group input:focus { border-color: var(--color-primary); ring: 2px solid var(--color-primary); }
+        .btn-login { width: 100%; background-color: var(--color-primary); color: white; padding: 0.75rem; border: none; border-radius: 0.5rem; font-weight: bold; cursor: pointer; transition: background 0.3s; display: flex; justify-content: center; align-items: center; }
+        .btn-login:hover { background-color: #7a5536; }
+        .btn-login:disabled { background-color: #ccc; cursor: not-allowed; }
+        .error-msg { color: #dc2626; font-size: 0.9rem; margin-top: 1rem; display: none; background-color: #fee2e2; padding: 0.5rem; border-radius: 0.375rem; }
+    </style>
+</head>
+<body>
+    <div class="login-card animate-fade-in-up">
+        <a href="index.html">
+            <img src="logo-iftsau.png" alt="Logo IFTSAU" style="height: 80px; margin-bottom: 1rem; margin-left: auto; margin-right: auto;">
+        </a>
+        <h2 style="color:var(--color-primary); margin-bottom: 0.5rem; font-weight: 700; font-size: 1.5rem;">Espace Étudiant</h2>
+        <p style="color: #666; margin-bottom: 2rem; font-size: 0.9rem;">Entrez votre identifiant pour accéder à vos résultats, planning et documents.</p>
+        
+        <form id="login-form">
+            <div class="input-group">
+                <label for="identifiant">Identifiant (CIN)</label>
+                <div class="relative">
+                    <input type="text" id="identifiant" placeholder="Ex: SB48521" required style="padding-left: 2.5rem;">
+                    <i data-lucide="user" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 18px; color: #9ca3af;"></i>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="password">Mot de passe</label>
+                <div class="relative">
+                    <input type="password" id="password" placeholder="Votre mot de passe" required style="padding-left: 2.5rem;">
+                    <i data-lucide="lock" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 18px; color: #9ca3af;"></i>
+                </div>
+            </div>
+            <button type="submit" class="btn-login" id="login-btn">
+                <span>Se connecter</span>
+                <i data-lucide="arrow-right" style="width: 18px; margin-left: 8px;"></i>
+            </button>
+            <p id="error-message" class="error-msg"></p>
+        </form>
+        
+        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #f3f4f6;">
+            <a href="#" onclick="alert('Veuillez contacter l\'administration pour réinitialiser votre mot de passe.');" style="color: var(--color-primary); text-decoration: none; font-size: 0.85rem; font-weight: 500;">Mot de passe oublié ?</a>
+            <br>
+            <a href="index.html" style="color: #9ca3af; text-decoration: none; font-size: 0.85rem; display: inline-block; margin-top: 10px;">&larr; Retour au site</a>
+        </div>
+    </div>
+
+    <script type="module" src="src/etudiant.js"></script>
+    <script>
+        // Initialisation des icônes Lucide au chargement
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

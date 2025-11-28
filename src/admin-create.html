@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN - Création Étudiants</title>
+    <link href="style.css" rel="stylesheet">
+    <style>
+        body { padding: 40px; background: #f0f0f0; font-family: sans-serif; }
+        .admin-card { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        input, select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        button { width: 100%; padding: 10px; background: #986A44; color: white; border: none; cursor: pointer; font-weight: bold; border-radius: 5px; }
+        button:hover { background: #7a5536; }
+        .log { margin-top: 20px; padding: 10px; background: #eee; font-size: 0.9em; border-radius: 5px; min-height: 50px; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+
+<div class="admin-card">
+    <h2 style="text-align: center; color: #986A44;">Ajouter un Étudiant</h2>
+    <p style="text-align: center; font-size: 0.9em; color: #666;">Ceci crée le compte de connexion et la fiche de données.</p>
+    
+    <form id="create-form">
+        <label>CIN (Identifiant)</label>
+        <input type="text" id="cin" placeholder="Ex: SB48521" required style="text-transform: uppercase;">
+        
+        <label>Mot de passe temporaire</label>
+        <input type="text" id="password" value="123456" required>
+        
+        <label>Nom</label>
+        <input type="text" id="nom" placeholder="Ex: OUMHAMED" required>
+        
+        <label>Prénom</label>
+        <input type="text" id="prenom" placeholder="Ex: Mohammed" required>
+        
+        <label>Filière / Année</label>
+        <select id="filiere">
+            <option value="Architecture - 1ère année">Architecture - 1ère année</option>
+            <option value="Architecture - 2ème année">Architecture - 2ème année</option>
+            <option value="Urbanisme - 1ère année">Urbanisme - 1ère année</option>
+        </select>
+
+        <button type="submit">Créer l'étudiant</button>
+    </form>
+    
+    <div id="logs" class="log">En attente...</div>
+</div>
+
+<script type="module">
+    import { auth, db } from './src/firebase-config.js';
+    import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const logDiv = document.getElementById('logs');
+
+    document.getElementById('create-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const cin = document.getElementById('cin').value.trim().toUpperCase();
+        const password = document.getElementById('password').value;
+        const nom = document.getElementById('nom').value.trim().toUpperCase();
+        const prenom = document.getElementById('prenom').value.trim();
+        const filiere = document.getElementById('filiere').value;
+        const email = cin + "@iftsau.ma";
+
+        logDiv.innerHTML = "Création en cours...";
+
+        try {
+            // 1. Créer le compte d'authentification (Auth)
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // 2. Créer la fiche de données (Firestore)
+            await setDoc(doc(db, "etudiants", cin), {
+                uid: user.uid,
+                cin: cin,
+                nom: nom,
+                prenom: prenom,
+                filiere: filiere,
+                emailRecuperation: "", // Vide pour l'instant
+                estNouveau: true, // IMPORTANT : Pour déclencher le pop-up au premier login
+                dateCreation: new Date().toISOString()
+            });
+
+            logDiv.innerHTML = `<span class="success">✅ Succès ! Étudiant ${cin} créé.</span>`;
+            
+            // Vider le formulaire sauf le mot de passe
+            document.getElementById('cin').value = '';
+            document.getElementById('nom').value = '';
+            document.getElementById('prenom').value = '';
+
+        } catch (error) {
+            console.error(error);
+            if(error.code === 'auth/email-already-in-use') {
+                logDiv.innerHTML = `<span class="error">❌ Erreur : Ce CIN existe déjà.</span>`;
+            } else {
+                logDiv.innerHTML = `<span class="error">❌ Erreur : ${error.message}</span>`;
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
